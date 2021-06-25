@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -34,7 +33,6 @@ namespace ExoGame2D.Renderers
         protected Texture2D _currentTexture;
         private Vector2 _location = new Vector2(0, 0);
         private Vector2 _velocity = new Vector2(0, 0);
-        protected readonly ContentManager _contentManager;
         private readonly SpriteBatch _spriteBatch;
         private float _x;
         private float _y;
@@ -122,7 +120,6 @@ namespace ExoGame2D.Renderers
 
         public SpriteBase()
         {
-            _contentManager = Engine.Content;
             _spriteBatch = Engine.SpriteBatch;
 
             IsEnabled = true;
@@ -136,7 +133,7 @@ namespace ExoGame2D.Renderers
                 throw new ArgumentNullException(nameof(textureName));
             }
 
-            _currentTexture = _contentManager.Load<Texture2D>(textureName);
+            _currentTexture = Engine.Content.Load<Texture2D>(textureName);
         }
 
         protected void Update(GameTime gameTime)
