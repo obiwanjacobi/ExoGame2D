@@ -73,12 +73,12 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             NextLevel();
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER4, _hud);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER1, _background);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER4, _fps);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER4, _score);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER4, _billboard);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER5, _crosshair);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _hud);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _background);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _fps);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _score);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _billboard);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
 
             Channels.AddNewChannel("score");
             Channels.AddNewChannel("duckhit");
@@ -107,20 +107,20 @@ namespace ExoGame2D.DuckAttack.GameStates
             _duck3 = new Duck("duck3", level.Ducks[2].StartX, level.Ducks[2].Flip, level.Ducks[2].HorizontalVelocity, level.Ducks[2].VerticalVelocity);
             _duck4 = new Duck("duck4", level.Ducks[3].StartX, level.Ducks[3].Flip, level.Ducks[3].HorizontalVelocity, level.Ducks[3].VerticalVelocity);
 
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.LAYER2, _duck);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.LAYER2, _duck2);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.LAYER2, _duck3);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.LAYER2, _duck4);
+            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck);
+            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck2);
+            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck3);
+            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck4);
 
             CollisionManager.RemoveSpriteToCollisionManager(_duck.Name);
             CollisionManager.RemoveSpriteToCollisionManager(_duck2.Name);
             CollisionManager.RemoveSpriteToCollisionManager(_duck3.Name);
             CollisionManager.RemoveSpriteToCollisionManager(_duck4.Name);
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _duck);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _duck2);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _duck3);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _duck4);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck2);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck3);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck4);
 
             _gameClock.Reset();
             _gameClock.Start();

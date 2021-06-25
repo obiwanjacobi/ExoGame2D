@@ -41,6 +41,7 @@ namespace ExoGame2D.UI
         public bool DrawWindowChrome { get; set; }
         public bool MouseOver { get; set; }
         public string Name { get; set; }
+
         protected Texture2D _controlTexture { get; set; }
         protected string _controlTextureName;
 

@@ -21,21 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using ExoGame2D.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using ExoGame2D.Interfaces;
-using Microsoft.Xna.Framework;
 
 namespace ExoGame2D
 {
     public class GameStateManager
     {
         private readonly Dictionary<string, IGameState> _registeredGameStates = new Dictionary<string, IGameState>();
-
-        public GameStateManager()
-        {
-        }
 
         public IGameState CurrentState { get; private set; } = null;
         public IGameState PreviousState { get; private set; } = null;
@@ -53,12 +47,13 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(gameStateHandler));
             }
 
-            if (_registeredGameStates.ContainsKey(name.ToUpper(CultureInfo.InvariantCulture)))
+            var nameUpper = name.ToUpperInvariant();
+            if (_registeredGameStates.ContainsKey(nameUpper))
             {
-                _registeredGameStates.Remove(name.ToUpper(CultureInfo.InvariantCulture));
+                _registeredGameStates.Remove(nameUpper);
             }
 
-            _registeredGameStates.Add(name.ToUpper(CultureInfo.InvariantCulture), gameStateHandler);
+            _registeredGameStates.Add(nameUpper, gameStateHandler);
         }
 
         public void RemoveState(string name)
@@ -68,28 +63,30 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (!_registeredGameStates.ContainsKey(name.ToUpper(CultureInfo.InvariantCulture)))
+            var nameUpper = name.ToUpperInvariant();
+            if (!_registeredGameStates.ContainsKey(nameUpper))
             {
                 throw new InvalidOperationException("The gamestate manager does not contain an entry for <" + name + ">");
             }
 
-            _registeredGameStates.Remove(name.ToUpper(CultureInfo.InvariantCulture));
+            _registeredGameStates.Remove(nameUpper);
         }
 
-        public void ChangeState (string name)
+        public void ChangeState(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (!_registeredGameStates.ContainsKey(name.ToUpper(CultureInfo.InvariantCulture)))
+            var nameUpper = name.ToUpperInvariant();
+            if (!_registeredGameStates.ContainsKey(nameUpper))
             {
                 throw new InvalidOperationException("The gamestate manager does not contain an entry for <" + name + ">");
             }
 
             PreviousState = CurrentState;
-            CurrentState = _registeredGameStates[name.ToUpper(CultureInfo.InvariantCulture)];
+            CurrentState = _registeredGameStates[nameUpper];
         }
     }
 }

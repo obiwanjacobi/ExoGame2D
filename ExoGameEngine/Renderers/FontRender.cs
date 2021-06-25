@@ -21,11 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
 using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D.Renderers
 {
@@ -82,7 +82,7 @@ namespace ExoGame2D.Renderers
 
         public void Update(GameTime gameTime)
         {
-            
+            // no-op
         }
 
         public bool IsAssetOfType(Type type)

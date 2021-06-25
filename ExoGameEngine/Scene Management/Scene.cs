@@ -22,25 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
 using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace ExoGame2D.SceneManagement
 {
     public class Scene
     {
-        private readonly List<IRenderNode> Layer1 = new List<IRenderNode>();
-        private readonly List<IRenderNode> Layer2 = new List<IRenderNode>();
-        private readonly List<IRenderNode> Layer3 = new List<IRenderNode>();
-        private readonly List<IRenderNode> Layer4 = new List<IRenderNode>();
-        private readonly List<IRenderNode> Layer5 = new List<IRenderNode>();
-
-        public Scene()
-        {
-        }
+        private readonly List<IRenderNode> _layer1 = new List<IRenderNode>();
+        private readonly List<IRenderNode> _layer2 = new List<IRenderNode>();
+        private readonly List<IRenderNode> _layer3 = new List<IRenderNode>();
+        private readonly List<IRenderNode> _layer4 = new List<IRenderNode>();
+        private readonly List<IRenderNode> _layer5 = new List<IRenderNode>();
 
         public void AddSpriteToLayer(RenderLayerEnum layer, IRenderNode node)
         {
@@ -54,31 +50,31 @@ namespace ExoGame2D.SceneManagement
                 throw new InvalidOperationException("Render node can not have an empty name.");
             }
 
-            if (node.IsAssetOfType(typeof(Sprite))  || node.IsAssetOfType(typeof(AnimatedSprite)))
+            if (node.IsAssetOfType(typeof(Sprite)) || node.IsAssetOfType(typeof(AnimatedSprite)))
             {
                 CollisionManager.AddSpriteToCollisionManager(node.GetSprite(), node.Name);
             }
 
             switch (layer)
             {
-                case RenderLayerEnum.LAYER1:
-                    Layer1.Add(node);
+                case RenderLayerEnum.Layer1:
+                    _layer1.Add(node);
                     break;
 
-                case RenderLayerEnum.LAYER2:
-                    Layer2.Add(node);
+                case RenderLayerEnum.Layer2:
+                    _layer2.Add(node);
                     break;
 
-                case RenderLayerEnum.LAYER3:
-                    Layer3.Add(node);
+                case RenderLayerEnum.Layer3:
+                    _layer3.Add(node);
                     break;
 
-                case RenderLayerEnum.LAYER4:
-                    Layer4.Add(node);
+                case RenderLayerEnum.Layer4:
+                    _layer4.Add(node);
                     break;
 
-                case RenderLayerEnum.LAYER5:
-                    Layer5.Add(node);
+                case RenderLayerEnum.Layer5:
+                    _layer5.Add(node);
                     break;
                 default:
                     break;
@@ -94,56 +90,56 @@ namespace ExoGame2D.SceneManagement
 
             switch (layer)
             {
-                case RenderLayerEnum.LAYER1:
-                    foreach (IRenderNode n in Layer1.ToArray())
+                case RenderLayerEnum.Layer1:
+                    foreach (IRenderNode n in _layer1.ToArray())
                     {
                         if (n == node)
                         {
-                            _ = Layer1.Remove(node);
+                            _ = _layer1.Remove(node);
                             return true;
                         }
                     }
                     break;
 
-                case RenderLayerEnum.LAYER2:
-                    foreach (IRenderNode n in Layer2.ToArray())
+                case RenderLayerEnum.Layer2:
+                    foreach (IRenderNode n in _layer2.ToArray())
                     {
                         if (n == node)
                         {
-                            _ = Layer2.Remove(node);
+                            _ = _layer2.Remove(node);
                             return true;
                         }
                     }
                     break;
 
-                case RenderLayerEnum.LAYER3:
-                    foreach (IRenderNode n in Layer3.ToArray())
+                case RenderLayerEnum.Layer3:
+                    foreach (IRenderNode n in _layer3.ToArray())
                     {
                         if (n == node)
                         {
-                            _ = Layer3.Remove(node);
+                            _ = _layer3.Remove(node);
                             return true;
                         }
                     }
                     break;
 
-                case RenderLayerEnum.LAYER4:
-                    foreach (IRenderNode n in Layer4.ToArray())
+                case RenderLayerEnum.Layer4:
+                    foreach (IRenderNode n in _layer4.ToArray())
                     {
                         if (n == node)
                         {
-                            _ = Layer4.Remove(node);
+                            _ = _layer4.Remove(node);
                             return true;
                         }
                     }
                     break;
 
-                case RenderLayerEnum.LAYER5:
-                    foreach (IRenderNode n in Layer5.ToArray())
+                case RenderLayerEnum.Layer5:
+                    foreach (IRenderNode n in _layer5.ToArray())
                     {
                         if (n == node)
                         {
-                            _ = Layer5.Remove(node);
+                            _ = _layer5.Remove(node);
                             return true;
                         }
                     }
@@ -157,27 +153,27 @@ namespace ExoGame2D.SceneManagement
 
         public void RenderScene(GameTime gameTime)
         {
-            foreach (IRenderNode node in Layer1.ToArray())
+            foreach (IRenderNode node in _layer1.ToArray())
             {
                 node.Draw(gameTime);
             }
 
-            foreach (IRenderNode node in Layer2.ToArray())
+            foreach (IRenderNode node in _layer2.ToArray())
             {
                 node.Draw(gameTime);
             }
 
-            foreach (IRenderNode node in Layer3.ToArray())
+            foreach (IRenderNode node in _layer3.ToArray())
             {
                 node.Draw(gameTime);
             }
 
-            foreach (IRenderNode node in Layer4.ToArray())
+            foreach (IRenderNode node in _layer4.ToArray())
             {
                 node.Draw(gameTime);
             }
 
-            foreach (IRenderNode node in Layer5.ToArray())
+            foreach (IRenderNode node in _layer5.ToArray())
             {
                 node.Draw(gameTime);
             }
@@ -187,27 +183,27 @@ namespace ExoGame2D.SceneManagement
         {
             SoundEffectPlayer.ProcessSoundEvents();
 
-            foreach (IRenderNode node in Layer1.ToArray())
+            foreach (IRenderNode node in _layer1.ToArray())
             {
                 node.Update(gameTime);
             }
 
-            foreach (IRenderNode node in Layer2.ToArray())
+            foreach (IRenderNode node in _layer2.ToArray())
             {
                 node.Update(gameTime);
             }
 
-            foreach (IRenderNode node in Layer3.ToArray())
+            foreach (IRenderNode node in _layer3.ToArray())
             {
                 node.Update(gameTime);
             }
 
-            foreach (IRenderNode node in Layer4.ToArray())
+            foreach (IRenderNode node in _layer4.ToArray())
             {
                 node.Update(gameTime);
             }
 
-            foreach (IRenderNode node in Layer5.ToArray())
+            foreach (IRenderNode node in _layer5.ToArray())
             {
                 node.Update(gameTime);
             }

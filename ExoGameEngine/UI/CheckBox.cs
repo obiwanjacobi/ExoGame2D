@@ -22,25 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using ExoGame2D.Interfaces;
-using Microsoft.Xna.Framework;
 using ExoGame2D.Renderers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D.UI
 {
     public class CheckBox : UIControlBase, IRenderNode
-    {       
-        public string Text { get; set; }     
+    {
+        private readonly SpriteFont _font;
+        private readonly ICheckBoxHandler _handler;
+        private int _checkBoxWidth;
+
+        public string Text { get; set; }
         public Color TextColor { get; set; }
         public Color MouseOverTextColor { get; set; }
         public Color CheckBoxMouseOverColor { get; set; }
-
-        private SpriteFont _font;
-        private ICheckBoxHandler _handler;
-
-        private int _checkBoxWidth;
         public bool Checked { get; set; }
 
         public CheckBox(string name, ICheckBoxHandler handler)
@@ -50,20 +49,14 @@ namespace ExoGame2D.UI
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (handler == null)
-            {
-                throw new ArgumentNullException(nameof(handler));
-            }
+            _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+            _checkBoxWidth = 70;
+            _font = Engine.Content.Load<SpriteFont>("default");
 
-            _handler = handler;
             Name = name;
-
             Width = 70;
             Height = 20;
-
-            _checkBoxWidth = 70;
             Checked = true;
-
             Location = new Vector2(100, 100);
             Enabled = true;
             Visible = true;
@@ -74,17 +67,14 @@ namespace ExoGame2D.UI
             CheckBoxMouseOverColor = Color.LightGray;
             TextColor = Color.Black;
             MouseOverTextColor = Color.DarkKhaki;
-
             DrawWindowChrome = true;
-            _font = Engine.Content.Load<SpriteFont>("default");         
         }
 
         public void Update(GameTime gameTime)
         {
-            Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)_checkBoxWidth, Height);
-
             var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
-            Rectangle mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
+            var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
+            var bounds = new Rectangle((int)Location.X, (int)Location.Y, _checkBoxWidth, Height);
 
             if (bounds.Intersects(mouseCursor))
             {
@@ -101,8 +91,6 @@ namespace ExoGame2D.UI
             {
                 MouseOver = false;
             }
-
-           
         }
 
         public void Draw(GameTime gameTime)
@@ -133,10 +121,9 @@ namespace ExoGame2D.UI
                     Engine.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, Color);
 
                 }
-                
+
                 Engine.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
-
 
             if (!string.IsNullOrEmpty(_controlTextureName))
             {
@@ -157,24 +144,22 @@ namespace ExoGame2D.UI
             if (Checked)
             {
                 Engine.SpriteBatch.DrawLine(new Vector2((int)Location.X, (int)Location.Y), new Vector2((int)(Location.X + _checkBoxWidth), (int)Location.Y + Height), OutlineColor, 2);
-                Engine.SpriteBatch.DrawLine(new Vector2((int)Location.X+1 + _checkBoxWidth, (int)Location.Y+1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
+                Engine.SpriteBatch.DrawLine(new Vector2((int)Location.X + 1 + _checkBoxWidth, (int)Location.Y + 1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
 
             }
 
             Engine.SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
 
-            Rectangle bounds = new Rectangle((int)(Location.X + _checkBoxWidth), (int)Location.Y, (int)(Width - _checkBoxWidth), Height);
+            var bounds = new Rectangle((int)(Location.X + _checkBoxWidth), (int)Location.Y, (Width - _checkBoxWidth), Height);
 
             if (MouseOver)
             {
-                
                 DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOverTextColor);
             }
             else
             {
-                
                 DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
-            }           
+            }
         }
 
         public ISprite GetSprite()
@@ -185,6 +170,6 @@ namespace ExoGame2D.UI
         public bool IsAssetOfType(Type type)
         {
             return GetType() == type;
-        }        
+        }
     }
 }

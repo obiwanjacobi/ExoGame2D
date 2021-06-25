@@ -1,13 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackOnBuild>true</PackOnBuild>
     <AssemblyName>ExoGameEngine</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Stephan Haunts</Authors>
+    <Product>Mono Exo Game Engine</Product>
+    <Description>ExoGame2D is a .NET Core, cross platform, based 2D game engine built on top of MonoGame.</Description>
+    <PackageIcon>ExoEngineLogoNoBackGround.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/stephenhaunts/ExoGame2D</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>MonoGame 2D</PackageTags>
   </PropertyGroup>
-
-
-
 
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
@@ -23,5 +29,12 @@
     <Folder Include="Renderers\" />
     <Folder Include="Scene Management\" />
     <Folder Include="UI\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Logo\ExoEngineLogoNoBackGround.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

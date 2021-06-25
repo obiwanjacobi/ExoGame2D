@@ -103,10 +103,10 @@ namespace ExoGame2D.DuckAttack.GameStates
             _container.AddControl(_optionsButton);
             _container.AddControl(_exitButton);
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER1, _background);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _titles);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER5, _crosshair);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER4, _container);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _background);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _titles);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _container);
 
             MusicPlayer.Play("banjo");
             MusicPlayer.Looped = true;

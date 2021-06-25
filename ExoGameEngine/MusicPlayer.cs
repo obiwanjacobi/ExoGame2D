@@ -22,10 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Microsoft.Xna.Framework.Media;
 
 namespace ExoGame2D
 {
@@ -38,14 +37,8 @@ namespace ExoGame2D
 
         public static bool Looped
         {
-            get
-            {
-                return MediaPlayer.IsRepeating;
-            }
-            set
-            {
-                MediaPlayer.IsRepeating = value;
-            }
+            get { return MediaPlayer.IsRepeating; }
+            set { MediaPlayer.IsRepeating = value; }
         }
 
         public static void LoadMusic(string name)
@@ -55,13 +48,13 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (_music.ContainsKey(lowerCaseName))
             {
                 return;
             }
-           
+
             _music.Add(lowerCaseName, Engine.Content.Load<Song>(lowerCaseName));
         }
 
@@ -72,7 +65,7 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (!_music.ContainsKey(lowerCaseName))
             {
@@ -89,7 +82,7 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (!_music.ContainsKey(lowerCaseName))
             {
@@ -116,7 +109,7 @@ namespace ExoGame2D
                 {
                     return;
                 }
-                
+
                 State = MusicPlayStateEnum.Stopped;
                 MediaPlayer.Stop();
             }
@@ -150,5 +143,4 @@ namespace ExoGame2D
             }
         }
     }
-
 }

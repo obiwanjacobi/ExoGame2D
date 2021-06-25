@@ -26,10 +26,10 @@ namespace ExoGame2D.SceneManagement
 {
     public enum RenderLayerEnum
     {
-        LAYER1 = 0,
-        LAYER2 = 1,
-        LAYER3 = 2,
-        LAYER4 = 3,
-        LAYER5 = 4,
+        Layer1 = 0,
+        Layer2 = 1,
+        Layer3 = 2,
+        Layer4 = 3,
+        Layer5 = 4,
     }
 }

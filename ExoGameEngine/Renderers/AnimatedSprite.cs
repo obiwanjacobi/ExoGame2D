@@ -21,9 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ExoGame2D.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -31,13 +31,14 @@ namespace ExoGame2D.Renderers
 {
     public class AnimatedSprite : SpriteBase, ISprite
     {
-        public AnimationTypeEnum AnimationType { get; set; }
-        private List<Texture2D> _animationFrames = new List<Texture2D>();
-        public AnimationPlayingStateEnum PlayState { get; private set; }
-        public int AnimationSpeed { get; set; }
+        private readonly List<Texture2D> _animationFrames = new List<Texture2D>();
         private int _currentFrame = 0;
         private bool _pingPong = false;
         private int _internalTimer = 0;
+
+        public AnimationTypeEnum AnimationType { get; set; }
+        public AnimationPlayingStateEnum PlayState { get; private set; }
+        public int AnimationSpeed { get; set; }
 
         public AnimatedSprite() : base()
         {
@@ -108,9 +109,9 @@ namespace ExoGame2D.Renderers
                                 _pingPong = false;
                             }
                             break;
-                    }                 
+                    }
                     break;
-            }          
+            }
         }
 
         public bool CollidesWith(ISprite sprite)
@@ -126,7 +127,7 @@ namespace ExoGame2D.Renderers
         public void Stop()
         {
             PlayState = AnimationPlayingStateEnum.Stopped;
-        }    
+        }
 
         public new void Update(GameTime gameTime)
         {
@@ -150,7 +151,7 @@ namespace ExoGame2D.Renderers
         }
 
         public new void Draw(GameTime gameTime, Color tint)
-        {          
+        {
             base.Draw(gameTime, tint);
         }
 

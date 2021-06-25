@@ -21,11 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
 using ExoGame2D.SceneManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D
 {
@@ -52,9 +52,9 @@ namespace ExoGame2D
 
         private static Game _game;
 
-        public static Vector2 _scaledViewPort;
+        public readonly static Vector2 _scaledViewPort;
 
-        public static Matrix _spriteScalingFactor;
+        public readonly static Matrix _spriteScalingFactor;
 
         public static GameStateManager GameState { get; } = new GameStateManager();
 
@@ -98,9 +98,11 @@ namespace ExoGame2D
             _game.Exit();
         }
 
-        public static Matrix SpriteScalingFactor => Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+        public static Matrix SpriteScalingFactor 
+            => Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
 
-        public static Vector2 ScaledViewPort => ScreenToWorld(new Vector2(Graphics.GraphicsDevice.Viewport.Width, Graphics.GraphicsDevice.Viewport.Height));
+        public static Vector2 ScaledViewPort 
+            => ScreenToWorld(new Vector2(Graphics.GraphicsDevice.Viewport.Width, Graphics.GraphicsDevice.Viewport.Height));
 
         public static Vector2 ScreenToWorld(Vector2 screenPosition)
         {

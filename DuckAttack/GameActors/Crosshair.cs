@@ -21,12 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
 using ExoGame2D.DuckAttack.Messages;
 using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
-using ExoGame2D.DuckAttack.GameActors.Hud;
+using System;
 
 namespace ExoGame2D.DuckAttack.GameActors
 {

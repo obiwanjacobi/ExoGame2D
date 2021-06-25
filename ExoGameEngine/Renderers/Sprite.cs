@@ -21,19 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using ExoGame2D.Interfaces;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace ExoGame2D.Renderers
 {
     public class Sprite : SpriteBase, ISprite
-    {  
+    {
         public Sprite() : base()
-        {
-          
-        }
+        { }
 
         public Sprite(string name) : base()
         {
@@ -57,12 +54,11 @@ namespace ExoGame2D.Renderers
                 return PerPixelCollision(this, (AnimatedSprite)sprite);
             }
 
-
             return false;
         }
 
         public new void Update(GameTime gameTime)
-        {        
+        {
             base.Update(gameTime);
         }
 
@@ -72,7 +68,7 @@ namespace ExoGame2D.Renderers
         }
 
         public new void Draw(GameTime gameTime, Color tint)
-        {          
+        {
             base.Draw(gameTime, tint);
         }
 

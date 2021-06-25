@@ -22,21 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using ExoGame2D.Interfaces;
-using Microsoft.Xna.Framework;
 using ExoGame2D.Renderers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D.UI
 {
     public class Button : UIControlBase, IRenderNode
-    {       
-        public string Text { get; set; }     
+    {
+        private readonly SpriteFont _font;
+        private readonly IButtonHandler _handler;
+
+        public string Text { get; set; }
         public Color TextColor { get; set; }
         public Color MouseOverTextColor { get; set; }
-        private SpriteFont _font;
-        private IButtonHandler _handler;
 
         public Button(string name, IButtonHandler handler)
         {
@@ -45,12 +46,8 @@ namespace ExoGame2D.UI
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (handler == null)
-            {
-                throw new ArgumentNullException(nameof(handler));
-            }
+            _handler = handler ?? throw new ArgumentNullException(nameof(handler));
 
-            _handler = handler;
             Name = name;
             Width = 50;
             Height = 20;
@@ -65,15 +62,14 @@ namespace ExoGame2D.UI
             MouseOverTextColor = Color.Khaki;
 
             DrawWindowChrome = true;
-            _font = Engine.Content.Load<SpriteFont>("default");         
+            _font = Engine.Content.Load<SpriteFont>("default");
         }
 
         public void Update(GameTime gameTime)
         {
-            Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-
             var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
-            Rectangle mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
+            var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
+            var bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
 
             if (bounds.Intersects(mouseCursor))
             {
@@ -90,8 +86,6 @@ namespace ExoGame2D.UI
             {
                 MouseOver = false;
             }
-
-           
         }
 
         public void Draw(GameTime gameTime)
@@ -156,6 +150,6 @@ namespace ExoGame2D.UI
         public bool IsAssetOfType(Type type)
         {
             return GetType() == type;
-        }        
+        }
     }
 }

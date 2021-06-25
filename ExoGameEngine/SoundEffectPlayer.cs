@@ -22,11 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework.Audio;
+using System;
+using System.Collections.Generic;
 
 namespace ExoGame2D
 {
@@ -37,7 +36,8 @@ namespace ExoGame2D
 
     public static class SoundEffectPlayer
     {
-        private static Dictionary<string, SoundEffect> _soundEffects = new Dictionary<string, SoundEffect>();
+        private readonly static Dictionary<string, SoundEffect> _soundEffects = new Dictionary<string, SoundEffect>();
+
         public static bool PlaySoundEffects { get; set; } = true;
 
         public static void LoadSoundEffect(string name)
@@ -47,7 +47,7 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (_soundEffects.ContainsKey(lowerCaseName))
             {
@@ -64,7 +64,7 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (!_soundEffects.ContainsKey(lowerCaseName))
             {
@@ -81,7 +81,7 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCaseName = name.ToLowerInvariant();
 
             if (!_soundEffects.ContainsKey(lowerCaseName))
             {
@@ -107,10 +107,9 @@ namespace ExoGame2D
 
                 if (message != null)
                 {
-                    PlayOneShot(message.SoundEffectToPlay.ToLower(CultureInfo.InvariantCulture));
+                    PlayOneShot(message.SoundEffectToPlay.ToLowerInvariant());
                 }
             }
         }
-
     }
 }

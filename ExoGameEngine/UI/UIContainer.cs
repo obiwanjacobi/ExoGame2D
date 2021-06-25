@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace ExoGame2D.UI
 {
     public class UIContainer : IRenderNode
     {
-        public string Name { get; set; }
+        private readonly List<IRenderNode> _controlList = new List<IRenderNode>();
 
-        private List<IRenderNode> _controlList = new List<IRenderNode>();
+        public string Name { get; set; }
 
         public UIContainer(string name)
         {

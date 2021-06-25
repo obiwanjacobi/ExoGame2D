@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/Users/stephenhaunts/Documents/Git/ExoGameEngine/Tutorials/Tutorial-3-Moving Sprites/Content/ExoEngineLogo.png</File>
+    <File>C:/Users/marc/source/repos/ExoGame2D/Tutorials/Tutorial-3-Moving Sprites/Content/ExoEngineLogo.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

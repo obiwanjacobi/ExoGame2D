@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>/Users/stephenhaunts/Documents/Git/ExoGameEngine/Tutorials/Tutorial-6-Collision Detection/Content/ExoEngineLogo.png</SourceFile>
-  <SourceTime>2020-06-19T11:08:14+01:00</SourceTime>
-  <DestFile>/Users/stephenhaunts/Documents/Git/ExoGameEngine/Tutorials/Tutorial-6-Collision Detection/Content/bin/DesktopGL/Content/ExoEngineLogo.xnb</DestFile>
-  <DestTime>2020-07-05T17:22:07.924807+01:00</DestTime>
+  <SourceFile>C:/Users/marc/source/repos/ExoGame2D/Tutorials/Tutorial-6-Collision Detection/Content/ExoEngineLogo.png</SourceFile>
+  <SourceTime>2021-06-25T14:31:23.8896778+02:00</SourceTime>
+  <DestFile>C:/Users/marc/source/repos/ExoGame2D/Tutorials/Tutorial-6-Collision Detection/Content/bin/DesktopGL/Content/ExoEngineLogo.xnb</DestFile>
+  <DestTime>2021-06-25T15:33:43.1803464+02:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2018-08-05T16:49:54+01:00</ImporterTime>
+  <ImporterTime>2018-08-05T14:17:44+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2018-08-05T16:49:54+01:00</ProcessorTime>
+  <ProcessorTime>2018-08-05T14:17:44+02:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

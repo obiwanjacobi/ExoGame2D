@@ -21,18 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System.Collections.Generic;
 using ExoGame2D.Interfaces;
+using System.Collections.Generic;
 
 namespace ExoGame2D
 {
-    public class CollisionManager
+    public static class CollisionManager
     {
         private static readonly Dictionary<string, ISprite> _spriteList = new Dictionary<string, ISprite>();
-
-        public CollisionManager()
-        {
-        }
 
         public static void AddSpriteToCollisionManager(ISprite sprite, string name)
         {
@@ -54,7 +50,7 @@ namespace ExoGame2D
         {
             ISprite sourceSprite = _spriteList[source];
             ISprite destinationSprite = _spriteList[destination];
-            
+
             return sourceSprite.BoundingBox.Intersects(destinationSprite.BoundingBox);
         }
 

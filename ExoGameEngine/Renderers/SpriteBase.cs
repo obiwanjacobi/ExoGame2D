@@ -23,8 +23,8 @@ SOFTWARE.
 */
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace ExoGame2D.Renderers
@@ -141,13 +141,11 @@ namespace ExoGame2D.Renderers
 
         protected void Update(GameTime gameTime)
         {
-            if (!IsEnabled)
+            if (IsEnabled)
             {
-                return;
+                X += VX * (gameTime.ElapsedGameTime.Milliseconds / 16);
+                Y += VY * (gameTime.ElapsedGameTime.Milliseconds / 16);
             }
-
-            X += VX * (gameTime.ElapsedGameTime.Milliseconds / 16);
-            Y += VY * (gameTime.ElapsedGameTime.Milliseconds / 16);
         }
 
         protected void Draw(GameTime gameTime)
@@ -168,7 +166,7 @@ namespace ExoGame2D.Renderers
             }
 
             SpriteEffects effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                
+
             _spriteBatch.Draw(_currentTexture, _location,
                 new Rectangle(0, 0, _currentTexture.Width, _currentTexture.Height), tint, 0,
                 new Vector2(0, 0), 1.0f, effect, 0.0f);
@@ -179,7 +177,7 @@ namespace ExoGame2D.Renderers
             }
         }
 
-        protected  bool PerPixelCollision(Sprite sprite1, Sprite sprite2)
+        protected bool PerPixelCollision(Sprite sprite1, Sprite sprite2)
         {
             // Get Color data of each Texture
             Color[] bitsA = new Color[sprite1.Width * sprite1.Height];
@@ -246,7 +244,5 @@ namespace ExoGame2D.Renderers
             // If no collision occurred by now, we're clear.
             return false;
         }
-
-
     }
 }

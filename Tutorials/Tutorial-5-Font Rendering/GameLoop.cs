@@ -61,8 +61,8 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             _titles.Shadow = true;
             _titles.Text = "Exo Game 2D";
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER1, _logo);
-            _scene.AddSpriteToLayer(RenderLayerEnum.LAYER2, _titles);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _logo);
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _titles);
         }
 
         protected override void Update(GameTime gameTime)
