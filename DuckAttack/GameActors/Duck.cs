@@ -24,42 +24,44 @@ SOFTWARE.
 using ExoGame2D.DuckAttack.GameActors.Hud;
 using ExoGame2D.DuckAttack.GameStates.Controller;
 using ExoGame2D.DuckAttack.Messages;
+using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
-using System;
 using System.Diagnostics;
 
 namespace ExoGame2D.DuckAttack.GameActors
 {
-    public class Duck : IRenderNode
+    public class Duck : IRenderNode, ICollidable
     {
-        private AnimatedSprite _duck;
-        private Sprite _duckDeath;
-        private Sprite _duckDive;
+        private readonly AnimatedSprite _duck;
+        private readonly CollidableSprite _duckDeath;
+        private readonly CollidableSprite _duckDive;
+
+        private readonly Stopwatch _duckClock = new Stopwatch();
+        private int _deathCounter = 0;
+        private int _duckFlashCounter = 0;
 
         public Rectangle Crosshair { get; set; }
         public string Name { get; set; }
         public DuckStateEnum State { get; set; }
-        private Stopwatch _duckClock = new Stopwatch();
-        private int _deathCounter = 0;
-        private int _duckFlashCounter = 0;
+        public Rectangle BoundingBox => _duck.BoundingBox;
+        public bool RenderBoundingBox
+        {
+            get { return _duck.RenderBoundingBox; }
+            set { _duck.RenderBoundingBox = value; }
+        }
 
         public Duck(string name, int x, int y)
         {
             Name = name;
 
-            _duckDeath = new Sprite("DuckDeath");
+            _duckDeath = new CollidableSprite("DuckDeath");
             _duckDeath.LoadContent("DuckDeath");
 
-            _duckDive = new Sprite("DuckDive");
+            _duckDive = new CollidableSprite("DuckDive");
             _duckDive.LoadContent("DuckDive");
 
-            _duck = new AnimatedSprite()
-            {
-                RenderBoundingBox = false,
-                Name = name
-            };
-
+            _duck = new AnimatedSprite(name);
             _duck.LoadFrameTexture("DuckFrame1");
             _duck.LoadFrameTexture("DuckFrame2");
             _duck.LoadFrameTexture("DuckFrame3");
@@ -72,6 +74,7 @@ namespace ExoGame2D.DuckAttack.GameActors
             _duck.AnimationType = AnimationTypeEnum.PingPong;
             _duck.AnimationSpeed = 5;
             _duck.Play();
+
             State = DuckStateEnum.Start;
 
             SoundEffectPlayer.LoadSoundEffect("death");
@@ -85,18 +88,13 @@ namespace ExoGame2D.DuckAttack.GameActors
         {
             Name = name;
 
-            _duckDeath = new Sprite("DuckDeath");
+            _duckDeath = new CollidableSprite("DuckDeath");
             _duckDeath.LoadContent("DuckDeath");
 
-            _duckDive = new Sprite("DuckDive");
+            _duckDive = new CollidableSprite("DuckDive");
             _duckDive.LoadContent("DuckDive");
 
-            _duck = new AnimatedSprite()
-            {
-                RenderBoundingBox = false,
-                Name = name
-            };
-
+            _duck = new AnimatedSprite(name);
             _duck.LoadFrameTexture("DuckFrame1");
             _duck.LoadFrameTexture("DuckFrame2");
             _duck.LoadFrameTexture("DuckFrame3");
@@ -127,6 +125,7 @@ namespace ExoGame2D.DuckAttack.GameActors
             _duck.AnimationType = AnimationTypeEnum.PingPong;
             _duck.AnimationSpeed = 5;
             _duck.Play();
+
             State = DuckStateEnum.Start;
 
             SoundEffectPlayer.LoadSoundEffect("death");
@@ -134,12 +133,6 @@ namespace ExoGame2D.DuckAttack.GameActors
             SoundEffectPlayer.LoadSoundEffect("falling");
             SoundEffectPlayer.LoadSoundEffect("flapping");
         }
-
-        public ISprite GetSprite()
-        {
-            return _duck;
-        }
-
 
         private bool _playDuckSound = false;
         private bool _playFallingSound = false;
@@ -246,7 +239,7 @@ namespace ExoGame2D.DuckAttack.GameActors
             switch (DifficultySettings.CurrentDifficulty.AimAssist)
             {
                 case true:
-                    if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsCollision("crosshair", Name)))
+                    if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsBoundingCollision("crosshair", Name)))
                         return true;
                     break;
 
@@ -319,7 +312,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     break;
 
                 case DuckStateEnum.Fying:
-                    if (CollisionManager.IsCollision("crosshair", Name))
+                    if (CollisionManager.IsBoundingCollision("crosshair", Name))
                     {
                         _duck.Draw(gameTime, new Color(100, 100, 100, 255));
                     }
@@ -330,7 +323,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     break;
 
                 case DuckStateEnum.FlyAway:
-                    if (CollisionManager.IsCollision("crosshair", Name))
+                    if (CollisionManager.IsBoundingCollision("crosshair", Name))
                     {
                         _duck.Draw(gameTime, new Color(100, 100, 100, 255));
                     }
@@ -372,12 +365,10 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         public void Draw(GameTime gameTime, Color tint)
         {
-            throw new NotImplementedException();
+            Draw(gameTime);
         }
 
-        public bool IsAssetOfType(Type type)
-        {
-            return _duck.IsAssetOfType(type);
-        }
+        public bool GetPixelData(Rectangle intersection, out Color[] data)
+            => _duck.GetPixelData(intersection, out data);
     }
 }

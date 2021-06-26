@@ -21,65 +21,225 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Interfaces;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace ExoGame2D.Renderers
 {
-    public class Sprite : SpriteBase, ISprite
+    public abstract class Sprite : ISprite
     {
-        public Sprite() : base()
-        { }
+        protected Texture2D _texture;
+        private Vector2 _location = new Vector2(0, 0);
+        private Vector2 _velocity = new Vector2(0, 0);
+        private readonly SpriteBatch _spriteBatch;
+        private float _x;
+        private float _y;
+        private float _velocityX;
+        private float _velocityY;
 
-        public Sprite(string name) : base()
+        protected Sprite()
         {
-            if (string.IsNullOrEmpty(name))
+            _spriteBatch = Engine.Instance.SpriteBatch;
+
+            IsEnabled = true;
+            IsVisible = true;
+        }
+
+        public bool IsVisible { get; set; }
+        public bool IsEnabled { get; set; }
+
+        public bool RenderBoundingBox { get; set; }
+
+        public string Name { get; protected set; }
+
+        public float X
+        {
+            get => _x;
+            set
             {
-                throw new ArgumentNullException(nameof(name));
+                _x = value;
+                _location.X = value;
+            }
+        }
+
+        public float Y
+        {
+            get => _y;
+            set
+            {
+                _y = value;
+                _location.Y = value;
+            }
+        }
+
+        public float VX
+        {
+            get => _velocityX;
+            set
+            {
+                _velocityX = value;
+                _velocity.X = value;
+            }
+        }
+
+        public float VY
+        {
+            get => _velocityY;
+            set
+            {
+                _velocityY = value;
+                _velocity.Y = value;
+            }
+        }
+
+        public Vector2 Location
+        {
+            get => _location;
+            set
+            {
+                _location = value;
+                X = _location.X;
+                Y = _location.Y;
+            }
+        }
+
+        public Vector2 Velocity
+        {
+            get => _velocity;
+            set
+            {
+                _velocity = value;
+                _velocityX = _velocity.X;
+                _velocityY = _velocity.Y;
+            }
+        }
+
+        public int Width => _texture.Width;
+
+        public int Height => _texture.Height;
+
+        public Rectangle Dimensions => _texture.Bounds;
+
+        public Rectangle BoundingBox => new Rectangle((int)X, (int)Y, _texture.Width, _texture.Height);
+
+        public bool Flip { get; set; } = false;
+
+        public void LoadContent(string textureName)
+        {
+            if (string.IsNullOrEmpty(textureName))
+            {
+                throw new ArgumentNullException(nameof(textureName));
             }
 
-            Name = name;
+            _texture = Engine.Instance.Content.Load<Texture2D>(textureName);
         }
 
-        public bool CollidesWith(ISprite sprite)
+        public virtual void Update(GameTime gameTime)
         {
-            if (sprite is Sprite)
+            if (IsEnabled)
             {
-                return PerPixelCollision(this, (Sprite)sprite);
+                X += VX * (gameTime.ElapsedGameTime.Milliseconds / 16);
+                Y += VY * (gameTime.ElapsedGameTime.Milliseconds / 16);
+            }
+        }
+
+        public virtual void Draw(GameTime gameTime)
+        {
+            Draw(gameTime, Color.White);
+        }
+
+        public virtual void Draw(GameTime gameTime, Color tint)
+        {
+            if (_texture == null)
+            {
+                return;
             }
 
-            if (sprite is AnimatedSprite)
+            if (!IsVisible)
             {
-                return PerPixelCollision(this, (AnimatedSprite)sprite);
+                return;
             }
 
-            return false;
+            SpriteEffects effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            _spriteBatch.Draw(_texture, _location,
+                new Rectangle(0, 0, _texture.Width, _texture.Height), tint, 0,
+                new Vector2(0, 0), 1.0f, effect, 0.0f);
+
+            if (RenderBoundingBox)
+            {
+                _spriteBatch.DrawRectangle(BoundingBox, Color.Yellow, 3);
+            }
         }
 
-        public new void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
+        //protected bool PerPixelCollision(CollidableSprite sprite1, CollidableSprite sprite2)
+        //{
+        //    // Get Color data of each Texture
+        //    Color[] bitsA = new Color[sprite1.Width * sprite1.Height];
+        //    sprite1._texture.GetData(bitsA);
+        //    Color[] bitsB = new Color[sprite2.Width * sprite2.Height];
+        //    sprite2._texture.GetData(bitsB);
 
-        public new void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime, Color.White);
-        }
+        //    // Calculate the intersecting rectangle
+        //    int x1 = Math.Max(sprite1.BoundingBox.X, sprite2.BoundingBox.X);
+        //    int x2 = Math.Min(sprite1.BoundingBox.X + sprite1.BoundingBox.Width, sprite2.BoundingBox.X + sprite2.BoundingBox.Width);
 
-        public new void Draw(GameTime gameTime, Color tint)
-        {
-            base.Draw(gameTime, tint);
-        }
+        //    int y1 = Math.Max(sprite1.BoundingBox.Y, sprite2.BoundingBox.Y);
+        //    int y2 = Math.Min(sprite1.BoundingBox.Y + sprite1.BoundingBox.Height, sprite2.BoundingBox.Y + sprite2.BoundingBox.Height);
 
-        public ISprite GetSprite()
-        {
-            return this;
-        }
+        //    // For each single pixel in the intersecting rectangle
+        //    for (int y = y1; y < y2; ++y)
+        //    {
+        //        for (int x = x1; x < x2; ++x)
+        //        {
+        //            // Get the color from each texture
+        //            Color a = bitsA[(x - sprite1.BoundingBox.X) + (y - sprite1.BoundingBox.Y) * sprite1.Width];
+        //            Color b = bitsB[(x - sprite2.BoundingBox.X) + (y - sprite2.BoundingBox.Y) * sprite2.Width];
 
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
-        }
+        //            if (a.A != 0 && b.A != 0) // If both colors are not transparent (the alpha channel is not 0), then there is a collision
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    // If no collision occurred by now, we're clear.
+        //    return false;
+        //}
+
+        //protected bool PerPixelCollision(CollidableSprite sprite1, AnimatedSprite sprite2)
+        //{
+        //    // Get Color data of each Texture
+        //    Color[] bitsA = new Color[sprite1.Width * sprite1.Height];
+        //    sprite1._texture.GetData(bitsA);
+        //    Color[] bitsB = new Color[sprite2.Width * sprite2.Height];
+        //    sprite2._texture.GetData(bitsB);
+
+        //    // Calculate the intersecting rectangle
+        //    int x1 = Math.Max(sprite1.BoundingBox.X, sprite2.BoundingBox.X);
+        //    int x2 = Math.Min(sprite1.BoundingBox.X + sprite1.BoundingBox.Width, sprite2.BoundingBox.X + sprite2.BoundingBox.Width);
+
+        //    int y1 = Math.Max(sprite1.BoundingBox.Y, sprite2.BoundingBox.Y);
+        //    int y2 = Math.Min(sprite1.BoundingBox.Y + sprite1.BoundingBox.Height, sprite2.BoundingBox.Y + sprite2.BoundingBox.Height);
+
+        //    // For each single pixel in the intersecting rectangle
+        //    for (int y = y1; y < y2; ++y)
+        //    {
+        //        for (int x = x1; x < x2; ++x)
+        //        {
+        //            // Get the color from each texture
+        //            Color a = bitsA[(x - sprite1.BoundingBox.X) + (y - sprite1.BoundingBox.Y) * sprite1.Width];
+        //            Color b = bitsB[(x - sprite2.BoundingBox.X) + (y - sprite2.BoundingBox.Y) * sprite2.Width];
+
+        //            if (a.A != 0 && b.A != 0) // If both colors are not transparent (the alpha channel is not 0), then there is a collision
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    // If no collision occurred by now, we're clear.
+        //    return false;
+        //}
     }
 }

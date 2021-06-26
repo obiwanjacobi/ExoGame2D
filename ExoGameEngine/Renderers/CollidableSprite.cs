@@ -21,16 +21,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Renderers;
+using ExoGame2D.Interfaces;
+using Microsoft.Xna.Framework;
+using System;
 
-namespace ExoGame2D.DuckAttack.GameActors
+namespace ExoGame2D.Renderers
 {
-    public class Background : Sprite
+    public class CollidableSprite : Sprite, ICollidable
     {
-        public Background()
+        public CollidableSprite() : base()
+        { }
+
+        public CollidableSprite(string name) : base()
         {
-            Name = "background";
-            LoadContent("background");
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            Name = name;
+        }
+
+        public bool GetPixelData(Rectangle intersection, out Color[] data)
+        {
+            var length = Width * Height;
+            data = new Color[length];
+            _texture.GetData(0, intersection, data, 0, length);
+            return true;
         }
     }
 }

@@ -21,8 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 
@@ -66,10 +64,10 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         public BulletIndicator(string name, int x)
         {
             Name = name;
-            _bulletFired = new Sprite();
+            _bulletFired = new CollidableSprite();
             _bulletFired.LoadContent("bulletspent");
 
-            _bulletNotFired = new Sprite();
+            _bulletNotFired = new CollidableSprite();
             _bulletNotFired.LoadContent("bullet");
 
             _currentSprite = _bulletFired;
@@ -91,7 +89,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
+            _currentSprite.Draw(gameTime, Color.White);
         }
 
         public void Draw(GameTime gameTime, Color tint)
@@ -99,14 +97,14 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _currentSprite.Draw(gameTime, tint);
         }
 
-        public ISprite GetSprite()
-        {
-            return _currentSprite;
-        }
+        //public ISprite GetSprite()
+        //{
+        //    return _currentSprite;
+        //}
 
-        public bool IsAssetOfType(Type type)
-        {
-            return _currentSprite.IsAssetOfType(type);
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return _currentSprite.IsAssetOfType(type);
+        //}
     }
 }

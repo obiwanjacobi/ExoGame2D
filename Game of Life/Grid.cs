@@ -32,10 +32,11 @@ namespace ExoGame2D.GameOfLife
     {
         private readonly SpriteBatch _spriteBatch;
         private Point Size { get; set; }
-        public string Name { get; set; }
-        private Cell[,] _currentCellState;
-        private Cell[,] _nextCellStates;
+        private readonly Cell[,] _currentCellState;
+        private readonly Cell[,] _nextCellStates;
         private TimeSpan updateTimer;
+
+        public string Name { get; set; }
 
         public Grid(int sizeX, int sizeY)
         {
@@ -230,17 +231,7 @@ namespace ExoGame2D.GameOfLife
 
         public void Draw(GameTime gameTime, Color tint)
         {
-            throw new NotImplementedException();
-        }
-
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
+            Draw(gameTime);
         }
     }
 }

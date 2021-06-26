@@ -27,8 +27,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ExoGame2D.UI
 {
-    public class UIControlBase : IUIControl
+    public abstract class UIControlBase : IUIControl
     {
+        protected UIControlBase(string name)
+        {
+            Name = name;
+            SpriteBatch = Engine.Instance.SpriteBatch;
+        }
         public int Width { get; set; }
         public int Height { get; set; }
         public Vector2 Location { get; set; }
@@ -39,7 +44,7 @@ namespace ExoGame2D.UI
         public Color MouseOverColor { get; set; }
         public bool DrawWindowChrome { get; set; }
         public bool MouseOver { get; set; }
-        public string Name { get; set; }
+        public string Name { get; }
 
         protected Texture2D ControlTexture { get; set; }
         protected SpriteBatch SpriteBatch { get; }

@@ -21,15 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
 
 namespace ExoGame2D.Renderers
 {
-    public interface ISprite : IRenderNode
+    public interface ISprite : IRenderNode, IBoundingBox, INamedObject
     {
         bool IsVisible { get; set; }
         bool IsEnabled { get; set; }
-        bool RenderBoundingBox { get; set; }
         float X { get; set; }
         float Y { get; set; }
         float VX { get; set; }
@@ -40,8 +40,7 @@ namespace ExoGame2D.Renderers
         int Height { get; }
         int Width { get; }
         Rectangle Dimensions { get; }
-        Rectangle BoundingBox { get; }
         void LoadContent(string textureName);
-        bool CollidesWith(ISprite sprite);
+        //bool CollidesWith(ISprite sprite);
     }
 }

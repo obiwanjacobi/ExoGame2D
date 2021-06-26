@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 using Microsoft.Xna.Framework;
-using System;
 
 namespace ExoGame2D.Renderers
 {
@@ -32,8 +31,5 @@ namespace ExoGame2D.Renderers
         void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
         void Draw(GameTime gameTime, Color tint);
-        ISprite GetSprite();
-        string Name { get; set; }
-        bool IsAssetOfType(Type type);
     }
 }

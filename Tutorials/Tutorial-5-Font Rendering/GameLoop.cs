@@ -32,7 +32,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly Sprite _logo;
+        private readonly CollidableSprite _logo;
         private readonly FontRender _titles;
 
         public GameLoop()
@@ -41,7 +41,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             IsMouseVisible = true;
 
             _scene = new Scene();
-            _logo = new Sprite("Logo");
+            _logo = new CollidableSprite("Logo");
             _titles = new FontRender("titles");
         }
 

@@ -68,10 +68,10 @@ namespace ExoGame2D.UI
             }
         }
 
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
+        //public ISprite GetSprite()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void Update(GameTime gameTime)
         {
@@ -81,9 +81,9 @@ namespace ExoGame2D.UI
             }
         }
 
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return GetType() == type;
+        //}
     }
 }

@@ -40,6 +40,7 @@ namespace ExoGame2D.UI
         public Color MouseOverTextColor { get; set; }
 
         public Button(string name, IButtonHandler handler)
+            : base(name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -48,7 +49,6 @@ namespace ExoGame2D.UI
 
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
 
-            Name = name;
             Width = 50;
             Height = 20;
             Location = new Vector2(100, 100);
@@ -143,14 +143,14 @@ namespace ExoGame2D.UI
             }
         }
 
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
+        //public ISprite GetSprite()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return GetType() == type;
+        //}
     }
 }

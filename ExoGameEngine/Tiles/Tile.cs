@@ -17,7 +17,7 @@ namespace ExoGame2D.Tiles
             _tileFromSetCoord = tileFromSetCoord;
         }
 
-        public string Name { get; set; }
+        //public string Name { get; set; }
 
         public Vector2 Location { get; set; }
 
@@ -30,15 +30,15 @@ namespace ExoGame2D.Tiles
             _tileSet.DrawTile(_tileFromSetCoord, Location, effect, tint);
         }
 
-        public ISprite GetSprite()
-        {
-            return null;
-        }
+        //public ISprite GetSprite()
+        //{
+        //    return null;
+        //}
 
-        public bool IsAssetOfType(Type type)
-        {
-            return false;
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return false;
+        //}
 
         public void Update(GameTime gameTime)
         {

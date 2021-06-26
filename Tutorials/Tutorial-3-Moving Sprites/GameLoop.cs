@@ -32,7 +32,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly Sprite _logo;
+        private readonly CollidableSprite _logo;
 
         public GameLoop()
         {
@@ -40,7 +40,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
             IsMouseVisible = true;
 
             _scene = new Scene();
-            _logo = new Sprite("Logo");
+            _logo = new CollidableSprite("Logo");
         }
 
         protected override void Initialize()

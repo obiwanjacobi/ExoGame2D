@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 namespace ExoGame2D.Renderers
 {
-    public class AnimatedSprite : SpriteBase, ISprite
+    public class AnimatedSprite : Sprite, ICollidable
     {
         private readonly List<Texture2D> _animationFrames = new List<Texture2D>();
         private int _currentFrame = 0;
@@ -40,8 +40,9 @@ namespace ExoGame2D.Renderers
         public AnimationPlayingStateEnum PlayState { get; private set; }
         public int AnimationSpeed { get; set; }
 
-        public AnimatedSprite() : base()
+        public AnimatedSprite(string name = "") : base()
         {
+            Name = name;
             AnimationType = AnimationTypeEnum.Linear;
             PlayState = AnimationPlayingStateEnum.Stopped;
             AnimationSpeed = 10;
@@ -57,13 +58,13 @@ namespace ExoGame2D.Renderers
             _animationFrames.Add(Engine.Instance.Content.Load<Texture2D>(textureName));
 
             _currentFrame = 0;
-            _currentTexture = _animationFrames[_currentFrame];
+            _texture = _animationFrames[_currentFrame];
         }
 
         public void ResetAnimation()
         {
             _currentFrame = 0;
-            _currentTexture = _animationFrames[_currentFrame];
+            _texture = _animationFrames[_currentFrame];
             _pingPong = false;
         }
 
@@ -75,12 +76,12 @@ namespace ExoGame2D.Renderers
                     if (_currentFrame < _animationFrames.Count - 1)
                     {
                         _currentFrame++;
-                        _currentTexture = _animationFrames[_currentFrame];
+                        _texture = _animationFrames[_currentFrame];
                     }
                     else
                     {
                         _currentFrame = 0;
-                        _currentTexture = _animationFrames[_currentFrame];
+                        _texture = _animationFrames[_currentFrame];
                     }
                     break;
 
@@ -91,7 +92,7 @@ namespace ExoGame2D.Renderers
                             if (_currentFrame < _animationFrames.Count - 1)
                             {
                                 _currentFrame++;
-                                _currentTexture = _animationFrames[_currentFrame];
+                                _texture = _animationFrames[_currentFrame];
                             }
                             else
                             {
@@ -102,7 +103,7 @@ namespace ExoGame2D.Renderers
                             if (_currentFrame > 0)
                             {
                                 _currentFrame--;
-                                _currentTexture = _animationFrames[_currentFrame];
+                                _texture = _animationFrames[_currentFrame];
                             }
                             else
                             {
@@ -114,9 +115,12 @@ namespace ExoGame2D.Renderers
             }
         }
 
-        public bool CollidesWith(ISprite sprite)
+        public bool GetPixelData(Rectangle intersection, out Color[] data)
         {
-            return PerPixelCollision((Sprite)sprite, this);
+            var length = Width * Height;
+            data = new Color[length];
+            _texture.GetData(0, intersection, data, 0, length);
+            return true;
         }
 
         public void Play()
@@ -129,7 +133,7 @@ namespace ExoGame2D.Renderers
             PlayState = AnimationPlayingStateEnum.Stopped;
         }
 
-        public new void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (PlayState == AnimationPlayingStateEnum.Playing)
             {
@@ -143,26 +147,6 @@ namespace ExoGame2D.Renderers
             }
 
             base.Update(gameTime);
-        }
-
-        public new void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime, Color.White);
-        }
-
-        public new void Draw(GameTime gameTime, Color tint)
-        {
-            base.Draw(gameTime, tint);
-        }
-
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
         }
     }
 }

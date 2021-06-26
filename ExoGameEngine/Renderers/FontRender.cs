@@ -73,19 +73,19 @@ namespace ExoGame2D.Renderers
             }
         }
 
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
+        //public ISprite GetSprite()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void Update(GameTime gameTime)
         {
             // no-op
         }
 
-        public bool IsAssetOfType(Type type)
-        {
-            return _font.GetType().IsSubclassOf(type);
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return _font.GetType().IsSubclassOf(type);
+        //}
     }
 }

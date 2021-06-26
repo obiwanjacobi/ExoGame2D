@@ -21,8 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 
@@ -45,13 +43,13 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         public DuckIndicator(string name, int x)
         {
             Name = name;
-            _duckhud = new Sprite();
+            _duckhud = new CollidableSprite();
             _duckhud.LoadContent("duckhud");
 
-            _duckmiss = new Sprite();
+            _duckmiss = new CollidableSprite();
             _duckmiss.LoadContent("duckhudmiss");
 
-            _duckshot = new Sprite();
+            _duckshot = new CollidableSprite();
             _duckshot.LoadContent("duckhudshot");
 
             _currentSprite = _duckhud;
@@ -79,7 +77,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             {
                 _state = value;
 
-                switch(_state)
+                switch (_state)
                 {
                     case DuckIndicatorStateEnum.None:
                         _currentSprite = _duckhud;
@@ -103,7 +101,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
+            _currentSprite.Draw(gameTime, Color.White);
         }
 
         public void Draw(GameTime gameTime, Color tint)
@@ -111,14 +109,14 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _currentSprite.Draw(gameTime, tint);
         }
 
-        public ISprite GetSprite()
-        {
-            return _currentSprite;
-        }
+        //public ISprite GetSprite()
+        //{
+        //    return _currentSprite;
+        //}
 
-        public bool IsAssetOfType(Type type)
-        {
-            return _currentSprite.IsAssetOfType(type);
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return _currentSprite.IsAssetOfType(type);
+        //}
     }
 }

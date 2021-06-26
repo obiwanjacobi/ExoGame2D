@@ -32,7 +32,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly Sprite _crosshair;
+        private readonly CollidableSprite _crosshair;
 
         public GameLoop()
         {
@@ -40,7 +40,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
             IsMouseVisible = true;
 
             _scene = new Scene();
-            _crosshair = new Sprite("Crosshair");
+            _crosshair = new CollidableSprite("Crosshair");
         }
 
         protected override void Initialize()

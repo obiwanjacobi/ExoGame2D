@@ -21,8 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 
@@ -38,26 +36,26 @@ namespace ExoGame2D.DuckAttack.MainMenuActors
         public MenuCursor()
         {
             Name = "crosshair";
-            _crosshair = new Sprite();
+            _crosshair = new CollidableSprite();
             _crosshair.LoadContent("crosshair");
 
             SoundEffectPlayer.LoadSoundEffect("gunsound");
         }
 
         public void Draw(GameTime gameTime)
-        {         
+        {
             _crosshair.Draw(gameTime, Color.White);
         }
 
         public void Draw(GameTime gameTime, Color tint)
         {
-            throw new NotImplementedException();
+            _crosshair.Draw(gameTime, tint);
         }
 
-        public ISprite GetSprite()
-        {
-            return _crosshair;
-        }
+        //public ISprite GetSprite()
+        //{
+        //    return _crosshair;
+        //}
 
         public void Update(GameTime gameTime)
         {
@@ -65,9 +63,9 @@ namespace ExoGame2D.DuckAttack.MainMenuActors
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
         }
 
-        public bool IsAssetOfType(Type type)
-        {
-            return _crosshair.IsAssetOfType(type);
-        }
+        //public bool IsAssetOfType(Type type)
+        //{
+        //    return _crosshair.IsAssetOfType(type);
+        //}
     }
 }

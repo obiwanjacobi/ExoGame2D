@@ -112,10 +112,10 @@ namespace ExoGame2D.DuckAttack.GameStates
             _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck3);
             _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck4);
 
-            CollisionManager.RemoveSprite(_duck.Name);
-            CollisionManager.RemoveSprite(_duck2.Name);
-            CollisionManager.RemoveSprite(_duck3.Name);
-            CollisionManager.RemoveSprite(_duck4.Name);
+            CollisionManager.Remove(_duck.Name);
+            CollisionManager.Remove(_duck2.Name);
+            CollisionManager.Remove(_duck3.Name);
+            CollisionManager.Remove(_duck4.Name);
 
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck);
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck2);

@@ -21,18 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using ExoGame2D;
-using ExoGame2D.Interfaces;
-using ExoGame2D.Renderers;
 using ExoGame2D.DuckAttack.Messages;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 
 namespace ExoGame2D.DuckAttack.GameActors
 {
     public class ScoreBoard : IRenderNode
     {
-        private FontRender _scoreboard;
+        private readonly FontRender _scoreboard;
         private int _score;
 
         public ScoreBoard(string name)
@@ -55,16 +52,6 @@ namespace ExoGame2D.DuckAttack.GameActors
         public void Draw(GameTime gameTime, Color tint)
         {
             _scoreboard.Draw(gameTime, tint);
-        }
-
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return _scoreboard.GetType().IsSubclassOf(type);
         }
 
         public void Update(GameTime gameTime)

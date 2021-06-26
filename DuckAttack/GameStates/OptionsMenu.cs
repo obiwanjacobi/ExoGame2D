@@ -99,6 +99,7 @@ namespace ExoGame2D.DuckAttack.GameStates
         {
             CollisionManager.RemoveAll();
         }
+
         public void Draw(GameTime gametime)
         {
             Draw(gametime, Color.White);
@@ -122,13 +123,6 @@ namespace ExoGame2D.DuckAttack.GameStates
 
         public void Update(GameTime gametime)
         {
-            //if (InputHelper.MouseLeftButtonPressed())
-            //{
-            //    Engine.GameState.CurrentState.Remove();
-            //    Engine.GameState.Register("Playing", new PlayingGameState());
-            //    Engine.GameState.ChangeState("Playing");
-            //}
-
             if (InputHelper.KeyPressed(Keys.Escape))
             {
                 Engine.Instance.Exit();

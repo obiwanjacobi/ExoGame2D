@@ -44,14 +44,13 @@ namespace ExoGame2D.GameOfLife
 
         public void Update()
         {
-
             var point = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
 
             if (_boundingBox.Contains(new Point((int)point.X, (int)point.Y)))
             {
                 if (InputHelper.MouseLeftButtonHeld())
                 {
-                    IsAlive = true;               
+                    IsAlive = true;
                 }
                 else if (InputHelper.MouseRightButtonHeld())
                 {

@@ -33,8 +33,8 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly Sprite _crosshair;
-        private readonly Sprite _logo;
+        private readonly CollidableSprite _crosshair;
+        private readonly CollidableSprite _logo;
 
         public GameLoop()
         {
@@ -42,8 +42,8 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
             IsMouseVisible = true;
 
             _scene = new Scene();
-            _logo = new Sprite("Logo");
-            _crosshair = new Sprite("Crosshair");
+            _logo = new CollidableSprite("Logo");
+            _crosshair = new CollidableSprite("Crosshair");
         }
 
         protected override void Initialize()

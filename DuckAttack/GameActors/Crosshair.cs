@@ -22,49 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using ExoGame2D.DuckAttack.Messages;
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace ExoGame2D.DuckAttack.GameActors
 {
-    public class Crosshair : IRenderNode
+    public class Crosshair : CollidableSprite
     {
-        private ISprite _crosshair;
-
-        public string Name { get; set; }
-
-
         public Crosshair()
         {
             Name = "crosshair";
-            _crosshair = new Sprite();
-            _crosshair.LoadContent("crosshair");
+            LoadContent("crosshair");
 
             SoundEffectPlayer.LoadSoundEffect("gunsound");
             SoundEffectPlayer.LoadSoundEffect("gunclick");
         }
 
-        public void Draw(GameTime gameTime)
-        {
-            _crosshair.Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ISprite GetSprite()
-        {
-            return _crosshair;
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
-            _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
+            Location = new Vector2(mouse.X - Width / 2, mouse.Y - Height / 2);
 
             if (InputHelper.MouseLeftButtonPressed())
             {
@@ -79,11 +56,6 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                 }
             }
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return _crosshair.IsAssetOfType(type);
         }
     }
 }

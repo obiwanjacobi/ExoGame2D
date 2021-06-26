@@ -44,14 +44,14 @@ namespace ExoGame2D.SceneManagement
             var layer = GetLayer(layerIndex);
             layer.Add(node);
 
-            if (node.IsAssetOfType(typeof(Sprite)) || node.IsAssetOfType(typeof(AnimatedSprite)))
+            if (node is ICollidable collidable)
             {
-                if (string.IsNullOrEmpty(node.Name))
+                if (string.IsNullOrEmpty(collidable.Name))
                 {
                     throw new InvalidOperationException("A Sprite must have a name.");
                 }
 
-                CollisionManager.AddSprite(node.GetSprite(), node.Name);
+                CollisionManager.Add(collidable, collidable.Name);
             }
         }
 

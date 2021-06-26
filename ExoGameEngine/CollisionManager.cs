@@ -21,47 +21,95 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Renderers;
+using ExoGame2D.Interfaces;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace ExoGame2D
 {
     public static class CollisionManager
     {
-        private static readonly Dictionary<string, ISprite> _spriteList = new Dictionary<string, ISprite>();
+        private static readonly Dictionary<string, ICollidable> _collidablesList = new Dictionary<string, ICollidable>();
 
-        public static void AddSprite(ISprite sprite, string name)
+        public static void Add(ICollidable collidable, string name)
         {
-            if (!_spriteList.ContainsKey(name))
+            if (!_collidablesList.ContainsKey(name))
             {
-                _spriteList.Add(name, sprite);
+                _collidablesList.Add(name, collidable);
             }
         }
 
-        public static void RemoveSprite(string name)
+        public static void Remove(string name)
         {
-            if (_spriteList.ContainsKey(name))
+            if (_collidablesList.ContainsKey(name))
             {
-                _spriteList.Remove(name);
+                _collidablesList.Remove(name);
             }
         }
 
-        public static bool IsCollision(string source, string destination)
+        public static bool IsBoundingCollision(string source, string destination)
         {
-            ISprite sourceSprite = _spriteList[source];
-            ISprite destinationSprite = _spriteList[destination];
+            if (_collidablesList.ContainsKey(source) &&
+                _collidablesList.ContainsKey(destination))
+            {
+                var sourceCol = _collidablesList[source];
+                var destinationCol = _collidablesList[destination];
 
-            return sourceSprite.BoundingBox.Intersects(destinationSprite.BoundingBox);
+                return sourceCol.BoundingBox.Intersects(destinationCol.BoundingBox);
+            }
+            return false;
         }
 
         public static bool IsPerPixelCollision(string source, string destination)
         {
-            ISprite sourceSprite = _spriteList[source];
-            ISprite destinationSprite = _spriteList[destination];
-
-            if (sourceSprite.BoundingBox.Intersects(destinationSprite.BoundingBox))
+            if (_collidablesList.ContainsKey(source) &&
+                _collidablesList.ContainsKey(destination))
             {
-                return sourceSprite.CollidesWith(destinationSprite);
+                var sourceCol = _collidablesList[source];
+                var destinationCol = _collidablesList[destination];
+
+                if (sourceCol.BoundingBox.Intersects(destinationCol.BoundingBox))
+                {
+                    return CollidesWith(sourceCol, destinationCol);
+                }
+            }
+            return false;
+        }
+
+        private static bool CollidesWith(ICollidable source, ICollidable destination)
+        {
+            // Calculate the intersecting rectangle
+            int x1 = Math.Max(source.BoundingBox.X, destination.BoundingBox.X);
+            int x2 = Math.Min(source.BoundingBox.X + source.BoundingBox.Width, destination.BoundingBox.X + destination.BoundingBox.Width);
+
+            int y1 = Math.Max(source.BoundingBox.Y, destination.BoundingBox.Y);
+            int y2 = Math.Min(source.BoundingBox.Y + source.BoundingBox.Height, destination.BoundingBox.Y + destination.BoundingBox.Height);
+
+            Color[] sourceData;
+            Color[] destinationData;
+
+            // TODO: adjust algorithm to use smallest region
+            if (source.GetPixelData(source.BoundingBox, out sourceData) &&
+                destination.GetPixelData(destination.BoundingBox, out destinationData))
+            {
+                // For each single pixel in the intersecting rectangle
+                for (int y = y1; y < y2; ++y)
+                {
+                    for (int x = x1; x < x2; ++x)
+                    {
+                        // Get the color from each texture
+                        Color a = sourceData[(x - source.BoundingBox.X) + (y - source.BoundingBox.Y) * source.BoundingBox.Width];
+                        Color b = destinationData[(x - destination.BoundingBox.X) + (y - destination.BoundingBox.Y) * destination.BoundingBox.Width];
+
+                        // If both colors are not transparent (the alpha channel is not 0),
+                        // then there is a collision
+                        if (a.A != 0 && b.A != 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
             }
 
             return false;
@@ -69,7 +117,7 @@ namespace ExoGame2D
 
         public static void RemoveAll()
         {
-            _spriteList.Clear();
+            _collidablesList.Clear();
         }
     }
 }

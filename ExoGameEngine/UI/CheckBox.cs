@@ -42,6 +42,7 @@ namespace ExoGame2D.UI
         public bool Checked { get; set; }
 
         public CheckBox(string name, ICheckBoxHandler handler)
+            : base(name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -52,7 +53,6 @@ namespace ExoGame2D.UI
             _checkBoxWidth = 70;
             _font = Engine.Instance.Content.Load<SpriteFont>("default");
 
-            Name = name;
             Width = 70;
             Height = 20;
             Checked = true;
