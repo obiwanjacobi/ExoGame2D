@@ -56,7 +56,7 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
             _logo.LoadContent("ExoEngineLogo");
             _logo.Location = new Vector2(100, 100);
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _logo);
+            _scene.AddSpriteToLayer(RenderLayer.Layer1, _logo);
         }
 
         protected override void Update(GameTime gameTime)

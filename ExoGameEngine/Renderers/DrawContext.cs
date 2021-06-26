@@ -27,28 +27,28 @@ namespace ExoGame2D.Renderers
             SpriteBatch.End();
         }
 
-        public void DrawString(SpriteFont font, string text, Rectangle bounds, AlignmentEnum align, Color color)
+        public void DrawString(SpriteFont font, string text, Rectangle bounds, Alignment align, Color color)
         {
             Vector2 size = font.MeasureString(text);
             Point pos = bounds.Center;
             Vector2 origin = size * 0.5f;
 
-            if (align.HasFlag(AlignmentEnum.Left))
+            if (align.HasFlag(Alignment.Left))
             {
                 origin.X += bounds.Width / 2 - size.X / 2;
             }
 
-            if (align.HasFlag(AlignmentEnum.Right))
+            if (align.HasFlag(Alignment.Right))
             {
                 origin.X -= bounds.Width / 2 - size.X / 2;
             }
 
-            if (align.HasFlag(AlignmentEnum.Top))
+            if (align.HasFlag(Alignment.Top))
             {
                 origin.Y += bounds.Height / 2 - size.Y / 2;
             }
 
-            if (align.HasFlag(AlignmentEnum.Bottom))
+            if (align.HasFlag(Alignment.Bottom))
             {
                 origin.Y -= bounds.Height / 2 - size.Y / 2;
             }

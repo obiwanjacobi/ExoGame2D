@@ -129,12 +129,12 @@ namespace ExoGame2D.UI
             if (MouseOver)
             {
                 Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-                context.DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOverTextColor);
+                context.DrawString(_font, Text, bounds, Alignment.Center, MouseOverTextColor);
             }
             else
             {
                 Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-                context.DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
+                context.DrawString(_font, Text, bounds, Alignment.Center, TextColor);
             }
         }
     }

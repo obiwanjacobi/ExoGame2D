@@ -58,7 +58,7 @@ namespace ExoGame2D.DuckAttack.GameStates
 
         public PlayingGameState()
         {
-            DifficultySettings.SetDifficulty(DifficultyEnum.Easy);
+            DifficultySettings.SetDifficulty(Difficulty.Easy);
 
             _crosshair = new Crosshair();
 
@@ -73,12 +73,12 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             NextLevel();
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _hud);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _background);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _fps);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _score);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _billboard);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
+            _scene.AddSpriteToLayer(RenderLayer.Layer4, _hud);
+            _scene.AddSpriteToLayer(RenderLayer.Layer1, _background);
+            _scene.AddSpriteToLayer(RenderLayer.Layer4, _fps);
+            _scene.AddSpriteToLayer(RenderLayer.Layer4, _score);
+            _scene.AddSpriteToLayer(RenderLayer.Layer4, _billboard);
+            _scene.AddSpriteToLayer(RenderLayer.Layer5, _crosshair);
 
             Channels.Create("score");
             Channels.Create("duckhit");
@@ -107,20 +107,20 @@ namespace ExoGame2D.DuckAttack.GameStates
             _duck3 = new Duck("duck3", level.Ducks[2].StartX, level.Ducks[2].Flip, level.Ducks[2].HorizontalVelocity, level.Ducks[2].VerticalVelocity);
             _duck4 = new Duck("duck4", level.Ducks[3].StartX, level.Ducks[3].Flip, level.Ducks[3].HorizontalVelocity, level.Ducks[3].VerticalVelocity);
 
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck2);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck3);
-            _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck4);
+            _scene.RemoveSpriteFromLayer(RenderLayer.Layer2, _duck);
+            _scene.RemoveSpriteFromLayer(RenderLayer.Layer2, _duck2);
+            _scene.RemoveSpriteFromLayer(RenderLayer.Layer2, _duck3);
+            _scene.RemoveSpriteFromLayer(RenderLayer.Layer2, _duck4);
 
             CollisionManager.Remove(_duck.Name);
             CollisionManager.Remove(_duck2.Name);
             CollisionManager.Remove(_duck3.Name);
             CollisionManager.Remove(_duck4.Name);
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck2);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck3);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck4);
+            _scene.AddSpriteToLayer(RenderLayer.Layer2, _duck);
+            _scene.AddSpriteToLayer(RenderLayer.Layer2, _duck2);
+            _scene.AddSpriteToLayer(RenderLayer.Layer2, _duck3);
+            _scene.AddSpriteToLayer(RenderLayer.Layer2, _duck4);
 
             _gameClock.Reset();
             _gameClock.Start();
@@ -197,33 +197,33 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             if (_gameClock.ElapsedMilliseconds > level.Duck1StartTimerOffset)
             {
-                if (_duck.State == DuckStateEnum.Start)
+                if (_duck.State == DuckState.Start)
                 {
-                    _duck.State = DuckStateEnum.Fying;
+                    _duck.State = DuckState.Fying;
                 }
             }
 
             if (_gameClock.ElapsedMilliseconds > level.Duck2StartTimerOffset)
             {
-                if (_duck2.State == DuckStateEnum.Start)
+                if (_duck2.State == DuckState.Start)
                 {
-                    _duck2.State = DuckStateEnum.Fying;
+                    _duck2.State = DuckState.Fying;
                 }
             }
 
             if (_gameClock.ElapsedMilliseconds > level.Duck3StartTimerOffset)
             {
-                if (_duck3.State == DuckStateEnum.Start)
+                if (_duck3.State == DuckState.Start)
                 {
-                    _duck3.State = DuckStateEnum.Fying;
+                    _duck3.State = DuckState.Fying;
                 }
             }
 
             if (_gameClock.ElapsedMilliseconds > level.Duck4StartTimerOffset)
             {
-                if (_duck4.State == DuckStateEnum.Start)
+                if (_duck4.State == DuckState.Start)
                 {
-                    _duck4.State = DuckStateEnum.Fying;
+                    _duck4.State = DuckState.Fying;
                 }
             }
 

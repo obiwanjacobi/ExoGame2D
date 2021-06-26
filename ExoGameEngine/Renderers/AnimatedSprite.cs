@@ -36,15 +36,15 @@ namespace ExoGame2D.Renderers
         private bool _pingPong = false;
         private int _internalTimer = 0;
 
-        public AnimationTypeEnum AnimationType { get; set; }
-        public AnimationPlayingStateEnum PlayState { get; private set; }
+        public AnimationType AnimationType { get; set; }
+        public AnimationPlayingState PlayState { get; private set; }
         public int AnimationSpeed { get; set; }
 
         public AnimatedSprite(string name = "") : base()
         {
             Name = name;
-            AnimationType = AnimationTypeEnum.Linear;
-            PlayState = AnimationPlayingStateEnum.Stopped;
+            AnimationType = AnimationType.Linear;
+            PlayState = AnimationPlayingState.Stopped;
             AnimationSpeed = 10;
         }
 
@@ -72,7 +72,7 @@ namespace ExoGame2D.Renderers
         {
             switch (AnimationType)
             {
-                case AnimationTypeEnum.Linear:
+                case AnimationType.Linear:
                     if (_currentFrame < _animationFrames.Count - 1)
                     {
                         _currentFrame++;
@@ -85,7 +85,7 @@ namespace ExoGame2D.Renderers
                     }
                     break;
 
-                case AnimationTypeEnum.PingPong:
+                case AnimationType.PingPong:
                     switch (_pingPong)
                     {
                         case false:
@@ -125,17 +125,17 @@ namespace ExoGame2D.Renderers
 
         public void Play()
         {
-            PlayState = AnimationPlayingStateEnum.Playing;
+            PlayState = AnimationPlayingState.Playing;
         }
 
         public void Stop()
         {
-            PlayState = AnimationPlayingStateEnum.Stopped;
+            PlayState = AnimationPlayingState.Stopped;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (PlayState == AnimationPlayingStateEnum.Playing)
+            if (PlayState == AnimationPlayingState.Playing)
             {
                 _internalTimer++;
 

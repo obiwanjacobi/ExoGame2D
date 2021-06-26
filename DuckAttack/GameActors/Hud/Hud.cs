@@ -71,12 +71,12 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
             for (int i = 0; i < MAX_SHOTS; i++)
             {
-                _bulletIndicator[i].State = BulletIndicatorStateEnum.NotFired;
+                _bulletIndicator[i].State = BulletIndicatorState.NotFired;
             }
 
             for (int i = 0; i < MAX_NUMBER_DUCKS; i++)
             {
-                _duckIndicator[i].State = DuckIndicatorStateEnum.None;
+                _duckIndicator[i].State = DuckIndicatorState.None;
             }
         }
 
@@ -86,7 +86,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
             for (int i = 0; i < MAX_SHOTS; i++)
             {
-                _bulletIndicator[i].State = BulletIndicatorStateEnum.NotFired;
+                _bulletIndicator[i].State = BulletIndicatorState.NotFired;
             }
         }
 
@@ -96,20 +96,20 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
             for (int i = 0; i < MAX_NUMBER_DUCKS; i++)
             {
-                _duckIndicator[i].State = DuckIndicatorStateEnum.None;
+                _duckIndicator[i].State = DuckIndicatorState.None;
             }
 
         }
 
         public void RegisterHit()
         {
-            _duckIndicator[NumberOfDucksShot].State = DuckIndicatorStateEnum.Hit;
+            _duckIndicator[NumberOfDucksShot].State = DuckIndicatorState.Hit;
             NumberOfDucksShot++;
         }
 
         public void RegisterMiss()
         {
-            _duckIndicator[NumberOfDucksShot].State = DuckIndicatorStateEnum.Miss;
+            _duckIndicator[NumberOfDucksShot].State = DuckIndicatorState.Miss;
             NumberOfDucksShot++;
         }
 
@@ -117,7 +117,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         {
             if (NumShotsLeft > 0)
             {
-                _bulletIndicator[NumShotsLeft - 1].State = BulletIndicatorStateEnum.Fired;
+                _bulletIndicator[NumShotsLeft - 1].State = BulletIndicatorState.Fired;
                 NumShotsLeft--;
             }
         }
@@ -134,11 +134,11 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
                 {
                     switch (message.State)
                     {
-                        case DuckIndicatorStateEnum.Hit:
+                        case DuckIndicatorState.Hit:
                             RegisterHit();
                             break;
 
-                        case DuckIndicatorStateEnum.Miss:
+                        case DuckIndicatorState.Miss:
                             RegisterMiss();
                             break;
                     }

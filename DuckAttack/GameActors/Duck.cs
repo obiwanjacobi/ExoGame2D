@@ -43,8 +43,9 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         public Rectangle Crosshair { get; set; }
         public string Name { get; set; }
-        public DuckStateEnum State { get; set; }
+        public DuckState State { get; set; }
         public Rectangle BoundingBox => _duck.BoundingBox;
+
         public bool RenderBoundingBox
         {
             get { return _duck.RenderBoundingBox; }
@@ -71,18 +72,17 @@ namespace ExoGame2D.DuckAttack.GameActors
             _duck.Location = new Vector2(x, y);
             _duck.IsVisible = true;
             _duck.IsEnabled = true;
-            _duck.AnimationType = AnimationTypeEnum.PingPong;
+            _duck.AnimationType = AnimationType.PingPong;
             _duck.AnimationSpeed = 5;
             _duck.Play();
 
-            State = DuckStateEnum.Start;
+            State = DuckState.Start;
 
             SoundEffectPlayer.LoadSoundEffect("death");
             SoundEffectPlayer.LoadSoundEffect("quaks");
             SoundEffectPlayer.LoadSoundEffect("falling");
             SoundEffectPlayer.LoadSoundEffect("flapping");
         }
-
 
         public Duck(string name, int x, bool flip, float vx, float vy)
         {
@@ -122,11 +122,11 @@ namespace ExoGame2D.DuckAttack.GameActors
             _duck.Location = new Vector2(x, 900);
             _duck.IsVisible = true;
             _duck.IsEnabled = true;
-            _duck.AnimationType = AnimationTypeEnum.PingPong;
+            _duck.AnimationType = AnimationType.PingPong;
             _duck.AnimationSpeed = 5;
             _duck.Play();
 
-            State = DuckStateEnum.Start;
+            State = DuckState.Start;
 
             SoundEffectPlayer.LoadSoundEffect("death");
             SoundEffectPlayer.LoadSoundEffect("quaks");
@@ -141,10 +141,10 @@ namespace ExoGame2D.DuckAttack.GameActors
         {
             switch (State)
             {
-                case DuckStateEnum.Start:
+                case DuckState.Start:
                     break;
 
-                case DuckStateEnum.Fying:
+                case DuckState.Fying:
                     _duck.Update(gameTime);
                     _duckClock.Start();
 
@@ -163,13 +163,13 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     if (_duckClock.ElapsedMilliseconds > 6000)
                     {
-                        State = DuckStateEnum.FlyAway;
+                        State = DuckState.FlyAway;
                     }
 
                     ShootDuck();
                     break;
 
-                case DuckStateEnum.Dead:
+                case DuckState.Dead:
                     _duckDeath.X = _duck.X;
                     _duckDeath.Y = _duck.Y;
 
@@ -178,20 +178,20 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     break;
 
-                case DuckStateEnum.FlyAway:
+                case DuckState.FlyAway:
                     _duck.Update(gameTime);
 
                     if (DuckOutOfBounds(_duck))
                     {
-                        State = DuckStateEnum.Finished;
-                        DuckHitMessage duckHitMessage = new DuckHitMessage() { State = DuckIndicatorStateEnum.Miss };
+                        State = DuckState.Finished;
+                        DuckHitMessage duckHitMessage = new DuckHitMessage() { State = DuckIndicatorState.Miss };
                         Channels.PostMessage("duckhit", duckHitMessage);
                     }
 
                     ShootDuck();
                     break;
 
-                case DuckStateEnum.Dive:
+                case DuckState.Dive:
                     _duckDive.Update(gameTime);
                     _duckDive.Velocity = new Vector2(0, 15);
 
@@ -203,11 +203,11 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     if (DuckOutOfBounds(_duckDive))
                     {
-                        State = DuckStateEnum.Finished;
+                        State = DuckState.Finished;
                     }
                     break;
 
-                case DuckStateEnum.Finished:
+                case DuckState.Finished:
 
                     break;
             }
@@ -224,11 +224,11 @@ namespace ExoGame2D.DuckAttack.GameActors
                     ScoreMessage message = new ScoreMessage() { ScoreIncrement = 10 };
                     Channels.PostMessage("score", message);
 
-                    DuckHitMessage duckHitMessage = new DuckHitMessage() { State = DuckIndicatorStateEnum.Hit };
+                    DuckHitMessage duckHitMessage = new DuckHitMessage() { State = DuckIndicatorState.Hit };
                     Channels.PostMessage("duckhit", duckHitMessage);
 
                     Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "death" });
-                    State = DuckStateEnum.Dead;
+                    State = DuckState.Dead;
                 }
             }
         }
@@ -308,11 +308,11 @@ namespace ExoGame2D.DuckAttack.GameActors
         {
             switch (State)
             {
-                case DuckStateEnum.Start:
+                case DuckState.Start:
                     break;
 
-                case DuckStateEnum.FlyAway:
-                case DuckStateEnum.Fying:
+                case DuckState.FlyAway:
+                case DuckState.Fying:
                     if (CollisionManager.IsBoundingCollision("crosshair", Name))
                     {
                         _duck.Tint = AlternateFlyTint;
@@ -324,7 +324,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     _duck.Draw(context, gameTime);
                     break;
 
-                case DuckStateEnum.Dead:
+                case DuckState.Dead:
                     _deathCounter++;
 
                     if (_deathCounter >= 5)
@@ -345,11 +345,11 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     if (_duckFlashCounter == 5)
                     {
-                        State = DuckStateEnum.Dive;
+                        State = DuckState.Dive;
                     }
                     break;
 
-                case DuckStateEnum.Dive:
+                case DuckState.Dive:
                     _duckDive.Draw(context, gameTime);
                     break;
             }

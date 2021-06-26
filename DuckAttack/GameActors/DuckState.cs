@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace ExoGame2D.DuckAttack.GameActors
 {
-    public enum DuckStateEnum
+    public enum DuckState
     {
         Start = 0,
         Fying,

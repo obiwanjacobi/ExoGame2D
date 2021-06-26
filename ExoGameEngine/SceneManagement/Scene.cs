@@ -36,7 +36,7 @@ namespace ExoGame2D.SceneManagement
         private readonly Dictionary<int, Layer> _layers = new Dictionary<int, Layer>();
         private IEnumerable<Layer> _orderedLayers;
 
-        public void AddSpriteToLayer(RenderLayerEnum layer, IRenderNode node)
+        public void AddSpriteToLayer(RenderLayer layer, IRenderNode node)
             => AddToLayer((int)layer, node);
 
         public void AddToLayer(int layerIndex, IRenderNode node)
@@ -55,7 +55,7 @@ namespace ExoGame2D.SceneManagement
             }
         }
 
-        public bool RemoveSpriteFromLayer(RenderLayerEnum layer, IRenderNode node)
+        public bool RemoveSpriteFromLayer(RenderLayer layer, IRenderNode node)
             => RemoveFromLayer((int)layer, node);
 
         public bool RemoveFromLayer(int layerIndex, IRenderNode node)

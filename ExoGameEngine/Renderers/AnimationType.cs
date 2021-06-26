@@ -22,14 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace ExoGame2D.UI
-{   
-    public enum AlignmentEnum
+namespace ExoGame2D.Renderers
+{
+    public enum AnimationType
     {
-        Center = 0,
-        Left = 1,
-        Right = 2,
-        Top = 4,
-        Bottom = 8
+        Linear = 0,
+        PingPong = 1
     }
 }

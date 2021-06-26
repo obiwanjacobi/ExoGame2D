@@ -22,12 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace ExoGame2D.DuckAttack.GameActors.Hud
-{
-    public enum DuckIndicatorStateEnum
+namespace ExoGame2D.UI
+{   
+    public enum Alignment
     {
-        None,
-        Miss,
-        Hit
+        Center = 0,
+        Left = 1,
+        Right = 2,
+        Top = 4,
+        Bottom = 8
     }
 }

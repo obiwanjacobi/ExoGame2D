@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace ExoGame2D.DuckAttack.GameStates.Controller
 {
-    public enum DifficultyEnum
+    public enum Difficulty
     {
         Easy = 0,
         Medium = 1,
@@ -48,17 +48,17 @@ namespace ExoGame2D.DuckAttack.GameStates.Controller
             CurrentDifficulty = Easy;
         }
 
-        public static void SetDifficulty(DifficultyEnum difficulty)
+        public static void SetDifficulty(Difficulty difficulty)
         {
             switch (difficulty)
             {
-                case DifficultyEnum.Easy:
+                case Difficulty.Easy:
                     CurrentDifficulty = Easy;
                     break;
-                case DifficultyEnum.Medium:
+                case Difficulty.Medium:
                     CurrentDifficulty = Medium;
                     break;
-                case DifficultyEnum.Hard:
+                case Difficulty.Hard:
                     CurrentDifficulty = Hard;
                     break;
             }

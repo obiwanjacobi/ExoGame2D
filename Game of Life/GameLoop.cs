@@ -74,8 +74,8 @@ namespace ExoGame2D.GameOfLife
                              "<backspace> Clear grid" + System.Environment.NewLine +
                              "<space> Pause cells" + System.Environment.NewLine;
 
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _helpFont);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _grid);
+            _scene.AddSpriteToLayer(RenderLayer.Layer2, _helpFont);
+            _scene.AddSpriteToLayer(RenderLayer.Layer1, _grid);
         }
 
         protected override void Update(GameTime gameTime)
@@ -109,11 +109,11 @@ namespace ExoGame2D.GameOfLife
 
                 if (Help)
                 {
-                    _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _helpFont);
+                    _scene.AddSpriteToLayer(RenderLayer.Layer2, _helpFont);
                 }
                 else
                 {
-                    _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _helpFont);
+                    _scene.RemoveSpriteFromLayer(RenderLayer.Layer2, _helpFont);
                 }
             }
 

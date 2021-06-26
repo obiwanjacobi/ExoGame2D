@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace ExoGame2D.DuckAttack.GameActors.Hud
+namespace ExoGame2D.Renderers
 {
-    public enum BulletIndicatorStateEnum
+    public enum AnimationPlayingState
     {
-        NotFired,
-        Fired
+        Playing = 0,
+        Stopped = 1
     }
 }

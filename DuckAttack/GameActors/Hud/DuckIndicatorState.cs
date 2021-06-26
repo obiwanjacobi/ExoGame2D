@@ -21,12 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-namespace ExoGame2D
+
+namespace ExoGame2D.DuckAttack.GameActors.Hud
 {
-    public enum MusicPlayStateEnum
+    public enum DuckIndicatorState
     {
-        Stopped = 0,
-        Playing,
-        Paused
+        None,
+        Miss,
+        Hit
     }
 }

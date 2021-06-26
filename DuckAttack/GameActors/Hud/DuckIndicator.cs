@@ -33,7 +33,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         private readonly ISprite _duckshot;
 
         private ISprite _currentSprite;
-        private DuckIndicatorStateEnum _state;
+        private DuckIndicatorState _state;
 
         public DuckIndicator(string name, int x)
         {
@@ -48,7 +48,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _duckshot.LoadContent("duckhudshot");
 
             _currentSprite = _duckhud;
-            State = DuckIndicatorStateEnum.None;
+            State = DuckIndicatorState.None;
 
             var y = 950;
             _duckhud.X = x;
@@ -63,7 +63,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
         public string Name { get; set; }
 
-        public DuckIndicatorStateEnum State
+        public DuckIndicatorState State
         {
             get
             {
@@ -75,15 +75,15 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
                 switch (_state)
                 {
-                    case DuckIndicatorStateEnum.None:
+                    case DuckIndicatorState.None:
                         _currentSprite = _duckhud;
                         break;
 
-                    case DuckIndicatorStateEnum.Miss:
+                    case DuckIndicatorState.Miss:
                         _currentSprite = _duckmiss;
                         break;
 
-                    case DuckIndicatorStateEnum.Hit:
+                    case DuckIndicatorState.Hit:
                         _currentSprite = _duckshot;
                         break;
                 }

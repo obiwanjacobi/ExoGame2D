@@ -143,7 +143,7 @@ namespace ExoGame2D.UI
             context.SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
 
             var bounds = new Rectangle((int)(Location.X + _checkBoxWidth), (int)Location.Y, (Width - _checkBoxWidth), Height);
-            context.DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOver ? MouseOverTextColor : TextColor);
+            context.DrawString(_font, Text, bounds, Alignment.Center, MouseOver ? MouseOverTextColor : TextColor);
         }
     }
 }

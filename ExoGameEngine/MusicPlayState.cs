@@ -21,15 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-namespace ExoGame2D.SceneManagement
+namespace ExoGame2D
 {
-    public enum RenderLayerEnum
+    public enum MusicPlayState
     {
-        Layer1 = 0,
-        Layer2 = 1,
-        Layer3 = 2,
-        Layer4 = 3,
-        Layer5 = 4,
+        Stopped = 0,
+        Playing,
+        Paused
     }
 }

@@ -28,7 +28,7 @@ namespace ExoGame2D.DuckAttack.Messages
 {
     public class DuckHitMessage : IChannelMessage
     {
-        public DuckIndicatorStateEnum State { get; set; }
+        public DuckIndicatorState State { get; set; }
 
         public DuckHitMessage()
         {

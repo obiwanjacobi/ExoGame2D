@@ -38,12 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GameActors\" />
     <Folder Include="Messages\" />
     <Folder Include="GameStates\" />
     <Folder Include="MainMenuActors\" />
     <Folder Include="GameStates\UI Button Handlers\" />
-    <Folder Include="GameActors\Hud\" />
     <Folder Include="GameStates\Controller\" />
   </ItemGroup>
   <ItemGroup>

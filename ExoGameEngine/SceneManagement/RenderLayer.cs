@@ -22,11 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace ExoGame2D.Renderers
+namespace ExoGame2D.SceneManagement
 {
-    public enum AnimationPlayingStateEnum
+    public enum RenderLayer
     {
-        Playing = 0,
-        Stopped = 1
+        Layer1 = 0,
+        Layer2 = 1,
+        Layer3 = 2,
+        Layer4 = 3,
+        Layer5 = 4,
     }
 }

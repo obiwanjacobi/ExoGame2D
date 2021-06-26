@@ -33,7 +33,7 @@ namespace ExoGame2D
     {
         private static Dictionary<string, Song> _music = new Dictionary<string, Song>();
         public static bool PlayMusic { get; set; } = true;
-        public static MusicPlayStateEnum State = MusicPlayStateEnum.Stopped;
+        public static MusicPlayState State = MusicPlayState.Stopped;
 
         public static bool Looped
         {
@@ -91,12 +91,12 @@ namespace ExoGame2D
 
             if (PlayMusic)
             {
-                if (State == MusicPlayStateEnum.Playing)
+                if (State == MusicPlayState.Playing)
                 {
                     return;
                 }
 
-                State = MusicPlayStateEnum.Playing;
+                State = MusicPlayState.Playing;
                 MediaPlayer.Play(_music[lowerCaseName]);
             }
         }
@@ -105,12 +105,12 @@ namespace ExoGame2D
         {
             if (PlayMusic)
             {
-                if (State == MusicPlayStateEnum.Stopped)
+                if (State == MusicPlayState.Stopped)
                 {
                     return;
                 }
 
-                State = MusicPlayStateEnum.Stopped;
+                State = MusicPlayState.Stopped;
                 MediaPlayer.Stop();
             }
         }
@@ -119,12 +119,12 @@ namespace ExoGame2D
         {
             if (PlayMusic)
             {
-                if (State == MusicPlayStateEnum.Playing)
+                if (State == MusicPlayState.Playing)
                 {
                     return;
                 }
 
-                State = MusicPlayStateEnum.Playing;
+                State = MusicPlayState.Playing;
                 MediaPlayer.Resume();
             }
         }
@@ -133,12 +133,12 @@ namespace ExoGame2D
         {
             if (PlayMusic)
             {
-                if (State == MusicPlayStateEnum.Paused)
+                if (State == MusicPlayState.Paused)
                 {
                     return;
                 }
 
-                State = MusicPlayStateEnum.Paused;
+                State = MusicPlayState.Paused;
                 MediaPlayer.Pause();
             }
         }
