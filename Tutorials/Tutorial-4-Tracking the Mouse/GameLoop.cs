@@ -68,8 +68,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             base.Update(gameTime);

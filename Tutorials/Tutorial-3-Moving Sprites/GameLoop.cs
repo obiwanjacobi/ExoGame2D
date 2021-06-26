@@ -32,14 +32,14 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly CollidableSprite _logo;
+        private readonly Sprite _logo;
         private readonly Engine _engine;
 
         public GameLoop()
         {
             _engine = new Engine(this);
             _scene = new Scene();
-            _logo = new CollidableSprite("Logo");
+            _logo = new Sprite("Logo");
         }
 
         protected override void Initialize()
@@ -67,13 +67,12 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 Exit();
             }
 
-            var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
-            if (_logo.X + _logo.Width > engine.ScaledViewPort.X)
+            if (_logo.X + _logo.Width > _engine.ScaledViewPort.X)
             {
                 _logo.VX = -_logo.VX;
             }
@@ -83,7 +82,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 _logo.VX = -_logo.VX;
             }
 
-            if (_logo.Y + (_logo.Height) > engine.ScaledViewPort.Y)
+            if (_logo.Y + (_logo.Height) > _engine.ScaledViewPort.Y)
             {
                 _logo.VY = -_logo.VY;
             }

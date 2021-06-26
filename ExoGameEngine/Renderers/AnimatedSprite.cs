@@ -119,7 +119,8 @@ namespace ExoGame2D.Renderers
         {
             var length = Width * Height;
             data = new Color[length];
-            _texture.GetData(0, intersection, data, 0, length);
+            _texture.GetData(data);
+            //_texture.GetData(0, intersection, data, 0, length);
             return true;
         }
 

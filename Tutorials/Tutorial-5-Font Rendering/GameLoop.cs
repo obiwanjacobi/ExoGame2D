@@ -32,7 +32,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly CollidableSprite _logo;
+        private readonly Sprite _logo;
         private readonly FontRender _titles;
         private readonly Engine _engine;
 
@@ -40,7 +40,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
         {
             _engine = new Engine(this);
             _scene = new Scene();
-            _logo = new CollidableSprite("Logo");
+            _logo = new Sprite("Logo");
             _titles = new FontRender("titles");
         }
 
@@ -76,8 +76,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             base.Update(gameTime);

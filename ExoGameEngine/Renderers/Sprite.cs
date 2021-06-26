@@ -38,8 +38,9 @@ namespace ExoGame2D.Renderers
         private float _velocityX;
         private float _velocityY;
 
-        public Sprite()
+        public Sprite(string name = "")
         {
+            Name = name;
             IsEnabled = true;
             IsVisible = true;
         }

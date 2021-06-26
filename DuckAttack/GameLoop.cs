@@ -46,10 +46,8 @@ namespace ExoGame2D.DuckAttack
 
         protected override void LoadContent()
         {
-            var engine = Engine.Instance;
-            engine.GameState.Register("MainMenu", new MainMenu());
-
-            engine.GameState.ChangeState("Mainmenu");
+            _engine.GameState.Register("MainMenu", new MainMenu());
+            _engine.GameState.ChangeState("Mainmenu");
             Window.AllowUserResizing = true;
         }
 

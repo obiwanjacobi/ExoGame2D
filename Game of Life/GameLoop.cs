@@ -58,7 +58,7 @@ namespace ExoGame2D.GameOfLife
 
             Window.AllowUserResizing = true;
 
-            Pixel = new Texture2D(Engine.Instance.DrawContext.SpriteBatch.GraphicsDevice, 1, 1);
+            Pixel = new Texture2D(_engine.DrawContext.SpriteBatch.GraphicsDevice, 1, 1);
             Pixel.SetData(new[] { Color.Gray });
 
             _grid = new Grid(NumberCellsHorizontal, NumberCellsVertical) { Name = "Grid" };
@@ -89,8 +89,7 @@ namespace ExoGame2D.GameOfLife
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             if (InputHelper.KeyPressed(Keys.Space))

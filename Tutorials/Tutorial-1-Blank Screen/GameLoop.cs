@@ -34,7 +34,6 @@ namespace ExoGame2D.Tutorials.Tutorial1_BlankScreen
         public GameLoop()
         {
             _engine = new Engine(this);
-            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -59,8 +58,7 @@ namespace ExoGame2D.Tutorials.Tutorial1_BlankScreen
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             base.Update(gameTime);

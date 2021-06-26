@@ -32,16 +32,14 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
     public class GameLoop : Game
     {
         private readonly Scene _scene;
-        private readonly CollidableSprite _logo;
+        private readonly Sprite _logo;
         private readonly Engine _engine;
 
         public GameLoop()
         {
             _engine = new Engine(this);
-            IsMouseVisible = false;
-
             _scene = new Scene();
-            _logo = new CollidableSprite("Logo");
+            _logo = new Sprite("Logo");
         }
 
         protected override void Initialize()

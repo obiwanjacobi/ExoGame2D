@@ -90,8 +90,11 @@ namespace ExoGame2D
             Color[] destinationData;
 
             // TODO: adjust algorithm to use smallest region
-            if (source.GetPixelData(source.BoundingBox, out sourceData) &&
-                destination.GetPixelData(destination.BoundingBox, out destinationData))
+            // Passing BoundingBox is not valid.
+            // rect must be within texture (0,0,w,h) - I think.
+            var rect = new Rectangle();
+            if (source.GetPixelData(rect, out sourceData) &&
+                destination.GetPixelData(rect, out destinationData))
             {
                 // For each single pixel in the intersecting rectangle
                 for (int y = y1; y < y2; ++y)

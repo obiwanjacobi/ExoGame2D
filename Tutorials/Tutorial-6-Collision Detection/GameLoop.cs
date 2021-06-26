@@ -74,8 +74,7 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             if (CollisionManager.IsPerPixelCollision("Crosshair", "Logo"))

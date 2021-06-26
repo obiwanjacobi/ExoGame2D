@@ -15,8 +15,7 @@ namespace ExoGame2D.Tiles
 
         public TileSet(string name, int tileWidth, int tileHeight)
         {
-            var engine = Engine.Instance;
-            _tiles = engine.Content.Load<Texture2D>(name);
+            _tiles = Engine.Instance.Content.Load<Texture2D>(name);
             _tileWidth = tileWidth;
             _tileHeight = tileHeight;
 

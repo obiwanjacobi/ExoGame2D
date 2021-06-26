@@ -42,11 +42,12 @@ namespace ExoGame2D.Renderers
             Name = name;
         }
 
-        public bool GetPixelData(Rectangle intersection, out Color[] data)
+        public bool GetPixelData(Rectangle area, out Color[] data)
         {
             var length = Width * Height;
             data = new Color[length];
-            _texture.GetData(0, intersection, data, 0, length);
+            _texture.GetData(data);
+            //_texture.GetData(0, area, data, 0, length);
             return true;
         }
     }
