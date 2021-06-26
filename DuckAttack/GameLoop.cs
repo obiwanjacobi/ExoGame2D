@@ -30,17 +30,17 @@ namespace ExoGame2D.DuckAttack
 {
     public class GameLoop : Game
     {
+        private readonly Engine _engine;
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080);
-            //Engine.InitializeEngine(this, 1280, 720);
-
+            _engine = new Engine(this);
             IsMouseVisible = false;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
         }
 
         protected override void LoadContent()
@@ -59,7 +59,7 @@ namespace ExoGame2D.DuckAttack
             var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                engine.SetFullScreen(!engine.FullScreen);
+                engine.SetFullScreen(!engine.IsFullScreen);
             }
 
             engine.GameState.CurrentState.Update(gameTime);

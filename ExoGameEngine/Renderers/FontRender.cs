@@ -23,7 +23,6 @@ SOFTWARE.
 */
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace ExoGame2D.Renderers
 {
@@ -39,7 +38,7 @@ namespace ExoGame2D.Renderers
 
         public FontRender(string name)
         {
-            _spriteBatch = Engine.Instance.SpriteBatch;
+            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
             Name = name;
         }
 
@@ -56,11 +55,6 @@ namespace ExoGame2D.Renderers
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
             if (!string.IsNullOrEmpty(Text))
             {
                 if (Shadow)
@@ -69,23 +63,14 @@ namespace ExoGame2D.Renderers
                     _spriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
                 }
 
+                var tint = Color.White;
                 _spriteBatch.DrawString(_font, Text, _location, tint);
             }
         }
-
-        //public ISprite GetSprite()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Update(GameTime gameTime)
         {
             // no-op
         }
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return _font.GetType().IsSubclassOf(type);
-        //}
     }
 }

@@ -40,7 +40,7 @@ namespace ExoGame2D.GameOfLife
 
         public Grid(int sizeX, int sizeY)
         {
-            _spriteBatch = Engine.Instance.SpriteBatch;
+            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
             Size = new Point(sizeX, sizeY);
 
             _currentCellState = new Cell[Size.X, Size.Y];

@@ -22,11 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Diagnostics;
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace ExoGame2D.DuckAttack.GameActors.Hud
 {
@@ -34,18 +32,17 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
     {
         private readonly FontRender _titles;
         private int _fontY;
-        private int _fontX;
+        private readonly int _fontX;
         private Color _fontColor;
-        public string Name { get; set; }
-        private Stopwatch _counter = new Stopwatch();
+        private readonly Stopwatch _counter = new Stopwatch();
 
-        private enum BillboardStateEnum
+        private enum BillboardState
         {
             Drop = 0,
             Rise = 1
         }
 
-        private BillboardStateEnum _state = BillboardStateEnum.Drop;
+        private BillboardState _state = BillboardState.Drop;
 
         public BillBoard(int xOffset, Color color)
         {
@@ -57,66 +54,53 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _titles = new FontRender("Titles");
             _titles.LoadContent("titlescreen");
             _titles.Location = new Vector2(_fontX, _fontY);
-            _titles.Shadow = true; 
+            _titles.Shadow = true;
         }
+
+        public string Name { get; set; }
 
         public void StartBillBoard(string text)
         {
             _titles.Text = text;
             _fontY = -200;
-            _state = BillboardStateEnum.Drop;
+            _state = BillboardState.Drop;
         }
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, _fontColor);
+            _titles.Location = new Vector2(_fontX, _fontY);
+            _titles.Draw(gameTime);
         }
 
-        public void Draw(GameTime gametime, Color tint)
-        {
-            _titles.Location = new Vector2(_fontX, _fontY);
-            _titles.Draw(gametime, tint);      
-        }
-   
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
             switch (_state)
             {
-                case BillboardStateEnum.Drop:
+                case BillboardState.Drop:
                     _fontY += 10;
                     if (_fontY >= 200)
                     {
-                        _fontY = 200; 
+                        _fontY = 200;
                         _counter.Start();
                     }
 
                     if (_counter.ElapsedMilliseconds >= 1500)
                     {
-                        _state = BillboardStateEnum.Rise;
+                        _state = BillboardState.Rise;
                         _counter.Stop();
                         _counter.Reset();
                     }
                     break;
 
-                case BillboardStateEnum.Rise:
+                case BillboardState.Rise:
                     _fontY -= 10;
                     if (_fontY <= -200)
                     {
-                        _fontY = -200;                     
+                        _fontY = -200;
                     }
                     break;
             }
-           
-        }
 
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return _titles.GetType().IsSubclassOf(type);
         }
     }
 }

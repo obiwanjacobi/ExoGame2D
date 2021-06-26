@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.SceneManagement;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,68 +31,54 @@ namespace ExoGame2D
 {
     public class Engine
     {
-        public static readonly Engine Instance = new Engine();
+        private readonly GraphicsDeviceManager _graphics;
+        private readonly Game _game;
+        //private readonly Vector2 _scaledViewPort;
+        //private readonly Matrix _spriteScalingFactor;
+        private Matrix _spriteScale;
 
-        private GraphicsDeviceManager Graphics;
+        public Engine(Game game)
+        {
+            _game = game ?? throw new ArgumentNullException(nameof(game));
+            _graphics = new GraphicsDeviceManager(game);
+            game.Content.RootDirectory = "Content";
+            game.IsMouseVisible = true;
+            Instance = this;
+        }
 
-        /// <summary>
-        /// The width and height of the game world, in game units.
-        /// </summary>
-        private Point _worldSize;
-
-        /// <summary>
-        /// The width and height of the window, in pixels.
-        /// </summary>
         public Point WindowSize;
+        public DrawContext DrawContext;
+        public readonly GameStateManager GameState = new GameStateManager();
+        public static Engine Instance { get; private set; }
 
-        /// <summary>
-        /// A matrix used for scaling the game world so that it fits inside the window.
-        /// </summary>
-        public Matrix SpriteScale;
+        public void Initialize()
+        {
+            Initialize(1920, 1080);
+        }
 
-        public SpriteBatch SpriteBatch;
-
-        private Game _game;
-
-        public readonly Vector2 _scaledViewPort;
-
-        public readonly Matrix _spriteScalingFactor;
-
-        public GameStateManager GameState { get; } = new GameStateManager();
-
-        public void InitializeEngine(Game game, int windowX, int windowY,
+        public void Initialize(int windowX, int windowY,
             int worldX = 1920, int worldY = 1080)
         {
-            _game = game;
-            Graphics = new GraphicsDeviceManager(game);
-            game.Content.RootDirectory = "Content";
+            if (_game.GraphicsDevice == null)
+                throw new InvalidOperationException("Call Engine.Initialize after the Game is initialized.");
 
-            game.IsMouseVisible = true;
-
+            DrawContext = new DrawContext(_game.GraphicsDevice);
             WindowSize = new Point(windowX, windowY);
             WorldSize = new Point(worldX, worldY);
             SetFullScreen(false);
-
-            SpriteBatch = new SpriteBatch(_game.GraphicsDevice);
-        }
-
-        public void InitializeEngine(Game game)
-        {
-            InitializeEngine(game, 1920, 1080);
         }
 
         public ContentManager Content => _game.Content;
 
-        public Scene CurrentScene { get; private set; }
-
+        private Point _worldSize;
         public Point WorldSize
         {
             get => _worldSize;
             set
             {
                 _worldSize = value;
-                Graphics.PreferredBackBufferWidth = WorldSize.X;
-                Graphics.PreferredBackBufferHeight = WorldSize.Y;
+                _graphics.PreferredBackBufferWidth = WorldSize.X;
+                _graphics.PreferredBackBufferHeight = WorldSize.Y;
             }
         }
 
@@ -101,11 +87,8 @@ namespace ExoGame2D
             _game.Exit();
         }
 
-        public Matrix SpriteScalingFactor
-            => Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
-
         public Vector2 ScaledViewPort
-            => ScreenToWorld(new Vector2(Graphics.GraphicsDevice.Viewport.Width, Graphics.GraphicsDevice.Viewport.Height));
+            => ScreenToWorld(new Vector2(_graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height));
 
         public Vector2 ScreenToWorld(Vector2 screenPosition)
         {
@@ -115,15 +98,14 @@ namespace ExoGame2D
             return (screenPosition - viewportTopLeft) * screenToWorldScale;
         }
 
-        public void BeginRender(Scene currentScene)
+        public void BeginRender()
         {
-            CurrentScene = currentScene ?? throw new ArgumentNullException(nameof(currentScene));
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, SpriteScalingFactor);
+            DrawContext.BeginDraw();
         }
 
         public void EndRender()
         {
-            SpriteBatch.End();
+            DrawContext.EndDraw();
         }
 
         /// <summary>
@@ -132,7 +114,7 @@ namespace ExoGame2D
         public void ApplyResolutionSettings(bool fullScreen)
         {
             // make the game full-screen or not
-            Graphics.IsFullScreen = fullScreen;
+            _graphics.IsFullScreen = fullScreen;
 
             // get the size of the screen to use: either the window size or the full screen size
             Point screenSize = fullScreen
@@ -140,16 +122,28 @@ namespace ExoGame2D
                 : WindowSize;
 
             // scale the window to the desired size
-            Graphics.PreferredBackBufferWidth = screenSize.X;
-            Graphics.PreferredBackBufferHeight = screenSize.Y;
+            _graphics.PreferredBackBufferWidth = screenSize.X;
+            _graphics.PreferredBackBufferHeight = screenSize.Y;
 
-            Graphics.ApplyChanges();
+            _graphics.ApplyChanges();
 
             // calculate and set the viewport to use
             _game.GraphicsDevice.Viewport = CalculateViewport(screenSize);
 
+            SetTransformation();
+
             // calculate how the graphics should be scaled, so that the game world fits inside the window
-            SpriteScale = Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+            _spriteScale = Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+        }
+
+        private void SetTransformation()
+        {
+            if (DrawContext != null)
+            {
+                DrawContext.Transformation = Matrix.CreateScale(
+                                    (float)_game.GraphicsDevice.Viewport.Width / WorldSize.X,
+                                    (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+            }
         }
 
         /// <summary>
@@ -186,8 +180,7 @@ namespace ExoGame2D
             return viewport;
         }
 
-        public bool FullScreen
-            => Graphics.IsFullScreen;
+        public bool IsFullScreen => _graphics.IsFullScreen;
 
         public void SetFullScreen(bool fullScreen = true)
         {

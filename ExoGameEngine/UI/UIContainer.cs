@@ -57,21 +57,11 @@ namespace ExoGame2D.UI
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
             foreach (var control in _controlList)
             {
-                control.Draw(gameTime, tint);
+                control.Draw(gameTime);
             }
         }
-
-        //public ISprite GetSprite()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Update(GameTime gameTime)
         {
@@ -80,10 +70,5 @@ namespace ExoGame2D.UI
                 control.Update(gameTime);
             }
         }
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return GetType() == type;
-        //}
     }
 }

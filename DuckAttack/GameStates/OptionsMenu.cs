@@ -40,7 +40,7 @@ namespace ExoGame2D.DuckAttack.GameStates
         private readonly MenuCursor _crosshair;
         private readonly FrameCounter _frameCounter = new FrameCounter();
         private readonly FontRender _titles;
-        private int _fontY;
+        private int _fontY = 0;
 
         private UIContainer _container;
         private IRenderNode _backToMainMenu;
@@ -55,7 +55,6 @@ namespace ExoGame2D.DuckAttack.GameStates
             _titles.LoadContent("titlescreen");
             _titles.Location = new Vector2(150, _fontY);
             _titles.Shadow = true;
-
 
             _container = new UIContainer("OptionsMenu");
 
@@ -100,35 +99,34 @@ namespace ExoGame2D.DuckAttack.GameStates
             CollisionManager.RemoveAll();
         }
 
-        public void Draw(GameTime gametime)
+        public void Draw(GameTime gameTime)
         {
-            Draw(gametime, Color.White);
+            Draw(gameTime, Color.White);
         }
 
-        public void Draw(GameTime gametime, Color tint)
+        public void Draw(GameTime gameTime, Color tint)
         {
-            _frameCounter.Update((float)gametime.ElapsedGameTime.TotalSeconds);
+            _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             _titles.Text = "Duck Attack";
-
             _titles.Location = new Vector2(150, 200);
 
-            _scene.RenderScene(gametime);
+            _scene.RenderScene(gameTime);
 
             engine.EndRender();
         }
 
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
             if (InputHelper.KeyPressed(Keys.Escape))
             {
                 Engine.Instance.Exit();
             }
 
-            _scene.UpdateGameLogic(gametime);
+            _scene.UpdateGameLogic(gameTime);
         }
     }
 }

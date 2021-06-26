@@ -35,12 +35,11 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
         private readonly Scene _scene;
         private readonly CollidableSprite _crosshair;
         private readonly CollidableSprite _logo;
+        private readonly Engine _engine;
 
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080);
-            IsMouseVisible = true;
-
+            _engine = new Engine(this);
             _scene = new Scene();
             _logo = new CollidableSprite("Logo");
             _crosshair = new CollidableSprite("Crosshair");
@@ -49,6 +48,7 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
         }
 
         protected override void LoadContent()
@@ -75,7 +75,7 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.FullScreen);
+                engine.SetFullScreen(!engine.IsFullScreen);
             }
 
             if (CollisionManager.IsPerPixelCollision("Crosshair", "Logo"))
@@ -91,16 +91,15 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             var mouse = engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
 
             _scene.RenderScene(gameTime);
+            base.Draw(gameTime);
 
             engine.EndRender();
-
-            base.Draw(gameTime);
         }
     }
 }

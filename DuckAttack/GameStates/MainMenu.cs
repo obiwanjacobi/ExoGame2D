@@ -117,17 +117,17 @@ namespace ExoGame2D.DuckAttack.GameStates
         {
             CollisionManager.RemoveAll();
         }
-        public void Draw(GameTime gametime)
+        public void Draw(GameTime gameTime)
         {
-            Draw(gametime, Color.White);
+            Draw(gameTime, Color.White);
         }
 
-        public void Draw(GameTime gametime, Color tint)
+        public void Draw(GameTime gameTime, Color tint)
         {
-            _frameCounter.Update((float)gametime.ElapsedGameTime.TotalSeconds);
+            _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             _titles.Text = "Duck Attack";
 
@@ -139,19 +139,19 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             _titles.Location = new Vector2(150, _fontY);
 
-            _scene.RenderScene(gametime);
+            _scene.RenderScene(gameTime);
 
             engine.EndRender();
         }
 
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
             if (InputHelper.KeyPressed(Keys.Escape))
             {
                 Engine.Instance.Exit();
             }
 
-            _scene.UpdateGameLogic(gametime);
+            _scene.UpdateGameLogic(gameTime);
         }
     }
 }

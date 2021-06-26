@@ -210,7 +210,6 @@ namespace ExoGame2D.DuckAttack.GameActors
                 case DuckStateEnum.Finished:
 
                     break;
-
             }
         }
 
@@ -236,17 +235,15 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         private bool GetCollision()
         {
-            switch (DifficultySettings.CurrentDifficulty.AimAssist)
+            if (DifficultySettings.CurrentDifficulty.AimAssist)
             {
-                case true:
-                    if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsBoundingCollision("crosshair", Name)))
-                        return true;
-                    break;
-
-                case false:
-                    if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsPerPixelCollision("crosshair", Name)))
-                        return true;
-                    break;
+                if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsBoundingCollision("crosshair", Name)))
+                    return true;
+            }
+            else
+            {
+                if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsPerPixelCollision("crosshair", Name)))
+                    return true;
             }
 
             return false;
@@ -304,6 +301,9 @@ namespace ExoGame2D.DuckAttack.GameActors
             }
         }
 
+        private readonly static Color AlternateFlyTint = new Color(100, 100, 100, 255);
+        private readonly static Color AlternateDeathTint = new Color(150, 150, 150, 255);
+
         public void Draw(GameTime gameTime)
         {
             switch (State)
@@ -311,39 +311,31 @@ namespace ExoGame2D.DuckAttack.GameActors
                 case DuckStateEnum.Start:
                     break;
 
+                case DuckStateEnum.FlyAway:
                 case DuckStateEnum.Fying:
                     if (CollisionManager.IsBoundingCollision("crosshair", Name))
                     {
-                        _duck.Draw(gameTime, new Color(100, 100, 100, 255));
+                        _duck.Tint = AlternateFlyTint;
                     }
                     else
                     {
-                        _duck.Draw(gameTime, new Color(255, 255, 255, 255));
+                        _duck.Tint = Color.White;
                     }
-                    break;
-
-                case DuckStateEnum.FlyAway:
-                    if (CollisionManager.IsBoundingCollision("crosshair", Name))
-                    {
-                        _duck.Draw(gameTime, new Color(100, 100, 100, 255));
-                    }
-                    else
-                    {
-                        _duck.Draw(gameTime, new Color(255, 255, 255, 255));
-                    }
+                    _duck.Draw(gameTime);
                     break;
 
                 case DuckStateEnum.Dead:
                     _deathCounter++;
 
-                    if (_deathCounter < 5)
+                    if (_deathCounter >= 5)
                     {
-                        _duckDeath.Draw(gameTime, new Color(255, 255, 255, 255));
+                        _duckDeath.Tint = AlternateDeathTint;
                     }
                     else
                     {
-                        _duckDeath.Draw(gameTime, new Color(150, 150, 150, 255));
+                        _duckDeath.Tint = Color.White;
                     }
+                    _duckDeath.Draw(gameTime);
 
                     if (_deathCounter >= 10)
                     {
@@ -358,14 +350,9 @@ namespace ExoGame2D.DuckAttack.GameActors
                     break;
 
                 case DuckStateEnum.Dive:
-                    _duckDive.Draw(gameTime, new Color(255, 255, 255, 255));
+                    _duckDive.Draw(gameTime);
                     break;
             }
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            Draw(gameTime);
         }
 
         public bool GetPixelData(Rectangle intersection, out Color[] data)

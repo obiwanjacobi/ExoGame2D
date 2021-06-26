@@ -1,7 +1,6 @@
 ﻿using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace ExoGame2D.Tiles
 {
@@ -17,28 +16,14 @@ namespace ExoGame2D.Tiles
             _tileFromSetCoord = tileFromSetCoord;
         }
 
-        //public string Name { get; set; }
-
         public Vector2 Location { get; set; }
 
         public void Draw(GameTime gameTime)
-            => Draw(gameTime, Color.White);
-
-        public void Draw(GameTime gameTime, Color tint)
         {
             var effect = SpriteEffects.None;
+            var tint = Color.White;
             _tileSet.DrawTile(_tileFromSetCoord, Location, effect, tint);
         }
-
-        //public ISprite GetSprite()
-        //{
-        //    return null;
-        //}
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return false;
-        //}
 
         public void Update(GameTime gameTime)
         {

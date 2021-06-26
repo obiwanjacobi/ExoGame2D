@@ -36,13 +36,10 @@ namespace ExoGame2D.SceneManagement
         }
 
         public void Draw(GameTime gameTime)
-            => Draw(gameTime, Color.White);
-
-        public void Draw(GameTime gameTime, Color tint)
         {
             foreach (var node in _nodes)
             {
-                node.Draw(gameTime, tint);
+                node.Draw(gameTime);
             }
         }
 

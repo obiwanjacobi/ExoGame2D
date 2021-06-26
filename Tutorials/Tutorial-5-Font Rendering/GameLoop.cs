@@ -34,12 +34,11 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
         private readonly Scene _scene;
         private readonly CollidableSprite _logo;
         private readonly FontRender _titles;
+        private readonly Engine _engine;
 
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080);
-            IsMouseVisible = true;
-
+            _engine = new Engine(this);
             _scene = new Scene();
             _logo = new CollidableSprite("Logo");
             _titles = new FontRender("titles");
@@ -48,6 +47,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
         }
 
         protected override void LoadContent()
@@ -77,7 +77,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.FullScreen);
+                engine.SetFullScreen(!engine.IsFullScreen);
             }
 
             base.Update(gameTime);
@@ -88,13 +88,12 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             _scene.RenderScene(gameTime);
+            base.Draw(gameTime);
 
             engine.EndRender();
-
-            base.Draw(gameTime);
         }
     }
 }

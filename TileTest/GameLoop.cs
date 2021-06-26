@@ -10,16 +10,17 @@ namespace TileTest
     {
         private TileSet _tileSet;
         private TileMap _tileMap;
+        private readonly Engine _engine;
 
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080, 3200, 2400);
-            IsMouseVisible = true;
+            _engine = new Engine(this);
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
         }
 
         protected override void LoadContent()
@@ -44,12 +45,12 @@ namespace TileTest
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             var engine = Engine.Instance;
-            engine.SpriteBatch.Begin();
+            engine.DrawContext.SpriteBatch.Begin();
 
             _tileMap.Draw(gameTime);
             base.Draw(gameTime);
 
-            engine.SpriteBatch.End();
+            engine.DrawContext.SpriteBatch.End();
         }
     }
 }

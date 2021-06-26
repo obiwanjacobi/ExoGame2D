@@ -45,14 +45,7 @@ namespace ExoGame2D.DuckAttack.GameActors
         public string Name { get; set; }
 
         public void Draw(GameTime gameTime)
-        {
-            _scoreboard.Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            _scoreboard.Draw(gameTime, tint);
-        }
+            => _scoreboard.Draw(gameTime);
 
         public void Update(GameTime gameTime)
         {

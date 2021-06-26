@@ -32,7 +32,7 @@ namespace ExoGame2D.UI
         protected UIControlBase(string name)
         {
             Name = name;
-            SpriteBatch = Engine.Instance.SpriteBatch;
+            SpriteBatch = Engine.Instance.DrawContext.SpriteBatch;
         }
         public int Width { get; set; }
         public int Height { get; set; }

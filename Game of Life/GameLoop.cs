@@ -42,22 +42,23 @@ namespace ExoGame2D.GameOfLife
         public static Texture2D Pixel;
         private Grid grid;
         private readonly Scene _scene;
-        private readonly FontRender _helpFont;
+        private FontRender _helpFont;
 
+        private readonly Engine _engine;
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080);
-            IsMouseVisible = true;
-
-            _helpFont = new FontRender("help");
+            _engine = new Engine(this);
             _scene = new Scene();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
+
             grid = new Grid(NumberCellsHorizontal, NumberCellsVertical) { Name = "Grid" };
 
+            _helpFont = new FontRender("help");
             _helpFont.LoadContent("File");
             _helpFont.Location = new Vector2(20, 20);
             _helpFont.Shadow = true;
@@ -75,7 +76,7 @@ namespace ExoGame2D.GameOfLife
         protected override void LoadContent()
         {
             Window.AllowUserResizing = true;
-            Pixel = new Texture2D(Engine.Instance.SpriteBatch.GraphicsDevice, 1, 1);
+            Pixel = new Texture2D(Engine.Instance.DrawContext.SpriteBatch.GraphicsDevice, 1, 1);
             Pixel.SetData(new[] { Color.Gray });
         }
 
@@ -91,7 +92,7 @@ namespace ExoGame2D.GameOfLife
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.FullScreen);
+                engine.SetFullScreen(!engine.IsFullScreen);
             }
 
             if (InputHelper.KeyPressed(Keys.Space))
@@ -128,13 +129,12 @@ namespace ExoGame2D.GameOfLife
             GraphicsDevice.Clear(Color.Black);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             _scene.RenderScene(gameTime);
+            base.Draw(gameTime);
 
             engine.EndRender();
-
-            base.Draw(gameTime);
         }
     }
 }

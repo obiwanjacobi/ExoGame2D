@@ -23,7 +23,7 @@ namespace ExoGame2D.Tiles
             _tilesInRow = _tiles.Width / tileWidth;
             _tilesInCol = _tiles.Height / tileHeight;
 
-            _spriteBatch = engine.SpriteBatch;
+            _spriteBatch = engine.DrawContext.SpriteBatch;
         }
 
         public int RowTileCount => _tilesInRow;

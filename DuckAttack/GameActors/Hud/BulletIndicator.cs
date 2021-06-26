@@ -29,8 +29,8 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
     public class BulletIndicator : IRenderNode
     {
         public string Name { get; set; }
-        private ISprite _bulletFired;
-        private ISprite _bulletNotFired;
+        private readonly ISprite _bulletFired;
+        private readonly ISprite _bulletNotFired;
 
         private ISprite _currentSprite;
 
@@ -57,54 +57,31 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             }
         }
 
-        private int _x;
-        private int _y;
-
-
         public BulletIndicator(string name, int x)
         {
             Name = name;
-            _bulletFired = new CollidableSprite();
+            _bulletFired = new Sprite();
             _bulletFired.LoadContent("bulletspent");
 
-            _bulletNotFired = new CollidableSprite();
+            _bulletNotFired = new Sprite();
             _bulletNotFired.LoadContent("bullet");
 
             _currentSprite = _bulletFired;
             State = BulletIndicatorStateEnum.NotFired;
 
-            _x = x;
-            _y = 950;
-            _bulletFired.X = _x;
-            _bulletFired.Y = _y;
-
-            _bulletNotFired.X = _x;
-            _bulletNotFired.Y = _y;
+            var y = 950;
+            _bulletFired.X = x;
+            _bulletFired.Y = y;
+            _bulletNotFired.X = x;
+            _bulletNotFired.Y = y;
         }
 
         public void Update(GameTime gameTime)
         {
-
+            // no-op
         }
 
         public void Draw(GameTime gameTime)
-        {
-            _currentSprite.Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            _currentSprite.Draw(gameTime, tint);
-        }
-
-        //public ISprite GetSprite()
-        //{
-        //    return _currentSprite;
-        //}
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return _currentSprite.IsAssetOfType(type);
-        //}
+            => _currentSprite.Draw(gameTime);
     }
 }

@@ -30,6 +30,5 @@ namespace ExoGame2D.Renderers
     {
         void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
-        void Draw(GameTime gameTime, Color tint);
     }
 }

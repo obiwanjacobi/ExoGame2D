@@ -28,7 +28,7 @@ using System;
 
 namespace ExoGame2D.Renderers
 {
-    public abstract class Sprite : ISprite
+    public class Sprite : ISprite
     {
         protected Texture2D _texture;
         private Vector2 _location = new Vector2(0, 0);
@@ -39,9 +39,9 @@ namespace ExoGame2D.Renderers
         private float _velocityX;
         private float _velocityY;
 
-        protected Sprite()
+        public Sprite()
         {
-            _spriteBatch = Engine.Instance.SpriteBatch;
+            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
 
             IsEnabled = true;
             IsVisible = true;
@@ -126,6 +126,8 @@ namespace ExoGame2D.Renderers
 
         public bool Flip { get; set; } = false;
 
+        public Color Tint { get; set; } = Color.White;
+
         public void LoadContent(string textureName)
         {
             if (string.IsNullOrEmpty(textureName))
@@ -147,11 +149,6 @@ namespace ExoGame2D.Renderers
 
         public virtual void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
-        }
-
-        public virtual void Draw(GameTime gameTime, Color tint)
-        {
             if (_texture == null)
             {
                 return;
@@ -165,7 +162,7 @@ namespace ExoGame2D.Renderers
             SpriteEffects effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             _spriteBatch.Draw(_texture, _location,
-                new Rectangle(0, 0, _texture.Width, _texture.Height), tint, 0,
+                new Rectangle(0, 0, _texture.Width, _texture.Height), Tint, 0,
                 new Vector2(0, 0), 1.0f, effect, 0.0f);
 
             if (RenderBoundingBox)
@@ -173,73 +170,5 @@ namespace ExoGame2D.Renderers
                 _spriteBatch.DrawRectangle(BoundingBox, Color.Yellow, 3);
             }
         }
-
-        //protected bool PerPixelCollision(CollidableSprite sprite1, CollidableSprite sprite2)
-        //{
-        //    // Get Color data of each Texture
-        //    Color[] bitsA = new Color[sprite1.Width * sprite1.Height];
-        //    sprite1._texture.GetData(bitsA);
-        //    Color[] bitsB = new Color[sprite2.Width * sprite2.Height];
-        //    sprite2._texture.GetData(bitsB);
-
-        //    // Calculate the intersecting rectangle
-        //    int x1 = Math.Max(sprite1.BoundingBox.X, sprite2.BoundingBox.X);
-        //    int x2 = Math.Min(sprite1.BoundingBox.X + sprite1.BoundingBox.Width, sprite2.BoundingBox.X + sprite2.BoundingBox.Width);
-
-        //    int y1 = Math.Max(sprite1.BoundingBox.Y, sprite2.BoundingBox.Y);
-        //    int y2 = Math.Min(sprite1.BoundingBox.Y + sprite1.BoundingBox.Height, sprite2.BoundingBox.Y + sprite2.BoundingBox.Height);
-
-        //    // For each single pixel in the intersecting rectangle
-        //    for (int y = y1; y < y2; ++y)
-        //    {
-        //        for (int x = x1; x < x2; ++x)
-        //        {
-        //            // Get the color from each texture
-        //            Color a = bitsA[(x - sprite1.BoundingBox.X) + (y - sprite1.BoundingBox.Y) * sprite1.Width];
-        //            Color b = bitsB[(x - sprite2.BoundingBox.X) + (y - sprite2.BoundingBox.Y) * sprite2.Width];
-
-        //            if (a.A != 0 && b.A != 0) // If both colors are not transparent (the alpha channel is not 0), then there is a collision
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    // If no collision occurred by now, we're clear.
-        //    return false;
-        //}
-
-        //protected bool PerPixelCollision(CollidableSprite sprite1, AnimatedSprite sprite2)
-        //{
-        //    // Get Color data of each Texture
-        //    Color[] bitsA = new Color[sprite1.Width * sprite1.Height];
-        //    sprite1._texture.GetData(bitsA);
-        //    Color[] bitsB = new Color[sprite2.Width * sprite2.Height];
-        //    sprite2._texture.GetData(bitsB);
-
-        //    // Calculate the intersecting rectangle
-        //    int x1 = Math.Max(sprite1.BoundingBox.X, sprite2.BoundingBox.X);
-        //    int x2 = Math.Min(sprite1.BoundingBox.X + sprite1.BoundingBox.Width, sprite2.BoundingBox.X + sprite2.BoundingBox.Width);
-
-        //    int y1 = Math.Max(sprite1.BoundingBox.Y, sprite2.BoundingBox.Y);
-        //    int y2 = Math.Min(sprite1.BoundingBox.Y + sprite1.BoundingBox.Height, sprite2.BoundingBox.Y + sprite2.BoundingBox.Height);
-
-        //    // For each single pixel in the intersecting rectangle
-        //    for (int y = y1; y < y2; ++y)
-        //    {
-        //        for (int x = x1; x < x2; ++x)
-        //        {
-        //            // Get the color from each texture
-        //            Color a = bitsA[(x - sprite1.BoundingBox.X) + (y - sprite1.BoundingBox.Y) * sprite1.Width];
-        //            Color b = bitsB[(x - sprite2.BoundingBox.X) + (y - sprite2.BoundingBox.Y) * sprite2.Width];
-
-        //            if (a.A != 0 && b.A != 0) // If both colors are not transparent (the alpha channel is not 0), then there is a collision
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    // If no collision occurred by now, we're clear.
-        //    return false;
-        //}
     }
 }

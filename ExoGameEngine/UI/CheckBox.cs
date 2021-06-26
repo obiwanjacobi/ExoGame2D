@@ -94,11 +94,6 @@ namespace ExoGame2D.UI
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
             if (!Visible)
             {
                 return;
@@ -159,16 +154,6 @@ namespace ExoGame2D.UI
             {
                 DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
             }
-        }
-
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return GetType() == type;
         }
     }
 }

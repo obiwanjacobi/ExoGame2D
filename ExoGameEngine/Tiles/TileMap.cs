@@ -18,21 +18,10 @@ namespace ExoGame2D.Tiles
             _layer.Add(tile);
         }
 
-        //public string Name { get; set; }
-
         public void Draw(GameTime gameTime)
-            => _layer.Draw(gameTime, Color.White);
-
-        public void Draw(GameTime gameTime, Color tint)
-            => _layer.Draw(gameTime, tint);
+            => _layer.Draw(gameTime);
 
         public void Update(GameTime gameTime)
             => _layer.Update(gameTime);
-
-        //public ISprite GetSprite()
-        //    => null;
-
-        //public bool IsAssetOfType(Type type)
-        //    => false;
     }
 }

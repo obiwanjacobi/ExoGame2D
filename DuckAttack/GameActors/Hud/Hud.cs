@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
 using ExoGame2D.DuckAttack.GameStates.Controller;
 using ExoGame2D.DuckAttack.Messages;
 using ExoGame2D.Renderers;
@@ -33,11 +32,11 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
     public class Hud : IRenderNode
     {
         private const int MAX_NUMBER_DUCKS = 12;
-        private DuckIndicator[] _duckIndicator = new DuckIndicator[MAX_NUMBER_DUCKS];
-        private static BulletIndicator[] _bulletIndicator = new BulletIndicator[8];
-        public int NumberOfDucksShot { get; set; }
+        private readonly int MAX_SHOTS = DifficultySettings.CurrentDifficulty.NumberBullets;
+        private readonly DuckIndicator[] _duckIndicator = new DuckIndicator[MAX_NUMBER_DUCKS];
+        private readonly static BulletIndicator[] _bulletIndicator = new BulletIndicator[8];
 
-        private int MAX_SHOTS = DifficultySettings.CurrentDifficulty.NumberBullets;
+        public int NumberOfDucksShot { get; set; }
         public static int NumShotsLeft = DifficultySettings.CurrentDifficulty.NumberBullets;
 
         public Hud(string name)
@@ -84,7 +83,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         public void ResetGun()
         {
             NumShotsLeft = MAX_SHOTS;
-            
+
             for (int i = 0; i < MAX_SHOTS; i++)
             {
                 _bulletIndicator[i].State = BulletIndicatorStateEnum.NotFired;
@@ -133,7 +132,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
                 if (message != null)
                 {
-                    switch(message.State)
+                    switch (message.State)
                     {
                         case DuckIndicatorStateEnum.Hit:
                             RegisterHit();
@@ -159,30 +158,15 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
         public void Draw(GameTime gameTime)
         {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
             for (int i = 0; i < MAX_NUMBER_DUCKS; i++)
             {
-                _duckIndicator[i].Draw(gameTime, Color.White);
+                _duckIndicator[i].Draw(gameTime);
             }
 
             for (int i = 0; i < MAX_SHOTS; i++)
             {
-                _bulletIndicator[i].Draw(gameTime, Color.White);
+                _bulletIndicator[i].Draw(gameTime);
             }
-        }
-
-        public ISprite GetSprite()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAssetOfType(Type type)
-        {
-            return _duckIndicator[0].GetType().IsSubclassOf(type);
         }
     }
 }

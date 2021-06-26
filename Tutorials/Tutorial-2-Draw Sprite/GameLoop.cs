@@ -33,11 +33,12 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
     {
         private readonly Scene _scene;
         private readonly CollidableSprite _logo;
+        private readonly Engine _engine;
 
         public GameLoop()
         {
-            Engine.Instance.InitializeEngine(this, 1920, 1080);
-            IsMouseVisible = true;
+            _engine = new Engine(this);
+            IsMouseVisible = false;
 
             _scene = new Scene();
             _logo = new CollidableSprite("Logo");
@@ -46,6 +47,7 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
         protected override void Initialize()
         {
             base.Initialize();
+            _engine.Initialize();
         }
 
         protected override void LoadContent()
@@ -69,7 +71,7 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.FullScreen);
+                engine.SetFullScreen(!engine.IsFullScreen);
             }
 
             base.Update(gameTime);
@@ -80,13 +82,12 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             var engine = Engine.Instance;
-            engine.BeginRender(_scene);
+            engine.BeginRender();
 
             _scene.RenderScene(gameTime);
+            base.Draw(gameTime);
 
             engine.EndRender();
-
-            base.Draw(gameTime);
         }
     }
 }

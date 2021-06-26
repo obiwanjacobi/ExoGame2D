@@ -43,29 +43,12 @@ namespace ExoGame2D.DuckAttack.MainMenuActors
         }
 
         public void Draw(GameTime gameTime)
-        {
-            _crosshair.Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            _crosshair.Draw(gameTime, tint);
-        }
-
-        //public ISprite GetSprite()
-        //{
-        //    return _crosshair;
-        //}
+            => _crosshair.Draw(gameTime);
 
         public void Update(GameTime gameTime)
         {
             var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
         }
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return _crosshair.IsAssetOfType(type);
-        //}
     }
 }

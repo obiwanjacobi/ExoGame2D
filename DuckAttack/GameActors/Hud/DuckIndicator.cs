@@ -28,17 +28,12 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 {
     public class DuckIndicator : IRenderNode
     {
-        public string Name { get; set; }
-        private ISprite _duckhud;
-        private ISprite _duckmiss;
-        private ISprite _duckshot;
+        private readonly ISprite _duckhud;
+        private readonly ISprite _duckmiss;
+        private readonly ISprite _duckshot;
 
         private ISprite _currentSprite;
-
         private DuckIndicatorStateEnum _state;
-
-        private int _x;
-        private int _y;
 
         public DuckIndicator(string name, int x)
         {
@@ -55,17 +50,18 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _currentSprite = _duckhud;
             State = DuckIndicatorStateEnum.None;
 
-            _x = x;
-            _y = 950;
-            _duckhud.X = _x;
-            _duckhud.Y = _y;
+            var y = 950;
+            _duckhud.X = x;
+            _duckhud.Y = y;
 
-            _duckmiss.X = _x;
-            _duckmiss.Y = _y;
+            _duckmiss.X = x;
+            _duckmiss.Y = y;
 
-            _duckshot.X = _x;
-            _duckshot.Y = _y;
+            _duckshot.X = x;
+            _duckshot.Y = y;
         }
+
+        public string Name { get; set; }
 
         public DuckIndicatorStateEnum State
         {
@@ -95,28 +91,9 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         }
 
         public void Update(GameTime gameTime)
-        {
-
-        }
+        { }
 
         public void Draw(GameTime gameTime)
-        {
-            _currentSprite.Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            _currentSprite.Draw(gameTime, tint);
-        }
-
-        //public ISprite GetSprite()
-        //{
-        //    return _currentSprite;
-        //}
-
-        //public bool IsAssetOfType(Type type)
-        //{
-        //    return _currentSprite.IsAssetOfType(type);
-        //}
+            => _currentSprite.Draw(gameTime);
     }
 }
