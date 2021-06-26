@@ -91,7 +91,7 @@ namespace ExoGame2D.GameOfLife
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.FullScreen = !engine.FullScreen;
+                engine.SetFullScreen(!engine.FullScreen);
             }
 
             if (InputHelper.KeyPressed(Keys.Space))

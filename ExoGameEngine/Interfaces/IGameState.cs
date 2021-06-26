@@ -21,15 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using Microsoft.Xna.Framework;
+using ExoGame2D.Renderers;
 
 namespace ExoGame2D.Interfaces
 {
-    public interface IGameState
+    public interface IGameState : IRenderNode
     {
-        void Update(GameTime gametime);
-        void Draw(GameTime gametime);
-        void Draw(GameTime gametime, Color tint);
         void Remove();
     }
 }

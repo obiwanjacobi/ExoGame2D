@@ -59,7 +59,7 @@ namespace ExoGame2D.DuckAttack
             var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                engine.FullScreen = !engine.FullScreen;
+                engine.SetFullScreen(!engine.FullScreen);
             }
 
             engine.GameState.CurrentState.Update(gameTime);

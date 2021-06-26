@@ -70,7 +70,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
             var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                engine.FullScreen = !engine.FullScreen;
+                engine.SetFullScreen(!engine.FullScreen);
             }
 
             if (_logo.X + _logo.Width > engine.ScaledViewPort.X)

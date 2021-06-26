@@ -41,6 +41,5 @@ namespace ExoGame2D.Renderers
         int Width { get; }
         Rectangle Dimensions { get; }
         void LoadContent(string textureName);
-        //bool CollidesWith(ISprite sprite);
     }
 }

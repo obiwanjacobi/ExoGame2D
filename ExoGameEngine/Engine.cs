@@ -33,7 +33,7 @@ namespace ExoGame2D
     {
         public static readonly Engine Instance = new Engine();
 
-        public GraphicsDeviceManager Graphics;
+        private GraphicsDeviceManager Graphics;
 
         /// <summary>
         /// The width and height of the game world, in game units.
@@ -71,7 +71,7 @@ namespace ExoGame2D
 
             WindowSize = new Point(windowX, windowY);
             WorldSize = new Point(worldX, worldY);
-            FullScreen = false;
+            SetFullScreen(false);
 
             SpriteBatch = new SpriteBatch(_game.GraphicsDevice);
         }
@@ -187,9 +187,11 @@ namespace ExoGame2D
         }
 
         public bool FullScreen
+            => Graphics.IsFullScreen;
+
+        public void SetFullScreen(bool fullScreen = true)
         {
-            get => Graphics.IsFullScreen;
-            set => ApplyResolutionSettings(value);
+            ApplyResolutionSettings(fullScreen);
         }
     }
 }

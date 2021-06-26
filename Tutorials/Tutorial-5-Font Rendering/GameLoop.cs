@@ -77,7 +77,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             if (InputHelper.KeyPressed(Keys.F))
             {
                 var engine = Engine.Instance;
-                engine.FullScreen = !engine.FullScreen;
+                engine.SetFullScreen(!engine.FullScreen);
             }
 
             base.Update(gameTime);
