@@ -30,7 +30,6 @@ namespace ExoGame2D.Renderers
     {
         private Vector2 _location = new Vector2(0, 0);
         private SpriteFont _font;
-        private readonly SpriteBatch _spriteBatch;
 
         public string Name { get; set; }
         public string Text { get; set; }
@@ -38,7 +37,6 @@ namespace ExoGame2D.Renderers
 
         public FontRender(string name)
         {
-            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
             Name = name;
         }
 
@@ -53,18 +51,18 @@ namespace ExoGame2D.Renderers
             _font = Engine.Instance.Content.Load<SpriteFont>(fontName);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             if (!string.IsNullOrEmpty(Text))
             {
                 if (Shadow)
                 {
                     Vector2 shadowOffset = new Vector2(_location.X - 2, _location.Y + 2);
-                    _spriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
+                    context.SpriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
                 }
 
                 var tint = Color.White;
-                _spriteBatch.DrawString(_font, Text, _location, tint);
+                context.SpriteBatch.DrawString(_font, Text, _location, tint);
             }
         }
 

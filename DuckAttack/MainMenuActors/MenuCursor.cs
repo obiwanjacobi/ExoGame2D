@@ -42,8 +42,8 @@ namespace ExoGame2D.DuckAttack.MainMenuActors
             SoundEffectPlayer.LoadSoundEffect("gunsound");
         }
 
-        public void Draw(GameTime gameTime)
-            => _crosshair.Draw(gameTime);
+        public void Draw(DrawContext context, GameTime gameTime)
+            => _crosshair.Draw(context, gameTime);
 
         public void Update(GameTime gameTime)
         {

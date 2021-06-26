@@ -90,16 +90,13 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            var engine = Engine.Instance;
-            engine.BeginRender();
+            _engine.DrawContext.BeginDraw();
 
-            var mouse = engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = _engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
 
-            _scene.RenderScene(gameTime);
-            base.Draw(gameTime);
-
-            engine.EndRender();
+            _scene.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }

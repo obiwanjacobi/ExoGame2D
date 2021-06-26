@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ExoGame2D.Renderers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -11,7 +12,6 @@ namespace ExoGame2D.Tiles
         private readonly int _tilesInRow;
         private readonly int _tilesInCol;
         private readonly Texture2D _tiles;
-        private readonly SpriteBatch _spriteBatch;
 
         public TileSet(string name, int tileWidth, int tileHeight)
         {
@@ -22,8 +22,6 @@ namespace ExoGame2D.Tiles
 
             _tilesInRow = _tiles.Width / tileWidth;
             _tilesInCol = _tiles.Height / tileHeight;
-
-            _spriteBatch = engine.DrawContext.SpriteBatch;
         }
 
         public int RowTileCount => _tilesInRow;
@@ -47,9 +45,9 @@ namespace ExoGame2D.Tiles
             return new Tile(this, new Rectangle(x, y, w, h));
         }
 
-        internal void DrawTile(Rectangle tileFromSetCoord, Vector2 location, SpriteEffects effect, Color color)
+        internal void DrawTile(DrawContext context, Rectangle tileFromSetCoord, Vector2 location, SpriteEffects effect, Color color)
         {
-            _spriteBatch.Draw(
+            context.SpriteBatch.Draw(
                 _tiles,
                 location,
                 tileFromSetCoord,

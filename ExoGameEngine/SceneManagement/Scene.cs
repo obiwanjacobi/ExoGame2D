@@ -64,11 +64,11 @@ namespace ExoGame2D.SceneManagement
             return layer.Remove(node);
         }
 
-        public void RenderScene(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             foreach (var node in _orderedLayers)
             {
-                node.Draw(gameTime);
+                node.Draw(context, gameTime);
             }
         }
 

@@ -32,7 +32,6 @@ namespace ExoGame2D.UI
         protected UIControlBase(string name)
         {
             Name = name;
-            SpriteBatch = Engine.Instance.DrawContext.SpriteBatch;
         }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -47,7 +46,6 @@ namespace ExoGame2D.UI
         public string Name { get; }
 
         protected Texture2D ControlTexture { get; set; }
-        protected SpriteBatch SpriteBatch { get; }
 
         private string _controlTextureName;
         public string ControlTextureName
@@ -58,35 +56,6 @@ namespace ExoGame2D.UI
                 ControlTexture = Engine.Instance.Content.Load<Texture2D>(value);
                 _controlTextureName = value;
             }
-        }
-
-        protected void DrawString(SpriteFont font, string text, Rectangle bounds, AlignmentEnum align, Color color)
-        {
-            Vector2 size = font.MeasureString(text);
-            Point pos = bounds.Center;
-            Vector2 origin = size * 0.5f;
-
-            if (align.HasFlag(AlignmentEnum.Left))
-            {
-                origin.X += bounds.Width / 2 - size.X / 2;
-            }
-
-            if (align.HasFlag(AlignmentEnum.Right))
-            {
-                origin.X -= bounds.Width / 2 - size.X / 2;
-            }
-
-            if (align.HasFlag(AlignmentEnum.Top))
-            {
-                origin.Y += bounds.Height / 2 - size.Y / 2;
-            }
-
-            if (align.HasFlag(AlignmentEnum.Bottom))
-            {
-                origin.Y -= bounds.Height / 2 - size.Y / 2;
-            }
-
-            SpriteBatch.DrawString(font, text, new Vector2(pos.X, pos.Y), color, 0, origin, 1, SpriteEffects.None, 0);
         }
     }
 }

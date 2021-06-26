@@ -84,7 +84,6 @@ namespace ExoGame2D.DuckAttack.GameStates
                 ControlTextureName = "ButtonBackground"
             };
 
-
             _container.AddControl(_soundEffectsOnOff);
             _container.AddControl(_backToMainMenu);
 
@@ -95,28 +94,16 @@ namespace ExoGame2D.DuckAttack.GameStates
         }
 
         public void Remove()
-        {
-            CollisionManager.RemoveAll();
-        }
+            => CollisionManager.RemoveAll();
 
-        public void Draw(GameTime gameTime)
-        {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-            var engine = Engine.Instance;
-            engine.BeginRender();
 
             _titles.Text = "Duck Attack";
             _titles.Location = new Vector2(150, 200);
 
-            _scene.RenderScene(gameTime);
-
-            engine.EndRender();
+            _scene.Draw(context, gameTime);
         }
 
         public void Update(GameTime gameTime)

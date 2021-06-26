@@ -35,11 +35,11 @@ namespace ExoGame2D.SceneManagement
             return false;
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             foreach (var node in _nodes)
             {
-                node.Draw(gameTime);
+                node.Draw(context, gameTime);
             }
         }
 

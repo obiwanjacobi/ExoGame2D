@@ -29,6 +29,6 @@ namespace ExoGame2D.Renderers
     public interface IRenderNode
     {
         void Update(GameTime gameTime);
-        void Draw(GameTime gameTime);
+        void Draw(DrawContext context, GameTime gameTime);
     }
 }

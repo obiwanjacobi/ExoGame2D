@@ -81,7 +81,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             // no-op
         }
 
-        public void Draw(GameTime gameTime)
-            => _currentSprite.Draw(gameTime);
+        public void Draw(DrawContext context, GameTime gameTime)
+            => _currentSprite.Draw(context, gameTime);
     }
 }

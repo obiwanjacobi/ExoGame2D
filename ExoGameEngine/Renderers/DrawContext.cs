@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ExoGame2D.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ExoGame2D.Renderers
@@ -25,5 +26,38 @@ namespace ExoGame2D.Renderers
         {
             SpriteBatch.End();
         }
+
+        public void DrawString(SpriteFont font, string text, Rectangle bounds, AlignmentEnum align, Color color)
+        {
+            Vector2 size = font.MeasureString(text);
+            Point pos = bounds.Center;
+            Vector2 origin = size * 0.5f;
+
+            if (align.HasFlag(AlignmentEnum.Left))
+            {
+                origin.X += bounds.Width / 2 - size.X / 2;
+            }
+
+            if (align.HasFlag(AlignmentEnum.Right))
+            {
+                origin.X -= bounds.Width / 2 - size.X / 2;
+            }
+
+            if (align.HasFlag(AlignmentEnum.Top))
+            {
+                origin.Y += bounds.Height / 2 - size.Y / 2;
+            }
+
+            if (align.HasFlag(AlignmentEnum.Bottom))
+            {
+                origin.Y -= bounds.Height / 2 - size.Y / 2;
+            }
+
+            SpriteBatch.DrawString(font, text,
+                new Vector2(pos.X, pos.Y), color, 0, origin, 1, SpriteEffects.None, 0);
+        }
+
+        public static implicit operator SpriteBatch(DrawContext context)
+            => context?.SpriteBatch;
     }
 }

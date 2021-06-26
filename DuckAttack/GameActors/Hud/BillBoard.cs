@@ -66,10 +66,10 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
             _state = BillboardState.Drop;
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             _titles.Location = new Vector2(_fontX, _fontY);
-            _titles.Draw(gameTime);
+            _titles.Draw(context, gameTime);
         }
 
         public void Update(GameTime gameTime)

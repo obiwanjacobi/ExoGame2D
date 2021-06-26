@@ -87,13 +87,9 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            var engine = Engine.Instance;
-            engine.BeginRender();
-
-            _scene.RenderScene(gameTime);
-            base.Draw(gameTime);
-
-            engine.EndRender();
+            _engine.DrawContext.BeginDraw();
+            _scene.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }

@@ -156,16 +156,16 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         }
 
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             for (int i = 0; i < MAX_NUMBER_DUCKS; i++)
             {
-                _duckIndicator[i].Draw(gameTime);
+                _duckIndicator[i].Draw(context, gameTime);
             }
 
             for (int i = 0; i < MAX_SHOTS; i++)
             {
-                _bulletIndicator[i].Draw(gameTime);
+                _bulletIndicator[i].Draw(context, gameTime);
             }
         }
     }

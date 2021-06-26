@@ -31,6 +31,7 @@ namespace ExoGame2D.DuckAttack
     public class GameLoop : Game
     {
         private readonly Engine _engine;
+
         public GameLoop()
         {
             _engine = new Engine(this);
@@ -56,13 +57,12 @@ namespace ExoGame2D.DuckAttack
         {
             InputHelper.Update();
 
-            var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
-            engine.GameState.CurrentState.Update(gameTime);
+            _engine.GameState.CurrentState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -71,10 +71,9 @@ namespace ExoGame2D.DuckAttack
         {
             GraphicsDevice.Clear(Color.Black);
 
-            var engine = Engine.Instance;
-            Engine.Instance.GameState.CurrentState.Draw(gameTime);
-
-            base.Draw(gameTime);
+            _engine.DrawContext.BeginDraw();
+            _engine.GameState.CurrentState.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }

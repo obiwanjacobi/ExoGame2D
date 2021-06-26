@@ -89,7 +89,7 @@ namespace ExoGame2D.UI
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             if (!Visible)
             {
@@ -100,27 +100,27 @@ namespace ExoGame2D.UI
             {
                 if (MouseOver)
                 {
-                    SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, MouseOverColor);
+                    context.SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, MouseOverColor);
                 }
                 else
                 {
-                    SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, Color);
+                    context.SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, Color);
                 }
 
-                SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
+                context.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
 
             if (!string.IsNullOrEmpty(ControlTextureName))
             {
                 if (MouseOver)
                 {
-                    SpriteBatch.Draw(ControlTexture, Location,
+                    context.SpriteBatch.Draw(ControlTexture, Location,
                         new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
                 else
                 {
-                    SpriteBatch.Draw(ControlTexture, Location,
+                    context.SpriteBatch.Draw(ControlTexture, Location,
                         new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), Color.White, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
@@ -129,12 +129,12 @@ namespace ExoGame2D.UI
             if (MouseOver)
             {
                 Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-                DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOverTextColor);
+                context.DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOverTextColor);
             }
             else
             {
                 Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-                DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
+                context.DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
             }
         }
     }

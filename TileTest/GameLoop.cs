@@ -44,13 +44,10 @@ namespace TileTest
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            var engine = Engine.Instance;
-            engine.DrawContext.SpriteBatch.Begin();
 
-            _tileMap.Draw(gameTime);
-            base.Draw(gameTime);
-
-            engine.DrawContext.SpriteBatch.End();
+            _engine.DrawContext.BeginDraw();
+            _tileMap.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }

@@ -18,11 +18,11 @@ namespace ExoGame2D.Tiles
 
         public Vector2 Location { get; set; }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             var effect = SpriteEffects.None;
             var tint = Color.White;
-            _tileSet.DrawTile(_tileFromSetCoord, Location, effect, tint);
+            _tileSet.DrawTile(context, _tileFromSetCoord, Location, effect, tint);
         }
 
         public void Update(GameTime gameTime)

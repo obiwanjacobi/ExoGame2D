@@ -55,11 +55,11 @@ namespace ExoGame2D.UI
             _controlList.Add(control);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             foreach (var control in _controlList)
             {
-                control.Draw(gameTime);
+                control.Draw(context, gameTime);
             }
         }
 

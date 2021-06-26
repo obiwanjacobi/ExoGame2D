@@ -40,7 +40,7 @@ namespace ExoGame2D.GameOfLife
         public static bool Help = true;
 
         public static Texture2D Pixel;
-        private Grid grid;
+        private Grid _grid;
         private readonly Scene _scene;
         private FontRender _helpFont;
 
@@ -56,7 +56,12 @@ namespace ExoGame2D.GameOfLife
             base.Initialize();
             _engine.Initialize();
 
-            grid = new Grid(NumberCellsHorizontal, NumberCellsVertical) { Name = "Grid" };
+            Window.AllowUserResizing = true;
+
+            Pixel = new Texture2D(Engine.Instance.DrawContext.SpriteBatch.GraphicsDevice, 1, 1);
+            Pixel.SetData(new[] { Color.Gray });
+
+            _grid = new Grid(NumberCellsHorizontal, NumberCellsVertical) { Name = "Grid" };
 
             _helpFont = new FontRender("help");
             _helpFont.LoadContent("File");
@@ -70,14 +75,7 @@ namespace ExoGame2D.GameOfLife
                              "<space> Pause cells" + System.Environment.NewLine;
 
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _helpFont);
-            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, grid);
-        }
-
-        protected override void LoadContent()
-        {
-            Window.AllowUserResizing = true;
-            Pixel = new Texture2D(Engine.Instance.DrawContext.SpriteBatch.GraphicsDevice, 1, 1);
-            Pixel.SetData(new[] { Color.Gray });
+            _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _grid);
         }
 
         protected override void Update(GameTime gameTime)
@@ -102,7 +100,7 @@ namespace ExoGame2D.GameOfLife
 
             if (InputHelper.KeyPressed(Keys.Back))
             {
-                grid.ClearGrid();
+                _grid.ClearGrid();
             }
 
             if (InputHelper.KeyPressed(Keys.H))
@@ -119,7 +117,7 @@ namespace ExoGame2D.GameOfLife
                 }
             }
 
-            grid.Update(gameTime);
+            _grid.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -128,13 +126,9 @@ namespace ExoGame2D.GameOfLife
         {
             GraphicsDevice.Clear(Color.Black);
 
-            var engine = Engine.Instance;
-            engine.BeginRender();
-
-            _scene.RenderScene(gameTime);
-            base.Draw(gameTime);
-
-            engine.EndRender();
+            _engine.DrawContext.BeginDraw();
+            _scene.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }

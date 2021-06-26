@@ -23,14 +23,12 @@ SOFTWARE.
 */
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace ExoGame2D.GameOfLife
 {
     public class Grid : IRenderNode
     {
-        private readonly SpriteBatch _spriteBatch;
         private Point Size { get; set; }
         private readonly Cell[,] _currentCellState;
         private readonly Cell[,] _nextCellStates;
@@ -40,7 +38,6 @@ namespace ExoGame2D.GameOfLife
 
         public Grid(int sizeX, int sizeY)
         {
-            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
             Size = new Point(sizeX, sizeY);
 
             _currentCellState = new Cell[Size.X, Size.Y];
@@ -221,17 +218,12 @@ namespace ExoGame2D.GameOfLife
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             foreach (Cell cell in _currentCellState)
             {
-                cell.Draw(_spriteBatch);
+                cell.Draw(context.SpriteBatch);
             }
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
-        {
-            Draw(gameTime);
         }
     }
 }

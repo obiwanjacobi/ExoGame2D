@@ -92,7 +92,7 @@ namespace ExoGame2D.UI
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             if (!Visible)
             {
@@ -106,30 +106,29 @@ namespace ExoGame2D.UI
             {
                 if (MouseOver)
                 {
-                    SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, MouseOverColor);
-                    SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, CheckBoxMouseOverColor);
+                    context.SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, MouseOverColor);
+                    context.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, CheckBoxMouseOverColor);
                 }
                 else
                 {
-                    SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, Color);
-                    SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, Color);
-
+                    context.SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, Color);
+                    context.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, Color);
                 }
 
-                SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
+                context.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
 
             if (!string.IsNullOrEmpty(ControlTextureName))
             {
                 if (MouseOver)
                 {
-                    SpriteBatch.Draw(ControlTexture, Location,
+                    context.SpriteBatch.Draw(ControlTexture, Location,
                         new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
                 else
                 {
-                    SpriteBatch.Draw(ControlTexture, Location,
+                    context.SpriteBatch.Draw(ControlTexture, Location,
                         new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), Color.White, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
@@ -137,23 +136,14 @@ namespace ExoGame2D.UI
 
             if (Checked)
             {
-                SpriteBatch.DrawLine(new Vector2((int)Location.X, (int)Location.Y), new Vector2((int)(Location.X + _checkBoxWidth), (int)Location.Y + Height), OutlineColor, 2);
-                SpriteBatch.DrawLine(new Vector2((int)Location.X + 1 + _checkBoxWidth, (int)Location.Y + 1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
-
+                context.SpriteBatch.DrawLine(new Vector2((int)Location.X, (int)Location.Y), new Vector2((int)(Location.X + _checkBoxWidth), (int)Location.Y + Height), OutlineColor, 2);
+                context.SpriteBatch.DrawLine(new Vector2((int)Location.X + 1 + _checkBoxWidth, (int)Location.Y + 1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
             }
 
-            SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
+            context.SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
 
             var bounds = new Rectangle((int)(Location.X + _checkBoxWidth), (int)Location.Y, (Width - _checkBoxWidth), Height);
-
-            if (MouseOver)
-            {
-                DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOverTextColor);
-            }
-            else
-            {
-                DrawString(_font, Text, bounds, AlignmentEnum.Center, TextColor);
-            }
+            context.DrawString(_font, Text, bounds, AlignmentEnum.Center, MouseOver ? MouseOverTextColor : TextColor);
         }
     }
 }

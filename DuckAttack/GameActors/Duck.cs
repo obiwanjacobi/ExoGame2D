@@ -304,7 +304,7 @@ namespace ExoGame2D.DuckAttack.GameActors
         private readonly static Color AlternateFlyTint = new Color(100, 100, 100, 255);
         private readonly static Color AlternateDeathTint = new Color(150, 150, 150, 255);
 
-        public void Draw(GameTime gameTime)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             switch (State)
             {
@@ -321,7 +321,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     {
                         _duck.Tint = Color.White;
                     }
-                    _duck.Draw(gameTime);
+                    _duck.Draw(context, gameTime);
                     break;
 
                 case DuckStateEnum.Dead:
@@ -335,7 +335,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     {
                         _duckDeath.Tint = Color.White;
                     }
-                    _duckDeath.Draw(gameTime);
+                    _duckDeath.Draw(context, gameTime);
 
                     if (_deathCounter >= 10)
                     {
@@ -350,7 +350,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     break;
 
                 case DuckStateEnum.Dive:
-                    _duckDive.Draw(gameTime);
+                    _duckDive.Draw(context, gameTime);
                     break;
             }
         }

@@ -36,24 +36,24 @@ namespace ExoGame2D.DuckAttack.GameStates
 {
     public class PlayingGameState : IGameState
     {
-        private Scene _scene = new Scene();
+        private readonly Scene _scene = new Scene();
         private Duck _duck;
         private Duck _duck2;
         private Duck _duck3;
         private Duck _duck4;
-        private Background _background;
-        private Crosshair _crosshair;
-        private FrameCounter _frameCounter = new FrameCounter();
-        private FontRender _fps;
+        private readonly Background _background;
+        private readonly Crosshair _crosshair;
+        private readonly FrameCounter _frameCounter = new FrameCounter();
+        private readonly FontRender _fps;
         private readonly ScoreBoard _score;
-        private Stopwatch _gameClock = new Stopwatch();
-        private LevelController _levelController;
-        private Hud _hud;
+        private readonly Stopwatch _gameClock = new Stopwatch();
+        private readonly LevelController _levelController;
+        private readonly Hud _hud;
         private bool Round1Triggered = false;
         private bool Round2Triggered = false;
         private bool Round3Triggered = false;
         private int _hudResetOffsetCounter = 0;
-        private BillBoard _billboard = new BillBoard(500, Color.Yellow);
+        private readonly BillBoard _billboard = new BillBoard(500, Color.Yellow);
 
 
         public PlayingGameState()
@@ -137,23 +137,13 @@ namespace ExoGame2D.DuckAttack.GameStates
             CollisionManager.RemoveAll();
         }
 
-        public void Draw(GameTime gameTime)
-        {
-            Draw(gameTime, Color.White);
-        }
-
-        public void Draw(GameTime gameTime, Color tint)
+        public void Draw(DrawContext context, GameTime gameTime)
         {
             _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            var engine = Engine.Instance;
-            engine.BeginRender();
-
-            _scene.RenderScene(gameTime);
+            _scene.Draw(context, gameTime);
 
             _fps.Text = "FPS - " + Math.Round(_frameCounter.AverageFramesPerSecond);
-
-            engine.EndRender();
         }
 
         public void Update(GameTime gameTime)

@@ -98,16 +98,6 @@ namespace ExoGame2D
             return (screenPosition - viewportTopLeft) * screenToWorldScale;
         }
 
-        public void BeginRender()
-        {
-            DrawContext.BeginDraw();
-        }
-
-        public void EndRender()
-        {
-            DrawContext.EndDraw();
-        }
-
         /// <summary>
         /// Scales the window to the desired size, and calculates how the game world should be scaled to fit inside that window.
         /// </summary>

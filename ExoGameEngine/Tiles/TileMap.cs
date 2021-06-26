@@ -18,8 +18,8 @@ namespace ExoGame2D.Tiles
             _layer.Add(tile);
         }
 
-        public void Draw(GameTime gameTime)
-            => _layer.Draw(gameTime);
+        public void Draw(DrawContext context, GameTime gameTime)
+            => _layer.Draw(context, gameTime);
 
         public void Update(GameTime gameTime)
             => _layer.Update(gameTime);

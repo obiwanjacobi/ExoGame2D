@@ -33,7 +33,6 @@ namespace ExoGame2D.Renderers
         protected Texture2D _texture;
         private Vector2 _location = new Vector2(0, 0);
         private Vector2 _velocity = new Vector2(0, 0);
-        private readonly SpriteBatch _spriteBatch;
         private float _x;
         private float _y;
         private float _velocityX;
@@ -41,8 +40,6 @@ namespace ExoGame2D.Renderers
 
         public Sprite()
         {
-            _spriteBatch = Engine.Instance.DrawContext.SpriteBatch;
-
             IsEnabled = true;
             IsVisible = true;
         }
@@ -147,7 +144,7 @@ namespace ExoGame2D.Renderers
             }
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public virtual void Draw(DrawContext context, GameTime gameTime)
         {
             if (_texture == null)
             {
@@ -161,13 +158,13 @@ namespace ExoGame2D.Renderers
 
             SpriteEffects effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            _spriteBatch.Draw(_texture, _location,
+            context.SpriteBatch.Draw(_texture, _location,
                 new Rectangle(0, 0, _texture.Width, _texture.Height), Tint, 0,
                 new Vector2(0, 0), 1.0f, effect, 0.0f);
 
             if (RenderBoundingBox)
             {
-                _spriteBatch.DrawRectangle(BoundingBox, Color.Yellow, 3);
+                context.SpriteBatch.DrawRectangle(BoundingBox, Color.Yellow, 3);
             }
         }
     }

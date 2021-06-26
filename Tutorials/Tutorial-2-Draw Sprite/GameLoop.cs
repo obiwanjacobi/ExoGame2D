@@ -70,8 +70,7 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                var engine = Engine.Instance;
-                engine.SetFullScreen(!engine.IsFullScreen);
+                _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
             base.Update(gameTime);
@@ -81,13 +80,9 @@ namespace ExoGame2D.Tutorials.Tutorial2_DrawSprite
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            var engine = Engine.Instance;
-            engine.BeginRender();
-
-            _scene.RenderScene(gameTime);
-            base.Draw(gameTime);
-
-            engine.EndRender();
+            _engine.DrawContext.BeginDraw();
+            _scene.Draw(_engine.DrawContext, gameTime);
+            _engine.DrawContext.EndDraw();
         }
     }
 }
