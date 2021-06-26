@@ -36,7 +36,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
 
             _scene = new Scene();
@@ -63,31 +63,33 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
 
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Exit();         
+                Exit();
             }
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                var engine = Engine.Instance;
+                engine.FullScreen = !engine.FullScreen;
             }
-         
+
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {      
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Engine.BeginRender(_scene);
-            
-            var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
+
+            var mouse = engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
 
             _scene.RenderScene(gameTime);
 
-            Engine.EndRender();
-            
+            engine.EndRender();
+
             base.Draw(gameTime);
         }
     }

@@ -31,14 +31,15 @@ namespace ExoGame2D.DuckAttack.GameStates
         public void OnMouseClick(UIControlBase button)
         {
             MusicPlayer.Stop();
-            Engine.GameState.CurrentState.Remove();
-            Engine.GameState.Register("Playing", new PlayingGameState());
-            Engine.GameState.ChangeState("Playing");
+            var engine = Engine.Instance;
+            engine.GameState.CurrentState.Remove();
+            engine.GameState.Register("Playing", new PlayingGameState());
+            engine.GameState.ChangeState("Playing");
         }
 
         public void OnMouseOver(UIControlBase button)
         {
-            
+
         }
     }
 }

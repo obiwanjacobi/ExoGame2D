@@ -21,12 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using ExoGame2D.DuckAttack.GameActors;
+using ExoGame2D.DuckAttack.MainMenuActors;
 using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using ExoGame2D.SceneManagement;
 using ExoGame2D.UI;
-using ExoGame2D.DuckAttack.GameActors;
-using ExoGame2D.DuckAttack.MainMenuActors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -35,7 +35,7 @@ namespace ExoGame2D.DuckAttack.GameStates
     public class OptionsMenu : IGameState
     {
         private readonly Scene _scene = new Scene();
-        
+
         private readonly Background _background;
         private readonly MenuCursor _crosshair;
         private readonly FrameCounter _frameCounter = new FrameCounter();
@@ -68,7 +68,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Location = new Vector2(700, startYPosition),
                 Text = "Sound Effects On/Off",
                 DrawWindowChrome = true,
-                ControlTexture = "ButtonBackground"
+                ControlTextureName = "ButtonBackground"
             };
 
             ((CheckBox)_soundEffectsOnOff).Checked = SoundEffectPlayer.PlaySoundEffects;
@@ -82,10 +82,10 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Location = new Vector2(700, startYPosition),
                 Text = "<-- Exit to Main Menu",
                 DrawWindowChrome = true,
-                ControlTexture = "ButtonBackground"
-            };        
+                ControlTextureName = "ButtonBackground"
+            };
 
-            
+
             _container.AddControl(_soundEffectsOnOff);
             _container.AddControl(_backToMainMenu);
 
@@ -94,7 +94,7 @@ namespace ExoGame2D.DuckAttack.GameStates
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _container);
         }
-      
+
         public void Remove()
         {
             CollisionManager.RemoveAll();
@@ -108,7 +108,8 @@ namespace ExoGame2D.DuckAttack.GameStates
         {
             _frameCounter.Update((float)gametime.ElapsedGameTime.TotalSeconds);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _titles.Text = "Duck Attack";
 
@@ -116,7 +117,7 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             _scene.RenderScene(gametime);
 
-            Engine.EndRender();
+            engine.EndRender();
         }
 
         public void Update(GameTime gametime)
@@ -130,7 +131,7 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Engine.Exit();
+                Engine.Instance.Exit();
             }
 
             _scene.UpdateGameLogic(gametime);

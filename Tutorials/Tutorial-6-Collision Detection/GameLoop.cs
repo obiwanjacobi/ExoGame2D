@@ -21,12 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
 using ExoGame2D.Renderers;
 using ExoGame2D.SceneManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
 {
@@ -38,7 +38,7 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
 
             _scene = new Scene();
@@ -58,7 +58,7 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
             _crosshair.LoadContent("crosshair");
             _logo.LoadContent("ExoEngineLogo");
             _logo.Location = new Vector2(100, 100);
-            
+
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer1, _logo);
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
         }
@@ -69,35 +69,37 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
 
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Exit();         
+                Exit();
             }
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                var engine = Engine.Instance;
+                engine.FullScreen = !engine.FullScreen;
             }
 
             if (CollisionManager.IsPerPixelCollision("Crosshair", "Logo"))
                 Console.WriteLine("COLLIDE");
             else
-                Console.WriteLine("NOT COLLIDE"); 
+                Console.WriteLine("NOT COLLIDE");
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {      
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Engine.BeginRender(_scene);
-            
-            var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
+
+            var mouse = engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
 
             _scene.RenderScene(gameTime);
 
-            Engine.EndRender();
-            
+            engine.EndRender();
+
             base.Draw(gameTime);
         }
     }

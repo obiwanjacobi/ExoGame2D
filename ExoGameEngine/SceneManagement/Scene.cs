@@ -34,11 +34,12 @@ namespace ExoGame2D.SceneManagement
     public class Scene
     {
         private readonly Dictionary<int, Layer> _layers = new Dictionary<int, Layer>();
+        private IEnumerable<Layer> _orderedLayers;
 
         public void AddSpriteToLayer(RenderLayerEnum layer, IRenderNode node)
-            => AddSpriteToLayer((int)layer, node);
+            => AddToLayer((int)layer, node);
 
-        public void AddSpriteToLayer(int layerIndex, IRenderNode node)
+        public void AddToLayer(int layerIndex, IRenderNode node)
         {
             var layer = GetLayer(layerIndex);
             layer.Add(node);
@@ -50,14 +51,14 @@ namespace ExoGame2D.SceneManagement
                     throw new InvalidOperationException("A Sprite must have a name.");
                 }
 
-                CollisionManager.AddSpriteToCollisionManager(node.GetSprite(), node.Name);
+                CollisionManager.AddSprite(node.GetSprite(), node.Name);
             }
         }
 
         public bool RemoveSpriteFromLayer(RenderLayerEnum layer, IRenderNode node)
-            => RemoveSpriteFromLayer((int)layer, node);
+            => RemoveFromLayer((int)layer, node);
 
-        public bool RemoveSpriteFromLayer(int layerIndex, IRenderNode node)
+        public bool RemoveFromLayer(int layerIndex, IRenderNode node)
         {
             var layer = GetLayer(layerIndex);
             return layer.Remove(node);
@@ -65,8 +66,7 @@ namespace ExoGame2D.SceneManagement
 
         public void RenderScene(GameTime gameTime)
         {
-            // TODO: replace linq with something faster
-            foreach (var node in _layers.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value))
+            foreach (var node in _orderedLayers)
             {
                 node.Draw(gameTime);
             }
@@ -76,7 +76,7 @@ namespace ExoGame2D.SceneManagement
         {
             SoundEffectPlayer.ProcessSoundEvents();
 
-            foreach (var node in _layers.Values)
+            foreach (var node in _orderedLayers)
             {
                 node.Update(gameTime);
             }
@@ -87,6 +87,8 @@ namespace ExoGame2D.SceneManagement
             if (!_layers.ContainsKey(index))
             {
                 _layers[index] = new Layer();
+                // TODO: replace linq with something faster
+                _orderedLayers = _layers.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value);
             }
 
             return _layers[index];

@@ -54,7 +54,7 @@ namespace ExoGame2D.Renderers
                 throw new ArgumentNullException(nameof(textureName));
             }
 
-            _animationFrames.Add(Engine.Content.Load<Texture2D>(textureName));
+            _animationFrames.Add(Engine.Instance.Content.Load<Texture2D>(textureName));
 
             _currentFrame = 0;
             _currentTexture = _animationFrames[_currentFrame];

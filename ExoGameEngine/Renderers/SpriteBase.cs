@@ -120,7 +120,7 @@ namespace ExoGame2D.Renderers
 
         public SpriteBase()
         {
-            _spriteBatch = Engine.SpriteBatch;
+            _spriteBatch = Engine.Instance.SpriteBatch;
 
             IsEnabled = true;
             IsVisible = true;
@@ -133,7 +133,7 @@ namespace ExoGame2D.Renderers
                 throw new ArgumentNullException(nameof(textureName));
             }
 
-            _currentTexture = Engine.Content.Load<Texture2D>(textureName);
+            _currentTexture = Engine.Instance.Content.Load<Texture2D>(textureName);
         }
 
         protected void Update(GameTime gameTime)

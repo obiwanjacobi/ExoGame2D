@@ -36,7 +36,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
 
             _scene = new Scene();
@@ -64,25 +64,26 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
 
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Exit();         
+                Exit();
             }
 
+            var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                engine.FullScreen = !engine.FullScreen;
             }
 
-            if (_logo.X + _logo.Width > Engine.ScaledViewPort.X)
+            if (_logo.X + _logo.Width > engine.ScaledViewPort.X)
             {
-                _logo.VX = -_logo.VX;               
+                _logo.VX = -_logo.VX;
             }
 
             if (_logo.X < 0)
             {
-                _logo.VX = -_logo.VX;             
+                _logo.VX = -_logo.VX;
             }
 
-            if (_logo.Y + (_logo.Height) > Engine.ScaledViewPort.Y)
+            if (_logo.Y + (_logo.Height) > engine.ScaledViewPort.Y)
             {
                 _logo.VY = -_logo.VY;
             }
@@ -91,22 +92,23 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
             {
                 _logo.VY = -_logo.VY;
             }
-         
+
             _logo.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {      
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _scene.RenderScene(gameTime);
 
-            Engine.EndRender();
-            
+            engine.EndRender();
+
             base.Draw(gameTime);
         }
     }

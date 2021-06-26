@@ -24,7 +24,7 @@ SOFTWARE.
 using System;
 using ExoGame2D.DuckAttack.GameStates.Controller;
 using ExoGame2D.DuckAttack.Messages;
-using ExoGame2D.Interfaces;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 
 namespace ExoGame2D.DuckAttack.GameActors.Hud

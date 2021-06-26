@@ -30,14 +30,15 @@ namespace ExoGame2D.DuckAttack.GameStates
     {
         public void OnMouseClick(UIControlBase button)
         {
-            Engine.GameState.CurrentState.Remove();
-            Engine.GameState.Register("Options", new OptionsMenu());
-            Engine.GameState.ChangeState("Options");
+            var engine = Engine.Instance;
+            engine.GameState.CurrentState.Remove();
+            engine.GameState.Register("Options", new OptionsMenu());
+            engine.GameState.ChangeState("Options");
         }
 
         public void OnMouseOver(UIControlBase button)
         {
-            
+
         }
     }
 }

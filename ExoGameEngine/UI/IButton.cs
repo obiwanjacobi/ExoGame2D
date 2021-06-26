@@ -21,14 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.UI;
+using Microsoft.Xna.Framework;
 
-namespace ExoGame2D.Interfaces
+namespace ExoGame2D.UI
 {
-    public interface ICheckBoxHandler
+    public interface IButton : IUIControl
     {
-        void OnMouseClick(UIControlBase checkbox);
-        void OnMouseOver(UIControlBase checkbox);
-        void OnCheck(UIControlBase checkbox);
+        string Text { get; set; }
+        Color TextColor { get; set; }
+        Color MouseOverTextColor { get; set; }
     }
 }

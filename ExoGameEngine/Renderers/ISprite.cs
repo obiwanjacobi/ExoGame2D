@@ -23,19 +23,25 @@ SOFTWARE.
 */
 using Microsoft.Xna.Framework;
 
-namespace ExoGame2D.Interfaces
+namespace ExoGame2D.Renderers
 {
-    public interface IUIControl 
+    public interface ISprite : IRenderNode
     {
-        int Width { get; set; }
-        int Height { get; set; }
+        bool IsVisible { get; set; }
+        bool IsEnabled { get; set; }
+        bool RenderBoundingBox { get; set; }
+        float X { get; set; }
+        float Y { get; set; }
+        float VX { get; set; }
+        float VY { get; set; }
+        bool Flip { get; set; }
         Vector2 Location { get; set; }
-        bool Enabled { get; set; }
-        bool Visible { get; set; }
-        Color Color { get; set; }
-        Color OutlineColor { get; set; }
-        Color MouseOverColor { get; set; }
-        bool DrawWindowChrome { get; set; }
-        bool MouseOver { get; }
+        Vector2 Velocity { get; set; }
+        int Height { get; }
+        int Width { get; }
+        Rectangle Dimensions { get; }
+        Rectangle BoundingBox { get; }
+        void LoadContent(string textureName);
+        bool CollidesWith(ISprite sprite);
     }
 }

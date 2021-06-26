@@ -62,12 +62,13 @@ namespace ExoGame2D.UI
             MouseOverTextColor = Color.Khaki;
 
             DrawWindowChrome = true;
-            _font = Engine.Content.Load<SpriteFont>("default");
+
+            _font = Engine.Instance.Content.Load<SpriteFont>("default");
         }
 
         public void Update(GameTime gameTime)
         {
-            var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
             var bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
 
@@ -104,28 +105,28 @@ namespace ExoGame2D.UI
             {
                 if (MouseOver)
                 {
-                    Engine.SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, MouseOverColor);
+                    SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, MouseOverColor);
                 }
                 else
                 {
-                    Engine.SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, Color);
+                    SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, Color);
                 }
 
-                Engine.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
+                SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
 
-            if (!string.IsNullOrEmpty(_controlTextureName))
+            if (!string.IsNullOrEmpty(ControlTextureName))
             {
                 if (MouseOver)
                 {
-                    Engine.SpriteBatch.Draw(_controlTexture, Location,
-                        new Rectangle(0, 0, _controlTexture.Width, _controlTexture.Height), MouseOverColor, 0.0f,
+                    SpriteBatch.Draw(ControlTexture, Location,
+                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
                 else
                 {
-                    Engine.SpriteBatch.Draw(_controlTexture, Location,
-                        new Rectangle(0, 0, _controlTexture.Width, _controlTexture.Height), Color.White, 0.0f,
+                    SpriteBatch.Draw(ControlTexture, Location,
+                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), Color.White, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
             }

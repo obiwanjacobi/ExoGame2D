@@ -37,7 +37,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
 
             _scene = new Scene();
@@ -55,7 +55,7 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
             Window.AllowUserResizing = true;
             _logo.LoadContent("ExoEngineLogo");
             _logo.Location = new Vector2(550, 20);
-            
+
             _titles.LoadContent("titles");
             _titles.Location = new Vector2(200, 800);
             _titles.Shadow = true;
@@ -76,7 +76,8 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                var engine = Engine.Instance;
+                engine.FullScreen = !engine.FullScreen;
             }
 
             base.Update(gameTime);
@@ -86,11 +87,12 @@ namespace ExoGame2D.Tutorials.Tutorial5_FontRendering
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _scene.RenderScene(gameTime);
 
-            Engine.EndRender();
+            engine.EndRender();
 
             base.Draw(gameTime);
         }

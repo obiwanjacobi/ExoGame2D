@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D;
 using ExoGame2D.DuckAttack.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +32,7 @@ namespace ExoGame2D.DuckAttack
     {
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             //Engine.InitializeEngine(this, 1280, 720);
 
             IsMouseVisible = false;
@@ -46,10 +45,10 @@ namespace ExoGame2D.DuckAttack
 
         protected override void LoadContent()
         {
+            var engine = Engine.Instance;
+            engine.GameState.Register("MainMenu", new MainMenu());
 
-            Engine.GameState.Register("MainMenu", new MainMenu());
-
-            Engine.GameState.ChangeState("Mainmenu");
+            engine.GameState.ChangeState("Mainmenu");
             Window.AllowUserResizing = true;
         }
 
@@ -57,22 +56,24 @@ namespace ExoGame2D.DuckAttack
         {
             InputHelper.Update();
 
+            var engine = Engine.Instance;
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;             
+                engine.FullScreen = !engine.FullScreen;
             }
 
-            Engine.GameState.CurrentState.Update(gameTime);
+            engine.GameState.CurrentState.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {      
+        {
             GraphicsDevice.Clear(Color.Black);
 
-            Engine.GameState.CurrentState.Draw(gameTime);
-            
+            var engine = Engine.Instance;
+            Engine.Instance.GameState.CurrentState.Draw(gameTime);
+
             base.Draw(gameTime);
         }
     }

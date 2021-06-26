@@ -21,16 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
+using ExoGame2D.DuckAttack.GameActors;
+using ExoGame2D.DuckAttack.GameActors.Hud;
+using ExoGame2D.DuckAttack.GameStates.Controller;
 using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using ExoGame2D.SceneManagement;
-using ExoGame2D.DuckAttack.GameActors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Diagnostics;
-using ExoGame2D.DuckAttack.GameActors.Hud;
-using ExoGame2D.DuckAttack.GameStates.Controller;
 
 namespace ExoGame2D.DuckAttack.GameStates
 {
@@ -65,7 +65,7 @@ namespace ExoGame2D.DuckAttack.GameStates
             _background = new Background();
             _fps = new FontRender("fps counter");
             _fps.LoadContent("default");
-            _fps.Location = new Vector2(40, Engine.ScaledViewPort.Y - 50);
+            _fps.Location = new Vector2(40, Engine.Instance.ScaledViewPort.Y - 50);
 
             _score = new ScoreBoard("score board");
             _hud = new Hud("Hud");
@@ -80,9 +80,9 @@ namespace ExoGame2D.DuckAttack.GameStates
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer4, _billboard);
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer5, _crosshair);
 
-            Channels.AddNewChannel("score");
-            Channels.AddNewChannel("duckhit");
-            Channels.AddNewChannel("gunfired");
+            Channels.Create("score");
+            Channels.Create("duckhit");
+            Channels.Create("gunfired");
 
             _billboard.StartBillBoard("Level " + _levelController.LevelNumber);
         }
@@ -102,7 +102,7 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             level.Ducks.Shuffle();
 
-            _duck  = new Duck("duck", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
+            _duck = new Duck("duck", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
             _duck2 = new Duck("duck2", level.Ducks[1].StartX, level.Ducks[1].Flip, level.Ducks[1].HorizontalVelocity, level.Ducks[1].VerticalVelocity);
             _duck3 = new Duck("duck3", level.Ducks[2].StartX, level.Ducks[2].Flip, level.Ducks[2].HorizontalVelocity, level.Ducks[2].VerticalVelocity);
             _duck4 = new Duck("duck4", level.Ducks[3].StartX, level.Ducks[3].Flip, level.Ducks[3].HorizontalVelocity, level.Ducks[3].VerticalVelocity);
@@ -112,10 +112,10 @@ namespace ExoGame2D.DuckAttack.GameStates
             _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck3);
             _scene.RemoveSpriteFromLayer(RenderLayerEnum.Layer2, _duck4);
 
-            CollisionManager.RemoveSpriteToCollisionManager(_duck.Name);
-            CollisionManager.RemoveSpriteToCollisionManager(_duck2.Name);
-            CollisionManager.RemoveSpriteToCollisionManager(_duck3.Name);
-            CollisionManager.RemoveSpriteToCollisionManager(_duck4.Name);
+            CollisionManager.RemoveSprite(_duck.Name);
+            CollisionManager.RemoveSprite(_duck2.Name);
+            CollisionManager.RemoveSprite(_duck3.Name);
+            CollisionManager.RemoveSprite(_duck4.Name);
 
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck);
             _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _duck2);
@@ -146,24 +146,26 @@ namespace ExoGame2D.DuckAttack.GameStates
         {
             _frameCounter.Update((float)gametime.ElapsedGameTime.TotalSeconds);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _scene.RenderScene(gametime);
 
             _fps.Text = "FPS - " + Math.Round(_frameCounter.AverageFramesPerSecond);
 
-            Engine.EndRender();
+            engine.EndRender();
         }
 
         public void Update(GameTime gametime)
         {
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Engine.GameState.CurrentState.Remove();
-                Engine.GameState.Register("Playing", new PlayingGameState());
+                var engine = Engine.Instance;
+                engine.GameState.CurrentState.Remove();
+                engine.GameState.Register("Playing", new PlayingGameState());
 
-                Engine.GameState.Register("MainMenu", new MainMenu());
-                Engine.GameState.ChangeState("MainMenu");
+                engine.GameState.Register("MainMenu", new MainMenu());
+                engine.GameState.ChangeState("MainMenu");
             }
 
             if ((_hud.NumberOfDucksShot == 4) && (!Round1Triggered))

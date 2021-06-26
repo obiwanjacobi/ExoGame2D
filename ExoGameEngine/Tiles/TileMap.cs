@@ -1,4 +1,4 @@
-﻿using ExoGame2D.Interfaces;
+﻿using ExoGame2D.Renderers;
 using ExoGame2D.SceneManagement;
 using Microsoft.Xna.Framework;
 using System;
@@ -27,13 +27,13 @@ namespace ExoGame2D.Tiles
         public void Draw(GameTime gameTime, Color tint)
             => _layer.Draw(gameTime, tint);
 
+        public void Update(GameTime gameTime)
+            => _layer.Update(gameTime);
+
         public ISprite GetSprite()
             => null;
 
         public bool IsAssetOfType(Type type)
             => false;
-
-        public void Update(GameTime gameTime)
-            => _layer.Update(gameTime);
     }
 }

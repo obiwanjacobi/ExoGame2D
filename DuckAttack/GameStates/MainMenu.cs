@@ -21,12 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using ExoGame2D.DuckAttack.GameActors;
+using ExoGame2D.DuckAttack.MainMenuActors;
 using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using ExoGame2D.SceneManagement;
 using ExoGame2D.UI;
-using ExoGame2D.DuckAttack.GameActors;
-using ExoGame2D.DuckAttack.MainMenuActors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -35,7 +35,7 @@ namespace ExoGame2D.DuckAttack.GameStates
     public class MainMenu : IGameState
     {
         private readonly Scene _scene = new Scene();
-        
+
         private readonly Background _background;
         private readonly MenuCursor _crosshair;
         private readonly FrameCounter _frameCounter = new FrameCounter();
@@ -72,7 +72,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Location = new Vector2(700, startYPosition),
                 Text = "Play Duck Attack",
                 DrawWindowChrome = true,
-                ControlTexture = "ButtonBackground"
+                ControlTextureName = "ButtonBackground"
             };
 
             startYPosition += 80;
@@ -84,7 +84,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Location = new Vector2(700, startYPosition),
                 Text = "Options",
                 DrawWindowChrome = true,
-                ControlTexture = "ButtonBackground"
+                ControlTextureName = "ButtonBackground"
             };
 
             startYPosition += 80;
@@ -96,7 +96,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Location = new Vector2(700, startYPosition),
                 Text = "Exit Game",
                 DrawWindowChrome = true,
-                ControlTexture = "ButtonBackground"
+                ControlTextureName = "ButtonBackground"
             };
 
             _container.AddControl(_playGameButton);
@@ -112,7 +112,7 @@ namespace ExoGame2D.DuckAttack.GameStates
             MusicPlayer.Looped = true;
         }
 
-        
+
         public void Remove()
         {
             CollisionManager.RemoveAll();
@@ -126,7 +126,8 @@ namespace ExoGame2D.DuckAttack.GameStates
         {
             _frameCounter.Update((float)gametime.ElapsedGameTime.TotalSeconds);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _titles.Text = "Duck Attack";
 
@@ -140,14 +141,14 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             _scene.RenderScene(gametime);
 
-            Engine.EndRender();
+            engine.EndRender();
         }
 
         public void Update(GameTime gametime)
         {
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Engine.Exit();
+                Engine.Instance.Exit();
             }
 
             _scene.UpdateGameLogic(gametime);

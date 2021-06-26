@@ -13,7 +13,7 @@ namespace TileTest
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080, 3200, 2400);
             IsMouseVisible = true;
         }
 
@@ -24,7 +24,7 @@ namespace TileTest
 
         protected override void LoadContent()
         {
-            _tileSet = TileSet.Load("terrain_atlas", 32, 32);
+            _tileSet = new TileSet("TX Village Props", 32, 32);
             _tileMap = new TileMap(_tileSet);
 
             _tileMap.MapTile(0, 0, new Vector2(100, 100));
@@ -43,12 +43,13 @@ namespace TileTest
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            Engine.SpriteBatch.Begin();
+            var engine = Engine.Instance;
+            engine.SpriteBatch.Begin();
 
             _tileMap.Draw(gameTime);
             base.Draw(gameTime);
 
-            Engine.SpriteBatch.End();
+            engine.SpriteBatch.End();
         }
     }
 }

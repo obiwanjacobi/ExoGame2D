@@ -61,7 +61,7 @@ namespace ExoGame2D.DuckAttack.MainMenuActors
 
         public void Update(GameTime gameTime)
         {
-            var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
         }
 

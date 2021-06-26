@@ -54,7 +54,7 @@ namespace ExoGame2D
                 return;
             }
 
-            _soundEffects.Add(lowerCaseName, Engine.Content.Load<SoundEffect>(lowerCaseName));
+            _soundEffects.Add(lowerCaseName, Engine.Instance.Content.Load<SoundEffect>(lowerCaseName));
         }
 
         public static void RemoveSoundEffect(string name)
@@ -98,7 +98,7 @@ namespace ExoGame2D
         {
             if (!Channels.Exists("soundeffects"))
             {
-                Channels.AddNewChannel("soundeffects");
+                Channels.Create("soundeffects");
             }
 
             if (Channels.Exists("soundeffects"))

@@ -25,15 +25,15 @@ SOFTWARE.
 using ExoGame2D.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace ExoGame2D
 {
     public static class Channels
     {
-        private static readonly Dictionary<string, Queue<IChannelMessage>> _channels = new Dictionary<string, Queue<IChannelMessage>>();
+        private static readonly Dictionary<string, Queue<IChannelMessage>> _channels =
+            new Dictionary<string, Queue<IChannelMessage>>();
 
-        public static void AddNewChannel(string channelName)
+        public static void Create(string channelName)
         {
             if (string.IsNullOrEmpty(channelName))
             {
@@ -48,24 +48,25 @@ namespace ExoGame2D
             _channels.Add(channelName, new Queue<IChannelMessage>());
         }
 
-        public static void RemoveChannel(string channelName)
+        public static void Delete(string channelName)
         {
             if (string.IsNullOrEmpty(channelName))
             {
                 throw new ArgumentNullException(nameof(channelName));
             }
 
-            if (!_channels.ContainsKey(channelName.ToLowerInvariant()))
+            var channelNameLower = channelName.ToLowerInvariant();
+            if (!_channels.ContainsKey(channelNameLower))
             {
-                throw new InvalidOperationException("The channel <" + channelName + "> does not exist.");
+                throw new InvalidOperationException("The channel <" + channelNameLower + "> does not exist.");
             }
 
-            if (_channels[channelName.ToLowerInvariant()].Count > 0)
+            if (_channels[channelNameLower].Count > 0)
             {
-                throw new InvalidOperationException("The channel <" + channelName.ToLowerInvariant() + "> contains messages.");
+                throw new InvalidOperationException("The channel <" + channelNameLower + "> contains messages.");
             }
 
-            _channels.Remove(channelName.ToLowerInvariant());
+            _channels.Remove(channelNameLower);
         }
 
         public static bool Exists(string channelName)
@@ -75,27 +76,23 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(channelName));
             }
 
-            if (_channels.ContainsKey(channelName.ToLowerInvariant()))
-            {
-                return true;
-            }
-
-            return false;
+            return _channels.ContainsKey(channelName.ToLowerInvariant());
         }
 
-        public static void ClearChannel(string channelName)
+        public static void Clear(string channelName)
         {
             if (string.IsNullOrEmpty(channelName))
             {
                 throw new ArgumentNullException(nameof(channelName));
             }
 
-            if (!_channels.ContainsKey(channelName.ToLowerInvariant()))
+            var channelNameLower = channelName.ToLowerInvariant();
+            if (!_channels.ContainsKey(channelNameLower))
             {
-                throw new InvalidOperationException("The channel <" + channelName.ToLowerInvariant() + "> does not exist.");
+                throw new InvalidOperationException("The channel <" + channelNameLower + "> does not exist.");
             }
 
-            _channels[channelName.ToLowerInvariant()].Clear();
+            _channels[channelNameLower].Clear();
         }
 
         public static void PostMessage(string channelName, IChannelMessage message)
@@ -110,12 +107,13 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(message));
             }
 
-            if (!_channels.ContainsKey(channelName.ToLowerInvariant()))
+            var channelNameLower = channelName.ToLowerInvariant();
+            if (!_channels.ContainsKey(channelNameLower))
             {
-                throw new InvalidOperationException("The channel <" + channelName.ToLowerInvariant() + "> does not exist.");
+                throw new InvalidOperationException("The channel <" + channelNameLower + "> does not exist.");
             }
 
-            _channels[channelName.ToLowerInvariant()].Enqueue(message);
+            _channels[channelNameLower].Enqueue(message);
         }
 
         public static IChannelMessage RetrieveLatestMessage(string channelName)
@@ -125,17 +123,18 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(channelName));
             }
 
-            if (!_channels.ContainsKey(channelName.ToLowerInvariant()))
+            var channelNameLower = channelName.ToLowerInvariant();
+            if (!_channels.ContainsKey(channelNameLower))
             {
-                throw new InvalidOperationException("The channel <" + channelName.ToLowerInvariant() + "> does not exist.");
+                throw new InvalidOperationException("The channel <" + channelNameLower + "> does not exist.");
             }
 
-            if (_channels[channelName.ToLowerInvariant()].Count == 0)
+            if (_channels[channelNameLower].Count > 0)
             {
-                return null;
+                return _channels[channelNameLower].Dequeue();
             }
 
-            return _channels[channelName.ToLowerInvariant()].Dequeue();
+            return null;
         }
     }
 }

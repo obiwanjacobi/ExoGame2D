@@ -1,4 +1,4 @@
-﻿using ExoGame2D.Interfaces;
+﻿using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

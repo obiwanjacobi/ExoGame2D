@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D;
 using ExoGame2D.Interfaces;
 using ExoGame2D.UI;
 
@@ -31,14 +30,15 @@ namespace ExoGame2D.DuckAttack.GameStates
     {
         public void OnMouseClick(UIControlBase button)
         {
-            Engine.GameState.CurrentState.Remove();
-            Engine.GameState.Register("MenuMenu", new MainMenu());
-            Engine.GameState.ChangeState("MenuMenu");
+            var engine = Engine.Instance;
+            engine.GameState.CurrentState.Remove();
+            engine.GameState.Register("MenuMenu", new MainMenu());
+            engine.GameState.ChangeState("MenuMenu");
         }
 
         public void OnMouseOver(UIControlBase button)
         {
-            
+
         }
     }
 }

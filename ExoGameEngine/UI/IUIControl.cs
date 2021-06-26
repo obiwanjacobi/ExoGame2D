@@ -23,12 +23,19 @@ SOFTWARE.
 */
 using Microsoft.Xna.Framework;
 
-namespace ExoGame2D.Interfaces
+namespace ExoGame2D.UI
 {
-    public interface IButton : IUIControl
-    {       
-        string Text { get; set; }     
-        Color TextColor { get; set; }
-        Color MouseOverTextColor { get; set; }
+    public interface IUIControl
+    {
+        int Width { get; set; }
+        int Height { get; set; }
+        Vector2 Location { get; set; }
+        bool Enabled { get; set; }
+        bool Visible { get; set; }
+        Color Color { get; set; }
+        Color OutlineColor { get; set; }
+        Color MouseOverColor { get; set; }
+        bool DrawWindowChrome { get; set; }
+        bool MouseOver { get; }
     }
 }

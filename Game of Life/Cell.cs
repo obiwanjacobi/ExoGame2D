@@ -45,7 +45,7 @@ namespace ExoGame2D.GameOfLife
         public void Update()
         {
 
-            var point = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var point = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
 
             if (_boundingBox.Contains(new Point((int)point.X, (int)point.Y)))
             {

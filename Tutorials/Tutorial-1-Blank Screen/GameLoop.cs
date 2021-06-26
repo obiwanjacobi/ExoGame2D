@@ -31,7 +31,7 @@ namespace ExoGame2D.Tutorials.Tutorial1_BlankScreen
     {
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
         }
 
@@ -51,21 +51,22 @@ namespace ExoGame2D.Tutorials.Tutorial1_BlankScreen
 
             if (InputHelper.KeyPressed(Keys.Escape))
             {
-                Exit();         
+                Exit();
             }
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                var engine = Engine.Instance;
+                engine.FullScreen = !engine.FullScreen;
             }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {      
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             base.Draw(gameTime);
         }
     }

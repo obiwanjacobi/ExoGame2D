@@ -13,16 +13,17 @@ namespace ExoGame2D.Tiles
         private readonly Texture2D _tiles;
         private readonly SpriteBatch _spriteBatch;
 
-        private TileSet(Texture2D tiles, int tileWidth, int tileHeight)
+        public TileSet(string name, int tileWidth, int tileHeight)
         {
-            _tiles = tiles;
+            var engine = Engine.Instance;
+            _tiles = engine.Content.Load<Texture2D>(name);
             _tileWidth = tileWidth;
             _tileHeight = tileHeight;
 
             _tilesInRow = _tiles.Width / tileWidth;
             _tilesInCol = _tiles.Height / tileHeight;
 
-            _spriteBatch = Engine.SpriteBatch;
+            _spriteBatch = engine.SpriteBatch;
         }
 
         public int RowTileCount => _tilesInRow;
@@ -44,14 +45,6 @@ namespace ExoGame2D.Tiles
             var w = x + _tileWidth;
             var h = y + _tileHeight;
             return new Tile(this, new Rectangle(x, y, w, h));
-        }
-
-        public static TileSet Load(string name, int tileWidth, int tileHeight)
-        {
-            var contentManager = Engine.Content;
-            var tileSetTexture = contentManager.Load<Texture2D>(name);
-
-            return new TileSet(tileSetTexture, tileWidth, tileHeight);
         }
 
         internal void DrawTile(Rectangle tileFromSetCoord, Vector2 location, SpriteEffects effect, Color color)

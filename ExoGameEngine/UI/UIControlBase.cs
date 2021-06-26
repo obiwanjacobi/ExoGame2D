@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -42,18 +41,16 @@ namespace ExoGame2D.UI
         public bool MouseOver { get; set; }
         public string Name { get; set; }
 
-        protected Texture2D _controlTexture { get; set; }
-        protected string _controlTextureName;
+        protected Texture2D ControlTexture { get; set; }
+        protected SpriteBatch SpriteBatch { get; }
 
-        public string ControlTexture
+        private string _controlTextureName;
+        public string ControlTextureName
         {
-            get
-            {
-                return _controlTextureName;
-            }
+            get { return _controlTextureName; }
             set
             {
-                _controlTexture = Engine.Content.Load<Texture2D>(value);
+                ControlTexture = Engine.Instance.Content.Load<Texture2D>(value);
                 _controlTextureName = value;
             }
         }
@@ -84,7 +81,7 @@ namespace ExoGame2D.UI
                 origin.Y -= bounds.Height / 2 - size.Y / 2;
             }
 
-            Engine.SpriteBatch.DrawString(font, text, new Vector2(pos.X, pos.Y), color, 0, origin, 1, SpriteEffects.None, 0);
+            SpriteBatch.DrawString(font, text, new Vector2(pos.X, pos.Y), color, 0, origin, 1, SpriteEffects.None, 0);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace ExoGame2D.GameOfLife
 
         public GameLoop()
         {
-            Engine.InitializeEngine(this, 1920, 1080);
+            Engine.Instance.InitializeEngine(this, 1920, 1080);
             IsMouseVisible = true;
 
             _helpFont = new FontRender("help");
@@ -75,7 +75,7 @@ namespace ExoGame2D.GameOfLife
         protected override void LoadContent()
         {
             Window.AllowUserResizing = true;
-            Pixel = new Texture2D(ExoGame2D.Engine.SpriteBatch.GraphicsDevice, 1, 1);
+            Pixel = new Texture2D(Engine.Instance.SpriteBatch.GraphicsDevice, 1, 1);
             Pixel.SetData(new[] { Color.Gray });
         }
 
@@ -90,7 +90,8 @@ namespace ExoGame2D.GameOfLife
 
             if (InputHelper.KeyPressed(Keys.F))
             {
-                Engine.FullScreen = !Engine.FullScreen;
+                var engine = Engine.Instance;
+                engine.FullScreen = !engine.FullScreen;
             }
 
             if (InputHelper.KeyPressed(Keys.Space))
@@ -108,7 +109,7 @@ namespace ExoGame2D.GameOfLife
                 Help = !Help;
 
                 if (Help)
-                {                    
+                {
                     _scene.AddSpriteToLayer(RenderLayerEnum.Layer2, _helpFont);
                 }
                 else
@@ -126,11 +127,12 @@ namespace ExoGame2D.GameOfLife
         {
             GraphicsDevice.Clear(Color.Black);
 
-            Engine.BeginRender(_scene);
+            var engine = Engine.Instance;
+            engine.BeginRender(_scene);
 
             _scene.RenderScene(gameTime);
 
-            Engine.EndRender();
+            engine.EndRender();
 
             base.Draw(gameTime);
         }

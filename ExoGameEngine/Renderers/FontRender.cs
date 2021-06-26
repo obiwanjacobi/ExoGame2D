@@ -21,9 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Interfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -33,7 +31,7 @@ namespace ExoGame2D.Renderers
     {
         private Vector2 _location = new Vector2(0, 0);
         private SpriteFont _font;
-        private readonly ContentManager _contentManager;
+        private readonly SpriteBatch _spriteBatch;
 
         public string Name { get; set; }
         public string Text { get; set; }
@@ -41,8 +39,8 @@ namespace ExoGame2D.Renderers
 
         public FontRender(string name)
         {
+            _spriteBatch = Engine.Instance.SpriteBatch;
             Name = name;
-            _contentManager = Engine.Content;
         }
 
         public Vector2 Location
@@ -53,7 +51,7 @@ namespace ExoGame2D.Renderers
 
         public void LoadContent(string fontName)
         {
-            _font = _contentManager.Load<SpriteFont>(fontName);
+            _font = Engine.Instance.Content.Load<SpriteFont>(fontName);
         }
 
         public void Draw(GameTime gameTime)
@@ -68,10 +66,10 @@ namespace ExoGame2D.Renderers
                 if (Shadow)
                 {
                     Vector2 shadowOffset = new Vector2(_location.X - 2, _location.Y + 2);
-                    Engine.SpriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
+                    _spriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
                 }
 
-                Engine.SpriteBatch.DrawString(_font, Text, _location, tint);
+                _spriteBatch.DrawString(_font, Text, _location, tint);
             }
         }
 

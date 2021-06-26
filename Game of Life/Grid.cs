@@ -21,14 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using ExoGame2D.Interfaces;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D.GameOfLife
 {
     public class Grid : IRenderNode
     {
+        private readonly SpriteBatch _spriteBatch;
         private Point Size { get; set; }
         public string Name { get; set; }
         private Cell[,] _currentCellState;
@@ -37,6 +39,7 @@ namespace ExoGame2D.GameOfLife
 
         public Grid(int sizeX, int sizeY)
         {
+            _spriteBatch = Engine.Instance.SpriteBatch;
             Size = new Point(sizeX, sizeY);
 
             _currentCellState = new Cell[Size.X, Size.Y];
@@ -54,7 +57,7 @@ namespace ExoGame2D.GameOfLife
                 for (int y = 0; y < Size.Y; y++)
                 {
                     _currentCellState[x, y] = new Cell(new Point(x, y));
-                    _nextCellStates[x, y] = new Cell(new Point(x, y));                               
+                    _nextCellStates[x, y] = new Cell(new Point(x, y));
                 }
             }
 
@@ -64,8 +67,8 @@ namespace ExoGame2D.GameOfLife
         public void Update(GameTime gameTime)
         {
             foreach (Cell cell in _currentCellState)
-            {             
-                cell.Update();          
+            {
+                cell.Update();
             }
 
             if (GameLoop.Paused)
@@ -211,8 +214,8 @@ namespace ExoGame2D.GameOfLife
             {
                 for (int j = 0; j < Size.Y; j++)
                 {
-                   _currentCellState[i, j].IsAlive = _nextCellStates[i, j].IsAlive;
-                   _currentCellState[i, j].Color = _nextCellStates[i, j].Color;
+                    _currentCellState[i, j].IsAlive = _nextCellStates[i, j].IsAlive;
+                    _currentCellState[i, j].Color = _nextCellStates[i, j].Color;
                 }
             }
         }
@@ -221,7 +224,7 @@ namespace ExoGame2D.GameOfLife
         {
             foreach (Cell cell in _currentCellState)
             {
-                cell.Draw(Engine.SpriteBatch);
+                cell.Draw(_spriteBatch);
             }
         }
 

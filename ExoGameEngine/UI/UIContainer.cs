@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using ExoGame2D.Interfaces;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

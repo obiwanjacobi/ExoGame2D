@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +50,7 @@ namespace ExoGame2D.UI
 
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _checkBoxWidth = 70;
-            _font = Engine.Content.Load<SpriteFont>("default");
+            _font = Engine.Instance.Content.Load<SpriteFont>("default");
 
             Name = name;
             Width = 70;
@@ -72,7 +71,7 @@ namespace ExoGame2D.UI
 
         public void Update(GameTime gameTime)
         {
-            var mouse = Engine.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
             var bounds = new Rectangle((int)Location.X, (int)Location.Y, _checkBoxWidth, Height);
 
@@ -112,43 +111,43 @@ namespace ExoGame2D.UI
             {
                 if (MouseOver)
                 {
-                    Engine.SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, MouseOverColor);
-                    Engine.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, CheckBoxMouseOverColor);
+                    SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, MouseOverColor);
+                    SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, CheckBoxMouseOverColor);
                 }
                 else
                 {
-                    Engine.SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, Color);
-                    Engine.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, Color);
+                    SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, Color);
+                    SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, Color);
 
                 }
 
-                Engine.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
+                SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
 
-            if (!string.IsNullOrEmpty(_controlTextureName))
+            if (!string.IsNullOrEmpty(ControlTextureName))
             {
                 if (MouseOver)
                 {
-                    Engine.SpriteBatch.Draw(_controlTexture, Location,
-                        new Rectangle(0, 0, _controlTexture.Width, _controlTexture.Height), MouseOverColor, 0.0f,
+                    SpriteBatch.Draw(ControlTexture, Location,
+                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
                 else
                 {
-                    Engine.SpriteBatch.Draw(_controlTexture, Location,
-                        new Rectangle(0, 0, _controlTexture.Width, _controlTexture.Height), Color.White, 0.0f,
+                    SpriteBatch.Draw(ControlTexture, Location,
+                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), Color.White, 0.0f,
                         new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
                 }
             }
 
             if (Checked)
             {
-                Engine.SpriteBatch.DrawLine(new Vector2((int)Location.X, (int)Location.Y), new Vector2((int)(Location.X + _checkBoxWidth), (int)Location.Y + Height), OutlineColor, 2);
-                Engine.SpriteBatch.DrawLine(new Vector2((int)Location.X + 1 + _checkBoxWidth, (int)Location.Y + 1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
+                SpriteBatch.DrawLine(new Vector2((int)Location.X, (int)Location.Y), new Vector2((int)(Location.X + _checkBoxWidth), (int)Location.Y + Height), OutlineColor, 2);
+                SpriteBatch.DrawLine(new Vector2((int)Location.X + 1 + _checkBoxWidth, (int)Location.Y + 1), new Vector2((int)(Location.X), (int)Location.Y + Height), OutlineColor, 2);
 
             }
 
-            Engine.SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
+            SpriteBatch.DrawRectangle(Location, new Vector2(_checkBoxWidth, Height), OutlineColor, 2);
 
             var bounds = new Rectangle((int)(Location.X + _checkBoxWidth), (int)Location.Y, (Width - _checkBoxWidth), Height);
 

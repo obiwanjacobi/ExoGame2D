@@ -55,7 +55,7 @@ namespace ExoGame2D
                 return;
             }
 
-            _music.Add(lowerCaseName, Engine.Content.Load<Song>(lowerCaseName));
+            _music.Add(lowerCaseName, Engine.Instance.Content.Load<Song>(lowerCaseName));
         }
 
         public static void RemoveMusic(string name)

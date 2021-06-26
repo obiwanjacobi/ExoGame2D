@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Interfaces;
+using ExoGame2D.Renderers;
 using System.Collections.Generic;
 
 namespace ExoGame2D
@@ -30,7 +30,7 @@ namespace ExoGame2D
     {
         private static readonly Dictionary<string, ISprite> _spriteList = new Dictionary<string, ISprite>();
 
-        public static void AddSpriteToCollisionManager(ISprite sprite, string name)
+        public static void AddSprite(ISprite sprite, string name)
         {
             if (!_spriteList.ContainsKey(name))
             {
@@ -38,7 +38,7 @@ namespace ExoGame2D
             }
         }
 
-        public static void RemoveSpriteToCollisionManager(string name)
+        public static void RemoveSprite(string name)
         {
             if (_spriteList.ContainsKey(name))
             {
