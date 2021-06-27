@@ -150,8 +150,8 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     if (!_playDuckSound)
                     {
-                        Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "quaks" });
-                        Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "flapping" });
+                        Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "quaks" });
+                        Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "flapping" });
 
                         _playDuckSound = true;
                     }
@@ -197,7 +197,7 @@ namespace ExoGame2D.DuckAttack.GameActors
 
                     if (!_playFallingSound)
                     {
-                        Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "falling" });
+                        Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "falling" });
                         _playFallingSound = true;
                     }
 
@@ -227,7 +227,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                     DuckHitMessage duckHitMessage = new DuckHitMessage() { State = DuckIndicatorState.Hit };
                     Channels.PostMessage("duckhit", duckHitMessage);
 
-                    Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "death" });
+                    Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "death" });
                     State = DuckState.Dead;
                 }
             }
@@ -237,12 +237,15 @@ namespace ExoGame2D.DuckAttack.GameActors
         {
             if (DifficultySettings.CurrentDifficulty.AimAssist)
             {
-                if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsBoundingCollision("crosshair", Name)))
+                if (InputHelper.MouseLeftButtonPressed() &&
+                    (CollisionManager.IsBoundingCollision("crosshair", Name)))
                     return true;
             }
             else
             {
-                if (InputHelper.MouseLeftButtonPressed() && (CollisionManager.IsPerPixelCollision("crosshair", Name)))
+                if (InputHelper.MouseLeftButtonPressed() &&
+                    (CollisionManager.IsBoundingCollision("crosshair", Name)) &&
+                    (CollisionManager.IsPerPixelCollision("crosshair", Name)))
                     return true;
             }
 
@@ -252,7 +255,7 @@ namespace ExoGame2D.DuckAttack.GameActors
         private bool DuckOutOfBounds(ISprite sprite)
         {
             var engine = Engine.Instance;
-            if (sprite.X + sprite.Width > engine.ScaledViewPort.X + 100)
+            if (sprite.X + sprite.Width > engine.WorldViewPort.X + 100)
             {
                 return true;
             }
@@ -262,7 +265,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                 return true;
             }
 
-            if (sprite.Y + (sprite.Height) > engine.ScaledViewPort.Y)
+            if (sprite.Y + (sprite.Height) > engine.WorldViewPort.Y)
             {
                 return true;
             }
@@ -278,7 +281,7 @@ namespace ExoGame2D.DuckAttack.GameActors
         private void BoundDuckOffWalls()
         {
             var engine = Engine.Instance;
-            if (_duck.X + _duck.Width > engine.ScaledViewPort.X)
+            if (_duck.X + _duck.Width > engine.WorldViewPort.X)
             {
                 _duck.VX = -_duck.VX;
                 _duck.Flip = true;
@@ -290,7 +293,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                 _duck.Flip = false;
             }
 
-            if (_duck.Y + (_duck.Height) > engine.ScaledViewPort.Y - 200)
+            if (_duck.Y + (_duck.Height) > engine.WorldViewPort.Y - 200)
             {
                 _duck.VY = -_duck.VY;
             }

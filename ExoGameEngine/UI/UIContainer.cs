@@ -23,52 +23,20 @@ SOFTWARE.
 */
 
 using ExoGame2D.Renderers;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace ExoGame2D.UI
 {
-    public class UIContainer : IRenderNode
+    public class UIContainer : RenderNodeContainer
     {
-        private readonly List<IRenderNode> _controlList = new List<IRenderNode>();
+
+        public UIContainer(string name)
+            => Name = name ?? throw new ArgumentNullException(nameof(name));
 
         public string Name { get; set; }
 
-        public UIContainer(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
 
-            Name = name;
-        }
-
-        public void AddControl(IRenderNode control)
-        {
-            if (control == null)
-            {
-                throw new ArgumentNullException(nameof(control));
-            }
-
-            _controlList.Add(control);
-        }
-
-        public void Draw(DrawContext context, GameTime gameTime)
-        {
-            foreach (var control in _controlList)
-            {
-                control.Draw(context, gameTime);
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            foreach (var control in _controlList)
-            {
-                control.Update(gameTime);
-            }
-        }
+        public void AddControl(UIControl control)
+            => Add(control ?? throw new ArgumentNullException(nameof(control)));
     }
 }

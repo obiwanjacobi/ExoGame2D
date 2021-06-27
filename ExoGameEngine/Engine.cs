@@ -33,9 +33,6 @@ namespace ExoGame2D
     {
         private readonly GraphicsDeviceManager _graphics;
         private readonly Game _game;
-        //private readonly Vector2 _scaledViewPort;
-        //private readonly Matrix _spriteScalingFactor;
-        private Matrix _spriteScale;
 
         public Engine(Game game)
         {
@@ -44,10 +41,22 @@ namespace ExoGame2D
             game.Content.RootDirectory = "Content";
             game.IsMouseVisible = true;
             Instance = this;
+
+            _game.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
-        public Point WindowSize;
-        public DrawContext DrawContext;
+        private bool _isInResize;
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            if (!_isInResize)
+            {
+                WindowSize = new Point(_game.Window.ClientBounds.Width, _game.Window.ClientBounds.Height);
+                ApplyResolutionSettings(IsFullScreen);
+            }
+        }
+
+        public Point WindowSize { get; private set; }
+        public DrawContext DrawContext { get; private set; }
         public readonly GameStateManager GameState = new GameStateManager();
         public static Engine Instance { get; private set; }
 
@@ -87,22 +96,21 @@ namespace ExoGame2D
             _game.Exit();
         }
 
-        public Vector2 ScaledViewPort
-            => ScreenToWorld(new Vector2(_graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height));
+        public Vector2 WorldViewPort { get; private set; }
 
+        private float _screenToWorldScale;
         public Vector2 ScreenToWorld(Vector2 screenPosition)
         {
-            Vector2 viewportTopLeft = new Vector2(_game.GraphicsDevice.Viewport.X, _game.GraphicsDevice.Viewport.Y);
-            float screenToWorldScale = WorldSize.X / (float)_game.GraphicsDevice.Viewport.Width;
-
-            return (screenPosition - viewportTopLeft) * screenToWorldScale;
+            var viewportTopLeft = new Vector2(_game.GraphicsDevice.Viewport.X, _game.GraphicsDevice.Viewport.Y);
+            return (screenPosition - viewportTopLeft) * _screenToWorldScale;
         }
 
         /// <summary>
         /// Scales the window to the desired size, and calculates how the game world should be scaled to fit inside that window.
         /// </summary>
-        public void ApplyResolutionSettings(bool fullScreen)
+        private void ApplyResolutionSettings(bool fullScreen)
         {
+            _isInResize = true;
             // make the game full-screen or not
             _graphics.IsFullScreen = fullScreen;
 
@@ -120,10 +128,11 @@ namespace ExoGame2D
             // calculate and set the viewport to use
             _game.GraphicsDevice.Viewport = CalculateViewport(screenSize);
 
-            SetTransformation();
+            _screenToWorldScale = WorldSize.X / (float)_game.GraphicsDevice.Viewport.Width;
+            WorldViewPort = ScreenToWorld(new Vector2(_graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height));
 
-            // calculate how the graphics should be scaled, so that the game world fits inside the window
-            _spriteScale = Matrix.CreateScale((float)_game.GraphicsDevice.Viewport.Width / WorldSize.X, (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+            SetTransformation();
+            _isInResize = false;
         }
 
         private void SetTransformation()
@@ -131,17 +140,12 @@ namespace ExoGame2D
             if (DrawContext != null)
             {
                 DrawContext.Transformation = Matrix.CreateScale(
-                                    (float)_game.GraphicsDevice.Viewport.Width / WorldSize.X,
-                                    (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
+                    (float)_game.GraphicsDevice.Viewport.Width / WorldSize.X,
+                    (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
             }
         }
 
-        /// <summary>
-        /// Calculates and returns the viewport to use, so that the game world fits on the screen while preserving its aspect ratio.
-        /// </summary>
-        /// <param name="windowSize">The size of the screen on which the world should be drawn.</param>
-        /// <returns>A Viewport object that will show the game world as large as possible while preserving its aspect ratio.</returns>
-        public Viewport CalculateViewport(Point windowSize)
+        private Viewport CalculateViewport(Point windowSize)
         {
             // create a Viewport object
             Viewport viewport = new Viewport();

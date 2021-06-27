@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using ExoGame2D.Interfaces;
 using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,52 +29,40 @@ using System;
 
 namespace ExoGame2D.UI
 {
-    public class Button : UIControlBase, IRenderNode
+    public class Button : UIControl
     {
         private readonly SpriteFont _font;
-        private readonly IButtonHandler _handler;
+        private readonly ButtonHandler _handler;
 
         public string Text { get; set; }
         public Color TextColor { get; set; }
         public Color MouseOverTextColor { get; set; }
 
-        public Button(string name, IButtonHandler handler)
+        public Button(string name, ButtonHandler handler)
             : base(name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+            _font = Engine.Instance.Content.Load<SpriteFont>("default");
 
             Width = 50;
             Height = 20;
             Location = new Vector2(100, 100);
-            Enabled = true;
-            Visible = true;
+            IsEnabled = true;
+            IsVisible = true;
             Text = "My Button";
             Color = Color.LightGray;
             OutlineColor = Color.Gray;
             MouseOverColor = Color.Gray;
             TextColor = Color.Black;
             MouseOverTextColor = Color.Khaki;
-
-            DrawWindowChrome = true;
-
-            _font = Engine.Instance.Content.Load<SpriteFont>("default");
+            DrawControlChrome = true;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
-            var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
-            var bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-
-            if (bounds.Intersects(mouseCursor))
+            base.Update(gameTime);
+            if (IsMouseOver)
             {
-                MouseOver = true;
-
                 _handler.OnMouseOver(this);
 
                 if (InputHelper.MouseLeftButtonPressed())
@@ -83,22 +70,13 @@ namespace ExoGame2D.UI
                     _handler.OnMouseClick(this);
                 }
             }
-            else
-            {
-                MouseOver = false;
-            }
         }
 
-        public void Draw(DrawContext context, GameTime gameTime)
+        protected override void DrawChrome(DrawContext context, GameTime gameTime)
         {
-            if (!Visible)
+            if (DrawControlChrome)
             {
-                return;
-            }
-
-            if (DrawWindowChrome)
-            {
-                if (MouseOver)
+                if (IsMouseOver)
                 {
                     context.SpriteBatch.FillRectangle(Location.X, Location.Y, Width, Height, MouseOverColor);
                 }
@@ -109,10 +87,13 @@ namespace ExoGame2D.UI
 
                 context.SpriteBatch.DrawRectangle(Location, new Vector2(Width, Height), OutlineColor, 2);
             }
+        }
 
+        protected override void DrawContent(DrawContext context, GameTime gameTime)
+        {
             if (!string.IsNullOrEmpty(ControlTextureName))
             {
-                if (MouseOver)
+                if (IsMouseOver)
                 {
                     context.SpriteBatch.Draw(ControlTexture, Location,
                         new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
@@ -126,7 +107,7 @@ namespace ExoGame2D.UI
                 }
             }
 
-            if (MouseOver)
+            if (IsMouseOver)
             {
                 Rectangle bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
                 context.DrawString(_font, Text, bounds, Alignment.Center, MouseOverTextColor);

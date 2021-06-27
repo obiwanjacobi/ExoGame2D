@@ -38,7 +38,7 @@ namespace ExoGame2D
     {
         private readonly static Dictionary<string, SoundEffect> _soundEffects = new Dictionary<string, SoundEffect>();
 
-        public static bool PlaySoundEffects { get; set; } = true;
+        public static bool IsEnabled { get; set; } = true;
 
         public static void LoadSoundEffect(string name)
         {
@@ -48,13 +48,10 @@ namespace ExoGame2D
             }
 
             string lowerCaseName = name.ToLowerInvariant();
-
-            if (_soundEffects.ContainsKey(lowerCaseName))
+            if (!_soundEffects.ContainsKey(lowerCaseName))
             {
-                return;
+                _soundEffects.Add(lowerCaseName, Engine.Instance.Content.Load<SoundEffect>(lowerCaseName));
             }
-
-            _soundEffects.Add(lowerCaseName, Engine.Instance.Content.Load<SoundEffect>(lowerCaseName));
         }
 
         public static void RemoveSoundEffect(string name)
@@ -88,22 +85,24 @@ namespace ExoGame2D
                 throw new InvalidOperationException("The sound effect <" + lowerCaseName + "> doesn't exists.");
             }
 
-            if (PlaySoundEffects)
+            if (IsEnabled)
             {
-                _soundEffects[name].CreateInstance().Play();
+                _soundEffects[lowerCaseName].CreateInstance().Play();
             }
         }
 
+        public const string ChannelName = "soundeffects";
+
         public static void ProcessSoundEvents()
         {
-            if (!Channels.Exists("soundeffects"))
+            if (!Channels.Exists(ChannelName))
             {
-                Channels.Create("soundeffects");
+                Channels.Create(ChannelName);
             }
 
-            if (Channels.Exists("soundeffects"))
+            if (Channels.Exists(ChannelName))
             {
-                var message = (SoundEffectMessage)Channels.RetrieveLatestMessage("soundeffects");
+                var message = Channels.LastMessageAs<SoundEffectMessage>(ChannelName);
 
                 if (message != null)
                 {

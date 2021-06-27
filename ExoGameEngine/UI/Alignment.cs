@@ -22,8 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+
 namespace ExoGame2D.UI
-{   
+{
+    [Flags]
     public enum Alignment
     {
         Center = 0,

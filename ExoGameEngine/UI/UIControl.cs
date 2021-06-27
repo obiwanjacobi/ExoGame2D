@@ -22,28 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using ExoGame2D.Interfaces;
+using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D.UI
 {
-    public abstract class UIControlBase : IUIControl
+    public abstract class UIControl : IRenderNode, INamedObject
     {
-        protected UIControlBase(string name)
+        protected UIControl(string name)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
+
+        public string Name { get; }
+
         public int Width { get; set; }
         public int Height { get; set; }
         public Vector2 Location { get; set; }
-        public bool Enabled { get; set; }
-        public bool Visible { get; set; }
+        public bool IsEnabled { get; set; }
+        public bool IsVisible { get; set; }
         public Color Color { get; set; }
         public Color OutlineColor { get; set; }
         public Color MouseOverColor { get; set; }
-        public bool DrawWindowChrome { get; set; }
-        public bool MouseOver { get; set; }
-        public string Name { get; }
+        public bool DrawControlChrome { get; set; }
+        public bool IsMouseOver { get; set; }
 
         protected Texture2D ControlTexture { get; set; }
 
@@ -57,5 +62,28 @@ namespace ExoGame2D.UI
                 _controlTextureName = value;
             }
         }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
+            var bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
+
+            IsMouseOver = bounds.Intersects(mouseCursor);
+        }
+
+        public virtual void Draw(DrawContext context, GameTime gameTime)
+        {
+            if (IsVisible)
+            {
+                if (DrawControlChrome)
+                    DrawChrome(context, gameTime);
+
+                DrawContent(context, gameTime);
+            }
+        }
+
+        protected abstract void DrawContent(DrawContext context, GameTime gameTime);
+        protected abstract void DrawChrome(DrawContext context, GameTime gameTime);
     }
 }

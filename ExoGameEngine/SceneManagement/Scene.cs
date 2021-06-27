@@ -36,10 +36,10 @@ namespace ExoGame2D.SceneManagement
         private readonly Dictionary<int, Layer> _layers = new Dictionary<int, Layer>();
         private IEnumerable<Layer> _orderedLayers;
 
-        public void AddSpriteToLayer(RenderLayer layer, IRenderNode node)
-            => AddToLayer((int)layer, node);
+        public void Add(RenderLayer layer, IRenderNode node)
+            => Add((int)layer, node);
 
-        public void AddToLayer(int layerIndex, IRenderNode node)
+        public void Add(int layerIndex, IRenderNode node)
         {
             var layer = GetLayer(layerIndex);
             layer.Add(node);
@@ -55,10 +55,10 @@ namespace ExoGame2D.SceneManagement
             }
         }
 
-        public bool RemoveSpriteFromLayer(RenderLayer layer, IRenderNode node)
-            => RemoveFromLayer((int)layer, node);
+        public bool Remove(RenderLayer layer, IRenderNode node)
+            => Remove((int)layer, node);
 
-        public bool RemoveFromLayer(int layerIndex, IRenderNode node)
+        public bool Remove(int layerIndex, IRenderNode node)
         {
             var layer = GetLayer(layerIndex);
             return layer.Remove(node);
@@ -72,7 +72,7 @@ namespace ExoGame2D.SceneManagement
             }
         }
 
-        public void UpdateGameLogic(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             SoundEffectPlayer.ProcessSoundEvents();
 
@@ -88,7 +88,7 @@ namespace ExoGame2D.SceneManagement
             {
                 _layers[index] = new Layer();
                 // TODO: replace linq with something faster
-                _orderedLayers = _layers.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value);
+                _orderedLayers = _layers.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
             }
 
             return _layers[index];

@@ -21,27 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Interfaces;
 using ExoGame2D.UI;
 
 namespace ExoGame2D.DuckAttack.GameStates
 {
-    public class SoundEffectsOnOffHandler : ICheckBoxHandler
+    public class SoundEffectsOnOffHandler : ButtonHandler
     {
-        public void OnCheck(UIControlBase checkbox)
+        public override void OnMouseClick(UIControl control)
         {
-            
-        }
-
-        public void OnMouseClick(UIControlBase checkbox)
-        {
-            ((CheckBox)checkbox).Checked = !((CheckBox)checkbox).Checked;
-            SoundEffectPlayer.PlaySoundEffects = ((CheckBox)checkbox).Checked;
-        }
-
-        public void OnMouseOver(UIControlBase checkbox)
-        {
-            
+            ((CheckBox)control).Checked = !((CheckBox)control).Checked;
+            SoundEffectPlayer.IsEnabled = ((CheckBox)control).Checked;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
 
             _crosshair.LoadContent("crosshair");
 
-            _scene.AddSpriteToLayer(RenderLayer.Layer5, _crosshair);
+            _scene.Add(RenderLayer.Layer5, _crosshair);
         }
 
         protected override void Update(GameTime gameTime)

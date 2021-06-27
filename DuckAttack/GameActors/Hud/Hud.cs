@@ -128,7 +128,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
         {
             if (Channels.Exists("duckhit"))
             {
-                var message = (DuckHitMessage)Channels.RetrieveLatestMessage("duckhit");
+                var message = Channels.LastMessageAs<DuckHitMessage>("duckhit");
 
                 if (message != null)
                 {
@@ -147,7 +147,7 @@ namespace ExoGame2D.DuckAttack.GameActors.Hud
 
             if (Channels.Exists("gunfired"))
             {
-                var message = (BulletFiredMessage)Channels.RetrieveLatestMessage("gunfired");
+                var message = Channels.LastMessageAs<BulletFiredMessage>("gunfired");
                 if (message != null)
                 {
                     ShootBullet();

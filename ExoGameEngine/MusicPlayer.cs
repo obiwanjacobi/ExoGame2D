@@ -31,9 +31,9 @@ namespace ExoGame2D
 
     public static class MusicPlayer
     {
-        private static Dictionary<string, Song> _music = new Dictionary<string, Song>();
-        public static bool PlayMusic { get; set; } = true;
-        public static MusicPlayState State = MusicPlayState.Stopped;
+        private readonly static Dictionary<string, Song> _music = new Dictionary<string, Song>();
+        public static bool IsEnabled { get; set; } = true;
+        public static MusicPlayState State { get; private set; } = MusicPlayState.Stopped;
 
         public static bool Looped
         {
@@ -48,14 +48,11 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLowerInvariant();
-
-            if (_music.ContainsKey(lowerCaseName))
+            var lowerCaseName = name.ToLowerInvariant();
+            if (!_music.ContainsKey(lowerCaseName))
             {
-                return;
+                _music.Add(lowerCaseName, Engine.Instance.Content.Load<Song>(lowerCaseName));
             }
-
-            _music.Add(lowerCaseName, Engine.Instance.Content.Load<Song>(lowerCaseName));
         }
 
         public static void RemoveMusic(string name)
@@ -65,17 +62,16 @@ namespace ExoGame2D
                 throw new ArgumentNullException(nameof(name));
             }
 
-            string lowerCaseName = name.ToLowerInvariant();
-
+            var lowerCaseName = name.ToLowerInvariant();
             if (!_music.ContainsKey(lowerCaseName))
             {
-                throw new InvalidOperationException("The music file <" + lowerCaseName + "> doesn't exists.");
+                throw new InvalidOperationException("The music file <" + name + "> doesn't exists.");
             }
 
             _music.Remove(name);
         }
 
-        public static void Play(string name)
+        public static bool Play(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -83,64 +79,45 @@ namespace ExoGame2D
             }
 
             string lowerCaseName = name.ToLowerInvariant();
-
             if (!_music.ContainsKey(lowerCaseName))
             {
-                throw new InvalidOperationException("The music file <" + lowerCaseName + "> doesn't exists.");
+                throw new InvalidOperationException("The music file <" + name + "> doesn't exists.");
             }
 
-            if (PlayMusic)
+            if (CheckSetState(MusicPlayState.Playing))
             {
-                if (State == MusicPlayState.Playing)
-                {
-                    return;
-                }
-
-                State = MusicPlayState.Playing;
                 MediaPlayer.Play(_music[lowerCaseName]);
+                return true;
             }
+            return false;
         }
 
         public static void Stop()
         {
-            if (PlayMusic)
-            {
-                if (State == MusicPlayState.Stopped)
-                {
-                    return;
-                }
-
-                State = MusicPlayState.Stopped;
+            if (CheckSetState(MusicPlayState.Stopped))
                 MediaPlayer.Stop();
-            }
         }
 
         public static void Resume()
         {
-            if (PlayMusic)
-            {
-                if (State == MusicPlayState.Playing)
-                {
-                    return;
-                }
-
-                State = MusicPlayState.Playing;
+            if (CheckSetState(MusicPlayState.Playing))
                 MediaPlayer.Resume();
-            }
         }
 
         public static void Pause()
         {
-            if (PlayMusic)
-            {
-                if (State == MusicPlayState.Paused)
-                {
-                    return;
-                }
-
-                State = MusicPlayState.Paused;
+            if (CheckSetState(MusicPlayState.Paused))
                 MediaPlayer.Pause();
+        }
+
+        private static bool CheckSetState(MusicPlayState state)
+        {
+            if (IsEnabled && State != state)
+            {
+                State = state;
+                return true;
             }
+            return false;
         }
     }
 }

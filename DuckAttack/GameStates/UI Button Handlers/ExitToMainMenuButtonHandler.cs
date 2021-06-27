@@ -21,24 +21,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using ExoGame2D.Interfaces;
 using ExoGame2D.UI;
 
 namespace ExoGame2D.DuckAttack.GameStates
 {
-    public class ExitToMainMenuButtonHandler : IButtonHandler
+    public class ExitToMainMenuButtonHandler : ButtonHandler
     {
-        public void OnMouseClick(UIControlBase button)
+        public override void OnMouseClick(UIControl control)
         {
             var engine = Engine.Instance;
             engine.GameState.CurrentState.Remove();
             engine.GameState.Register("MenuMenu", new MainMenu());
             engine.GameState.ChangeState("MenuMenu");
-        }
-
-        public void OnMouseOver(UIControlBase button)
-        {
-
         }
     }
 }

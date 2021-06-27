@@ -59,8 +59,8 @@ namespace ExoGame2D.Tutorials.Tutorial6_CollisionDetection
             _logo.LoadContent("ExoEngineLogo");
             _logo.Location = new Vector2(100, 100);
 
-            _scene.AddSpriteToLayer(RenderLayer.Layer1, _logo);
-            _scene.AddSpriteToLayer(RenderLayer.Layer5, _crosshair);
+            _scene.Add(RenderLayer.Layer1, _logo);
+            _scene.Add(RenderLayer.Layer5, _crosshair);
         }
 
         protected override void Update(GameTime gameTime)

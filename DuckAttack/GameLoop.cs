@@ -41,7 +41,7 @@ namespace ExoGame2D.DuckAttack
         protected override void Initialize()
         {
             base.Initialize();
-            _engine.Initialize();
+            _engine.Initialize(3400, 2080, 1920, 1080);
         }
 
         protected override void LoadContent()

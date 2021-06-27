@@ -48,11 +48,11 @@ namespace ExoGame2D.DuckAttack.GameActors
                 if (Hud.Hud.NumShotsLeft > 0)
                 {
                     Channels.PostMessage("gunfired", new BulletFiredMessage());
-                    Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "gunsound" });
+                    Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "gunsound" });
                 }
                 else
                 {
-                    Channels.PostMessage("soundeffects", new SoundEffectMessage() { SoundEffectToPlay = "gunclick" });
+                    Channels.PostMessage(SoundEffectPlayer.ChannelName, new SoundEffectMessage() { SoundEffectToPlay = "gunclick" });
 
                 }
             }

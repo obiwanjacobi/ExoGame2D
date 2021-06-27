@@ -55,7 +55,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
             _logo.Location = new Vector2(100, 100);
             _logo.Velocity = new Vector2(5, 5);
 
-            _scene.AddSpriteToLayer(RenderLayer.Layer1, _logo);
+            _scene.Add(RenderLayer.Layer1, _logo);
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,7 +72,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
-            if (_logo.X + _logo.Width > _engine.ScaledViewPort.X)
+            if (_logo.X + _logo.Width > _engine.WorldViewPort.X)
             {
                 _logo.VX = -_logo.VX;
             }
@@ -82,7 +82,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 _logo.VX = -_logo.VX;
             }
 
-            if (_logo.Y + (_logo.Height) > _engine.ScaledViewPort.Y)
+            if (_logo.Y + (_logo.Height) > _engine.WorldViewPort.Y)
             {
                 _logo.VY = -_logo.VY;
             }

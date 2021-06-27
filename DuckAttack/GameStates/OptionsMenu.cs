@@ -42,9 +42,9 @@ namespace ExoGame2D.DuckAttack.GameStates
         private readonly FontRender _titles;
         private int _fontY = 0;
 
-        private UIContainer _container;
-        private IRenderNode _backToMainMenu;
-        private IRenderNode _soundEffectsOnOff;
+        private readonly UIContainer _container;
+        private readonly UIControl _backToMainMenu;
+        private readonly UIControl _soundEffectsOnOff;
 
         public OptionsMenu()
         {
@@ -58,7 +58,7 @@ namespace ExoGame2D.DuckAttack.GameStates
 
             _container = new UIContainer("OptionsMenu");
 
-            int startYPosition = 600;
+            int startYPosition = 450;
 
             _soundEffectsOnOff = new CheckBox("SoundEffectsOnOff", new SoundEffectsOnOffHandler())
             {
@@ -66,11 +66,11 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
                 Text = "Sound Effects On/Off",
-                DrawWindowChrome = true,
+                DrawControlChrome = true,
                 ControlTextureName = "ButtonBackground"
             };
 
-            ((CheckBox)_soundEffectsOnOff).Checked = SoundEffectPlayer.PlaySoundEffects;
+            ((CheckBox)_soundEffectsOnOff).Checked = SoundEffectPlayer.IsEnabled;
 
             startYPosition += 80;
 
@@ -79,18 +79,18 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Width = 500,
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
-                Text = "<-- Exit to Main Menu",
-                DrawWindowChrome = true,
+                Text = "Back to Main Menu",
+                DrawControlChrome = true,
                 ControlTextureName = "ButtonBackground"
             };
 
             _container.AddControl(_soundEffectsOnOff);
             _container.AddControl(_backToMainMenu);
 
-            _scene.AddSpriteToLayer(RenderLayer.Layer1, _background);
-            _scene.AddSpriteToLayer(RenderLayer.Layer2, _titles);
-            _scene.AddSpriteToLayer(RenderLayer.Layer5, _crosshair);
-            _scene.AddSpriteToLayer(RenderLayer.Layer4, _container);
+            _scene.Add(RenderLayer.Layer1, _background);
+            _scene.Add(RenderLayer.Layer2, _titles);
+            _scene.Add(RenderLayer.Layer5, _crosshair);
+            _scene.Add(RenderLayer.Layer4, _container);
         }
 
         public void Remove()
@@ -113,7 +113,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Engine.Instance.Exit();
             }
 
-            _scene.UpdateGameLogic(gameTime);
+            _scene.Update(gameTime);
         }
     }
 }

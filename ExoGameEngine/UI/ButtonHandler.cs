@@ -24,10 +24,9 @@ SOFTWARE.
 
 namespace ExoGame2D.UI
 {
-    public interface ICheckBoxHandler
+    public class ButtonHandler
     {
-        void OnMouseClick(UIControlBase checkbox);
-        void OnMouseOver(UIControlBase checkbox);
-        void OnCheck(UIControlBase checkbox);
+        public virtual void OnMouseClick(UIControl control) { }
+        public virtual void OnMouseOver(UIControl control) { }
     }
 }

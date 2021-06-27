@@ -51,7 +51,7 @@ namespace ExoGame2D.DuckAttack.GameActors
         {
             if (Channels.Exists("score"))
             {
-                var message = (ScoreMessage)Channels.RetrieveLatestMessage("score");
+                var message = Channels.LastMessageAs<ScoreMessage>("score");
 
                 if (message != null)
                 {

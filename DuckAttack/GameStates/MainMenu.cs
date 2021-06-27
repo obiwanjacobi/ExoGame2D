@@ -42,10 +42,10 @@ namespace ExoGame2D.DuckAttack.GameStates
         private readonly FontRender _titles;
         private int _fontY;
 
-        private UIContainer _container;
-        private IRenderNode _playGameButton;
-        private IRenderNode _optionsButton;
-        private IRenderNode _exitButton;
+        private readonly UIContainer _container;
+        private readonly UIControl _playGameButton;
+        private readonly UIControl _optionsButton;
+        private readonly UIControl _exitButton;
 
         public MainMenu()
         {
@@ -71,7 +71,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
                 Text = "Play Duck Attack",
-                DrawWindowChrome = true,
+                DrawControlChrome = true,
                 ControlTextureName = "ButtonBackground"
             };
 
@@ -83,7 +83,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
                 Text = "Options",
-                DrawWindowChrome = true,
+                DrawControlChrome = true,
                 ControlTextureName = "ButtonBackground"
             };
 
@@ -95,7 +95,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
                 Text = "Exit Game",
-                DrawWindowChrome = true,
+                DrawControlChrome = true,
                 ControlTextureName = "ButtonBackground"
             };
 
@@ -103,20 +103,18 @@ namespace ExoGame2D.DuckAttack.GameStates
             _container.AddControl(_optionsButton);
             _container.AddControl(_exitButton);
 
-            _scene.AddSpriteToLayer(RenderLayer.Layer1, _background);
-            _scene.AddSpriteToLayer(RenderLayer.Layer2, _titles);
-            _scene.AddSpriteToLayer(RenderLayer.Layer5, _crosshair);
-            _scene.AddSpriteToLayer(RenderLayer.Layer4, _container);
+            _scene.Add(RenderLayer.Layer1, _background);
+            _scene.Add(RenderLayer.Layer2, _titles);
+            _scene.Add(RenderLayer.Layer5, _crosshair);
+            _scene.Add(RenderLayer.Layer4, _container);
 
             MusicPlayer.Play("banjo");
             MusicPlayer.Looped = true;
         }
 
-
         public void Remove()
-        {
-            CollisionManager.RemoveAll();
-        }
+            => CollisionManager.RemoveAll();
+
         public void Draw(DrawContext context, GameTime gameTime)
         {
             _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -140,7 +138,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 Engine.Instance.Exit();
             }
 
-            _scene.UpdateGameLogic(gameTime);
+            _scene.Update(gameTime);
         }
     }
 }
