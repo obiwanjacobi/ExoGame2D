@@ -65,7 +65,7 @@ namespace ExoGame2D.DuckAttack.GameStates
             _background = new Background();
             _fps = new FontRender("fps counter");
             _fps.LoadContent("default");
-            _fps.Location = new Vector2(40, Engine.Instance.WorldViewPort.Y - 50);
+            _fps.Location = new Vector2(40, Engine.Instance.CoordinateSpace.World.Viewport.Height - 50);
 
             _score = new ScoreBoard("score board");
             _hud = new Hud("Hud");
@@ -173,6 +173,7 @@ namespace ExoGame2D.DuckAttack.GameStates
             if ((_hud.NumberOfDucksShot == 8) && (!Round2Triggered))
             {
                 _hudResetOffsetCounter++;
+
                 if (_hudResetOffsetCounter == 50)
                 {
                     NextLevel();

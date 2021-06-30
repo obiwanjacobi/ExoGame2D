@@ -254,8 +254,9 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         private bool DuckOutOfBounds(ISprite sprite)
         {
-            var engine = Engine.Instance;
-            if (sprite.X + sprite.Width > engine.WorldViewPort.X + 100)
+            var worldViewport = Engine.Instance.CoordinateSpace.World.Viewport;
+
+            if (sprite.X + sprite.Width > worldViewport.Width + 100)
             {
                 return true;
             }
@@ -265,7 +266,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                 return true;
             }
 
-            if (sprite.Y + (sprite.Height) > engine.WorldViewPort.Y)
+            if (sprite.Y + (sprite.Height) > worldViewport.Height)
             {
                 return true;
             }
@@ -280,8 +281,9 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         private void BoundDuckOffWalls()
         {
-            var engine = Engine.Instance;
-            if (_duck.X + _duck.Width > engine.WorldViewPort.X)
+            var worldViewport = Engine.Instance.CoordinateSpace.World.Viewport;
+
+            if (_duck.X + _duck.Width > worldViewport.Width)
             {
                 _duck.VX = -_duck.VX;
                 _duck.Flip = true;
@@ -293,7 +295,7 @@ namespace ExoGame2D.DuckAttack.GameActors
                 _duck.Flip = false;
             }
 
-            if (_duck.Y + (_duck.Height) > engine.WorldViewPort.Y - 200)
+            if (_duck.Y + (_duck.Height) > worldViewport.Height - 200)
             {
                 _duck.VY = -_duck.VY;
             }

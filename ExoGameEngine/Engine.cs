@@ -36,6 +36,9 @@ namespace ExoGame2D
 
         public Engine(Game game)
         {
+            if (Instance != null)
+                throw new InvalidOperationException("Create only one instance of the Engine class.");
+
             _game = game ?? throw new ArgumentNullException(nameof(game));
             _graphics = new GraphicsDeviceManager(game);
             game.Content.RootDirectory = "Content";
@@ -45,50 +48,31 @@ namespace ExoGame2D
             _game.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
-        private bool _isInResize;
-        private void Window_ClientSizeChanged(object sender, EventArgs e)
-        {
-            if (!_isInResize)
-            {
-                WindowSize = new Point(_game.Window.ClientBounds.Width, _game.Window.ClientBounds.Height);
-                ApplyResolutionSettings(IsFullScreen);
-            }
-        }
-
-        public Point WindowSize { get; private set; }
         public DrawContext DrawContext { get; private set; }
         public readonly GameStateManager GameState = new GameStateManager();
         public static Engine Instance { get; private set; }
+        public ContentManager Content => _game.Content;
+        public CoordinateSpace CoordinateSpace { get; private set; }
 
         public void Initialize()
         {
-            Initialize(1920, 1080);
+            Initialize(1920, 1080, 1920, 1080);
         }
 
-        public void Initialize(int windowX, int windowY,
-            int worldX = 1920, int worldY = 1080)
+        public void Initialize(int windowX, int windowY)
+        {
+            Initialize(windowX, windowY, windowX, windowY);
+        }
+
+        public void Initialize(int windowX, int windowY, int worldX, int worldY)
         {
             if (_game.GraphicsDevice == null)
-                throw new InvalidOperationException("Call Engine.Initialize after the Game is initialized.");
+                throw new InvalidOperationException("Call Engine.Initialize() after Game.Initialize().");
 
             DrawContext = new DrawContext(_game.GraphicsDevice);
-            WindowSize = new Point(windowX, windowY);
-            WorldSize = new Point(worldX, worldY);
+            CoordinateSpace = new CoordinateSpace(worldX, worldY);
+            CoordinateSpace.ResizeDevice(windowX, windowY);
             SetFullScreen(false);
-        }
-
-        public ContentManager Content => _game.Content;
-
-        private Point _worldSize;
-        public Point WorldSize
-        {
-            get => _worldSize;
-            set
-            {
-                _worldSize = value;
-                _graphics.PreferredBackBufferWidth = WorldSize.X;
-                _graphics.PreferredBackBufferHeight = WorldSize.Y;
-            }
         }
 
         public void Exit()
@@ -96,13 +80,16 @@ namespace ExoGame2D
             _game.Exit();
         }
 
-        public Vector2 WorldViewPort { get; private set; }
-
-        private float _screenToWorldScale;
         public Vector2 ScreenToWorld(Vector2 screenPosition)
         {
-            var viewportTopLeft = new Vector2(_game.GraphicsDevice.Viewport.X, _game.GraphicsDevice.Viewport.Y);
-            return (screenPosition - viewportTopLeft) * _screenToWorldScale;
+            return CoordinateSpace.DeviceToWorld(screenPosition);
+        }
+
+        public bool IsFullScreen => _graphics.IsFullScreen;
+
+        public void SetFullScreen(bool fullScreen = true)
+        {
+            ApplyResolutionSettings(fullScreen);
         }
 
         /// <summary>
@@ -114,22 +101,16 @@ namespace ExoGame2D
             // make the game full-screen or not
             _graphics.IsFullScreen = fullScreen;
 
-            // get the size of the screen to use: either the window size or the full screen size
-            Point screenSize = fullScreen
-                ? new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
-                : WindowSize;
+            var deviceRect = fullScreen
+                ? CoordinateSpace.FullScreen
+                : CoordinateSpace.Device.Bounds;
 
             // scale the window to the desired size
-            _graphics.PreferredBackBufferWidth = screenSize.X;
-            _graphics.PreferredBackBufferHeight = screenSize.Y;
-
+            _graphics.PreferredBackBufferWidth = deviceRect.Width;
+            _graphics.PreferredBackBufferHeight = deviceRect.Height;
             _graphics.ApplyChanges();
 
-            // calculate and set the viewport to use
-            _game.GraphicsDevice.Viewport = CalculateViewport(screenSize);
-
-            _screenToWorldScale = WorldSize.X / (float)_game.GraphicsDevice.Viewport.Width;
-            WorldViewPort = ScreenToWorld(new Vector2(_graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height));
+            _game.GraphicsDevice.Viewport = new Viewport(CoordinateSpace.Device.Viewport);
 
             SetTransformation();
             _isInResize = false;
@@ -138,47 +119,17 @@ namespace ExoGame2D
         private void SetTransformation()
         {
             if (DrawContext != null)
-            {
-                DrawContext.Transformation = Matrix.CreateScale(
-                    (float)_game.GraphicsDevice.Viewport.Width / WorldSize.X,
-                    (float)_game.GraphicsDevice.Viewport.Height / WorldSize.Y, 1);
-            }
+                DrawContext.Transformation = CoordinateSpace.WorldToDeviceScale();
         }
 
-        private Viewport CalculateViewport(Point windowSize)
+        private bool _isInResize;
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            // create a Viewport object
-            Viewport viewport = new Viewport();
-
-            // calculate the two aspect ratios
-            float gameAspectRatio = (float)WorldSize.X / WorldSize.Y;
-            float windowAspectRatio = (float)windowSize.X / windowSize.Y;
-
-            // if the window is relatively wide, use the full window height
-            if (windowAspectRatio > gameAspectRatio)
+            if (!_isInResize)
             {
-                viewport.Width = (int)(windowSize.Y * gameAspectRatio);
-                viewport.Height = windowSize.Y;
+                CoordinateSpace.ResizeDevice(_game.Window.ClientBounds.Width, _game.Window.ClientBounds.Height);
+                ApplyResolutionSettings(IsFullScreen);
             }
-            // if the window is relatively high, use the full window width
-            else
-            {
-                viewport.Width = windowSize.X;
-                viewport.Height = (int)(windowSize.X / gameAspectRatio);
-            }
-
-            // calculate and store the top-left corner of the viewport
-            viewport.X = (windowSize.X - viewport.Width) / 2;
-            viewport.Y = (windowSize.Y - viewport.Height) / 2;
-
-            return viewport;
-        }
-
-        public bool IsFullScreen => _graphics.IsFullScreen;
-
-        public void SetFullScreen(bool fullScreen = true)
-        {
-            ApplyResolutionSettings(fullScreen);
         }
     }
 }

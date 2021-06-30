@@ -72,7 +72,9 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 _engine.SetFullScreen(!_engine.IsFullScreen);
             }
 
-            if (_logo.X + _logo.Width > _engine.WorldViewPort.X)
+            var worldViewport = Engine.Instance.CoordinateSpace.World.Viewport;
+
+            if (_logo.X + _logo.Width > worldViewport.Width)
             {
                 _logo.VX = -_logo.VX;
             }
@@ -82,7 +84,7 @@ namespace ExoGame2D.Tutorials.Tutorial3_MovingSprites
                 _logo.VX = -_logo.VX;
             }
 
-            if (_logo.Y + (_logo.Height) > _engine.WorldViewPort.Y)
+            if (_logo.Y + (_logo.Height) > worldViewport.Height)
             {
                 _logo.VY = -_logo.VY;
             }
