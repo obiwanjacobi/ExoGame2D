@@ -95,8 +95,7 @@ namespace ExoGame2D
             _graphics.ApplyChanges();
             _graphics.GraphicsDevice.Viewport = new Viewport(CoordinateSpace.Device.Viewport);
 
-            if (DrawContext != null)
-                DrawContext.Transformation = CoordinateSpace.WorldToDeviceScale();
+            DrawContext.Transformation = CoordinateSpace.WorldToDeviceScale();
 
             _isInResize = false;
         }

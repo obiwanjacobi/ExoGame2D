@@ -38,8 +38,8 @@ namespace ExoGame2D.UI
         public string Text { get; set; }
         public Color TextColor { get; set; }
         public Color MouseOverTextColor { get; set; }
-        public Color CheckBoxMouseOverColor { get; set; }
-        public bool Checked { get; set; }
+        public Color MouseOverCheckBoxColor { get; set; }
+        public bool IsChecked { get; set; }
 
         public CheckBox(string name, ButtonHandler handler)
             : base(name)
@@ -50,7 +50,7 @@ namespace ExoGame2D.UI
             _checkBoxWidth = 20;
             Width = 70;
             Height = 20;
-            Checked = true;
+            IsChecked = true;
             Location = new Vector2(100, 100);
             IsEnabled = true;
             IsVisible = true;
@@ -58,7 +58,7 @@ namespace ExoGame2D.UI
             Color = Color.LightGray;
             OutlineColor = Color.Gray;
             MouseOverColor = Color.DimGray;
-            CheckBoxMouseOverColor = Color.LightGray;
+            MouseOverCheckBoxColor = Color.LightGray;
             TextColor = Color.Black;
             MouseOverTextColor = Color.DarkKhaki;
             DrawControlChrome = true;
@@ -87,7 +87,7 @@ namespace ExoGame2D.UI
             if (IsMouseOver)
             {
                 context.SpriteBatch.FillRectangle(Location.X, Location.Y, _checkBoxWidth, Height, MouseOverColor);
-                context.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, CheckBoxMouseOverColor);
+                context.SpriteBatch.FillRectangle(Location.X + _checkBoxWidth, Location.Y, Width - _checkBoxWidth, Height, MouseOverCheckBoxColor);
             }
             else
             {
@@ -102,21 +102,13 @@ namespace ExoGame2D.UI
         {
             if (!string.IsNullOrEmpty(ControlTextureName))
             {
-                if (IsMouseOver)
-                {
-                    context.SpriteBatch.Draw(ControlTexture, Location,
-                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), MouseOverColor, 0.0f,
-                        new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
-                }
-                else
-                {
-                    context.SpriteBatch.Draw(ControlTexture, Location,
-                        new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), Color.White, 0.0f,
-                        new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
-                }
+                var color = IsMouseOver ? MouseOverColor : Color.White;
+                context.SpriteBatch.Draw(ControlTexture, Location,
+                    new Rectangle(0, 0, ControlTexture.Width, ControlTexture.Height), color, 0.0f,
+                    new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.0f);
             }
 
-            if (Checked)
+            if (IsChecked)
             {
                 // \
                 context.SpriteBatch.DrawLine(

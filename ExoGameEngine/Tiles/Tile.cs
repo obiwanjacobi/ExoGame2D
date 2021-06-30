@@ -6,14 +6,13 @@ namespace ExoGame2D.Tiles
 {
     public class Tile : IRenderNode
     {
-
         private readonly TileSet _tileSet;
-        private readonly Rectangle _tileFromSetCoord;
+        private readonly Rectangle _tileOrigin;
 
-        internal Tile(TileSet tileSet, Rectangle tileFromSetCoord)
+        internal Tile(TileSet tileSet, Rectangle tileOrigin)
         {
             _tileSet = tileSet;
-            _tileFromSetCoord = tileFromSetCoord;
+            _tileOrigin = tileOrigin;
         }
 
         public Vector2 Location { get; set; }
@@ -22,7 +21,7 @@ namespace ExoGame2D.Tiles
         {
             var effect = SpriteEffects.None;
             var tint = Color.White;
-            _tileSet.DrawTile(context, _tileFromSetCoord, Location, effect, tint);
+            _tileSet.DrawTile(context, _tileOrigin, Location, effect, tint);
         }
 
         public void Update(GameTime gameTime)

@@ -29,8 +29,8 @@ namespace ExoGame2D.DuckAttack.GameStates
     {
         public override void OnMouseClick(UIControl control)
         {
-            ((CheckBox)control).Checked = !((CheckBox)control).Checked;
-            SoundEffectPlayer.IsEnabled = ((CheckBox)control).Checked;
+            ((CheckBox)control).IsChecked = !((CheckBox)control).IsChecked;
+            SoundEffectPlayer.IsEnabled = ((CheckBox)control).IsChecked;
         }
     }
 }

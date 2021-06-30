@@ -70,7 +70,7 @@ namespace ExoGame2D.DuckAttack.GameStates
                 ControlTextureName = "ButtonBackground"
             };
 
-            ((CheckBox)_soundEffectsOnOff).Checked = SoundEffectPlayer.IsEnabled;
+            ((CheckBox)_soundEffectsOnOff).IsChecked = SoundEffectPlayer.IsEnabled;
 
             startYPosition += 80;
 

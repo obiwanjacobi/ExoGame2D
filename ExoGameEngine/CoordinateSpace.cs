@@ -46,8 +46,8 @@ namespace ExoGame2D
         public Matrix WorldToDeviceScale(float zoomFactor = 1)
         {
             return Matrix.CreateScale(
-                    zoomFactor * Device.Viewport.Width / World.Bounds.Width,
-                    zoomFactor * Device.Viewport.Height / World.Bounds.Height, 1);
+                zoomFactor * Device.Viewport.Width / World.Bounds.Width,
+                zoomFactor * Device.Viewport.Height / World.Bounds.Height, 1);
         }
 
         private Rectangle CalcWorldViewport()
