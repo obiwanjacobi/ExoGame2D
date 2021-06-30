@@ -55,23 +55,19 @@ namespace ExoGame2D
         public CoordinateSpace CoordinateSpace { get; private set; }
 
         public void Initialize()
-        {
-            Initialize(1920, 1080, 1920, 1080);
-        }
+            => Initialize(1920, 1080, 1920, 1080);
 
-        public void Initialize(int windowX, int windowY)
-        {
-            Initialize(windowX, windowY, windowX, windowY);
-        }
+        public void Initialize(int windowWidth, int windowHeight)
+            => Initialize(windowWidth, windowHeight, windowWidth, windowHeight);
 
-        public void Initialize(int windowX, int windowY, int worldX, int worldY)
+        public void Initialize(int windowWidth, int windowHeight, int worldWidth, int worldHeight)
         {
             if (_game.GraphicsDevice == null)
                 throw new InvalidOperationException("Call Engine.Initialize() after Game.Initialize().");
 
             DrawContext = new DrawContext(_game.GraphicsDevice);
-            CoordinateSpace = new CoordinateSpace(worldX, worldY);
-            CoordinateSpace.ResizeDevice(windowX, windowY);
+            CoordinateSpace = new CoordinateSpace(worldWidth, worldHeight);
+            CoordinateSpace.ResizeDevice(windowWidth, windowHeight);
             SetFullScreen(false);
         }
 
@@ -80,46 +76,29 @@ namespace ExoGame2D
             _game.Exit();
         }
 
-        public Vector2 ScreenToWorld(Vector2 screenPosition)
-        {
-            return CoordinateSpace.DeviceToWorld(screenPosition);
-        }
-
         public bool IsFullScreen => _graphics.IsFullScreen;
 
+        /// <summary>
+        /// Scales the window to the desired size and calculates how the game world should be scaled.
+        /// </summary>
         public void SetFullScreen(bool fullScreen = true)
         {
-            ApplyResolutionSettings(fullScreen);
-        }
-
-        /// <summary>
-        /// Scales the window to the desired size, and calculates how the game world should be scaled to fit inside that window.
-        /// </summary>
-        private void ApplyResolutionSettings(bool fullScreen)
-        {
             _isInResize = true;
-            // make the game full-screen or not
-            _graphics.IsFullScreen = fullScreen;
 
             var deviceRect = fullScreen
                 ? CoordinateSpace.FullScreen
                 : CoordinateSpace.Device.Bounds;
 
-            // scale the window to the desired size
+            _graphics.IsFullScreen = fullScreen;
             _graphics.PreferredBackBufferWidth = deviceRect.Width;
             _graphics.PreferredBackBufferHeight = deviceRect.Height;
             _graphics.ApplyChanges();
+            _graphics.GraphicsDevice.Viewport = new Viewport(CoordinateSpace.Device.Viewport);
 
-            _game.GraphicsDevice.Viewport = new Viewport(CoordinateSpace.Device.Viewport);
-
-            SetTransformation();
-            _isInResize = false;
-        }
-
-        private void SetTransformation()
-        {
             if (DrawContext != null)
                 DrawContext.Transformation = CoordinateSpace.WorldToDeviceScale();
+
+            _isInResize = false;
         }
 
         private bool _isInResize;
@@ -128,7 +107,7 @@ namespace ExoGame2D
             if (!_isInResize)
             {
                 CoordinateSpace.ResizeDevice(_game.Window.ClientBounds.Width, _game.Window.ClientBounds.Height);
-                ApplyResolutionSettings(IsFullScreen);
+                SetFullScreen(IsFullScreen);
             }
         }
     }

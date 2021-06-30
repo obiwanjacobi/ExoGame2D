@@ -9,11 +9,7 @@ namespace ExoGame2D
 
         public CoordinateSpace(int worldWidth, int worldHeight)
         {
-            var deviceBounds = new Rectangle(0, 0,
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
-
-            Device = new CoordinatePlane(deviceBounds, Rectangle.Empty);
+            Device = new CoordinatePlane(FullScreen, Rectangle.Empty);
 
             var worldBounds = new Rectangle(0, 0, worldWidth, worldHeight);
             World = new CoordinatePlane(worldBounds, Rectangle.Empty);
@@ -47,11 +43,11 @@ namespace ExoGame2D
             return (screenPosition - viewportTopLeft) * _deviceToWorldScale;
         }
 
-        public Matrix WorldToDeviceScale()
+        public Matrix WorldToDeviceScale(float zoomFactor = 1)
         {
             return Matrix.CreateScale(
-                    (float)Device.Viewport.Width / World.Bounds.Width,
-                    (float)Device.Viewport.Height / World.Bounds.Height, 1);
+                    zoomFactor * Device.Viewport.Width / World.Bounds.Width,
+                    zoomFactor * Device.Viewport.Height / World.Bounds.Height, 1);
         }
 
         private Rectangle CalcWorldViewport()

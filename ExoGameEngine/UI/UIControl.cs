@@ -65,7 +65,7 @@ namespace ExoGame2D.UI
 
         public virtual void Update(GameTime gameTime)
         {
-            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = Engine.Instance.CoordinateSpace.DeviceToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             var mouseCursor = new Rectangle((int)mouse.X, (int)mouse.Y, 1, 1);
             var bounds = new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
 

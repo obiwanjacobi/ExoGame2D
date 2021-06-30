@@ -40,7 +40,7 @@ namespace ExoGame2D.DuckAttack.GameActors
 
         public override void Update(GameTime gameTime)
         {
-            var mouse = Engine.Instance.ScreenToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = Engine.Instance.CoordinateSpace.DeviceToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
             Location = new Vector2(mouse.X - Width / 2, mouse.Y - Height / 2);
 
             if (InputHelper.MouseLeftButtonPressed())
