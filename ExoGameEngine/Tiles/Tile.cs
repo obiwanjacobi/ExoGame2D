@@ -15,6 +15,8 @@ namespace ExoGame2D.Tiles
             _tileOrigin = tileOrigin;
         }
 
+        public Point Size => _tileOrigin.Size;
+
         public Vector2 Location { get; set; }
 
         public void Draw(DrawContext context, GameTime gameTime)

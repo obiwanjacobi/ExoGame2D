@@ -11,6 +11,9 @@ namespace ExoGame2D.Tiles
         public TileMap(TileSet tileSet)
             => _tileSet = tileSet;
 
+        public TileMap MapTile(Point tileIndex, Vector2 location)
+            => MapTile(tileIndex.X, tileIndex.Y, location);
+
         public TileMap MapTile(int tileColIndex, int tileRowIndex, Vector2 location)
         {
             var tile = _tileSet.CreateTile(tileColIndex, tileRowIndex);

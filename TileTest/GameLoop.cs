@@ -10,6 +10,10 @@ namespace TileTest
     {
         private GridTileSet _tileSet;
         private TileMap _tileMap;
+
+        private VillagePropsTileSet _villageTileSet;
+        private TileMap _villageTileMap;
+
         private readonly Engine _engine;
 
         public GameLoop()
@@ -38,6 +42,11 @@ namespace TileTest
                     _tileMap.MapTile(c, r, new Vector2(x, y));
                 }
             }
+
+            _villageTileSet = new VillagePropsTileSet();
+            _villageTileMap = new TileMap(_villageTileSet);
+
+            _villageTileMap.MapTile(_villageTileSet.BigBoxTile, new Vector2(400, 100));
         }
 
         protected override void Update(GameTime gameTime)
@@ -58,6 +67,8 @@ namespace TileTest
 
             _tileMap.Draw(_engine.DrawContext, gameTime);
             //_tileSet.Draw(_engine.DrawContext, gameTime);
+
+            _villageTileMap.Draw(_engine.DrawContext, gameTime);
 
             _engine.DrawContext.EndDraw();
         }
