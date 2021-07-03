@@ -12,7 +12,7 @@ namespace ExoGame2D.Tiles
     {
         private readonly IDictionary<char, Point> _mapping;
 
-        public CharMappingTileMapBuilder(GridTileSet tileSet, IDictionary<char, Point> mapping)
+        public CharMappingTileMapBuilder(TileSet tileSet, IDictionary<char, Point> mapping)
             : base(tileSet)
         {
             _mapping = mapping ?? throw new ArgumentNullException(nameof(mapping));
@@ -31,12 +31,14 @@ namespace ExoGame2D.Tiles
     /// </summary>
     public abstract class CharTileMapBuilder
     {
-        private readonly GridTileSet _tileSet;
+        private readonly TileSet _tileSet;
+        private readonly GridTileSet _gridTileSet;
         private readonly List<TilePlacement> _tiles = new List<TilePlacement>();
 
-        protected CharTileMapBuilder(GridTileSet tileSet)
+        protected CharTileMapBuilder(TileSet tileSet)
         {
             _tileSet = tileSet ?? throw new ArgumentNullException(nameof(tileSet));
+            _gridTileSet = tileSet as GridTileSet;
         }
 
         public CharTileMapBuilder Load(string charTileMapPath)
@@ -46,7 +48,7 @@ namespace ExoGame2D.Tiles
         }
 
         /// <summary>
-        /// Reads the characters in the map file and calls MapToTileIndex for each character.
+        /// Reads the characters in the map file and calls MapToPlacement/MapToTileIndex for each character.
         /// </summary>
         /// <param name="fileStream">Will not dispose the <paramref name="fileStream"/>.</param>
         public CharTileMapBuilder ReadCharMapFile(Stream fileStream)
@@ -54,21 +56,20 @@ namespace ExoGame2D.Tiles
             var reader = new StreamReader(fileStream);
 
             string line = reader.ReadLine();
-            var location = new Point(0, 0);
+            var pos = new Point();
             while (line != null)
             {
                 foreach (var c in line)
                 {
-                    var index = MapToTileIndex(c);
+                    var placement = MapToPlacement(pos, c);
+                    if (placement != null)
+                        _tiles.Add(placement.Value);
 
-                    if (index != null)
-                        _tiles.Add(new TilePlacement(index.Value, location));
-
-                    location.X += _tileSet.TileWidth;
+                    pos.X++;
                 }
 
-                location.X = 0;
-                location.Y += _tileSet.TileHeight;
+                pos.X = 0;
+                pos.Y++;
 
                 line = reader.ReadLine();
             }
@@ -79,10 +80,38 @@ namespace ExoGame2D.Tiles
         /// <summary>
         /// Called while reading the tile character file.
         /// </summary>
-        /// <param name="tileChar">the single character read from the file that represents a tile.</param>
+        /// <param name="filePosition"></param>
+        /// <param name="tileChar">A single character read from the file that represents a tile.</param>
+        /// <returns></returns>
+        protected virtual TilePlacement? MapToPlacement(Point filePosition, char tileChar)
+        {
+            if (_gridTileSet == null)
+                throw new InvalidOperationException("Override MapToPlacement if not working with a GridTileSet.");
+
+            var index = MapToTileIndex(tileChar);
+            if (index != null)
+            {
+                var location = new Point(
+                    filePosition.X * _gridTileSet.TileWidth,
+                    filePosition.Y * _gridTileSet.TileHeight);
+                return new TilePlacement(index.Value, location);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Called while reading the tile character file.
+        /// </summary>
+        /// <param name="tileChar">A single character read from the file that represents a tile.</param>
         /// <returns>Returns the logical col-row tileset index of the tile to be mapped.
         /// Returns null when no tile is to be mapped.</returns>
-        protected abstract Point? MapToTileIndex(char tileChar);
+        /// <remarks>Default implementation uses the high and low nibble of the <paramref name="tileChar"/>.</remarks>
+        protected virtual Point? MapToTileIndex(char tileChar)
+        {
+            // x = hi-nibble, y = lo-nibble
+            return new Point(tileChar & 0xF0 >> 4, tileChar & 0x0F);
+        }
 
         /// <summary>
         /// Actually create the Tiles and return the TileMap.
@@ -100,7 +129,7 @@ namespace ExoGame2D.Tiles
             return tileMap;
         }
 
-        private struct TilePlacement
+        protected struct TilePlacement
         {
             public TilePlacement(Point index, Point location)
             {
