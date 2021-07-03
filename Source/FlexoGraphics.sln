@@ -1,0 +1,55 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5ED99330-E18E-41E2-B129-8FAF417AB73C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexoGraphics", "FlexoGraphics\FlexoGraphics.csproj", "{3FF82E80-744D-489B-9824-6EE2FD026E2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuckAttack", "Samples\DuckAttack\DuckAttack.csproj", "{F8771561-FBBC-400F-A2FD-F97BBC983F04}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game of Life", "Samples\Game of Life\Game of Life.csproj", "{FD359464-7384-4E53-9F8B-68FEEBB7169C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TileTest", "Samples\TileTest\TileTest.csproj", "{C059AC4E-6B55-4CAA-B9BB-A8970847E65B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3DBA486-7E8C-4BA6-B072-4B60EFD950AF}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FF82E80-744D-489B-9824-6EE2FD026E2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF82E80-744D-489B-9824-6EE2FD026E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF82E80-744D-489B-9824-6EE2FD026E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF82E80-744D-489B-9824-6EE2FD026E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8771561-FBBC-400F-A2FD-F97BBC983F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8771561-FBBC-400F-A2FD-F97BBC983F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8771561-FBBC-400F-A2FD-F97BBC983F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8771561-FBBC-400F-A2FD-F97BBC983F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD359464-7384-4E53-9F8B-68FEEBB7169C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD359464-7384-4E53-9F8B-68FEEBB7169C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD359464-7384-4E53-9F8B-68FEEBB7169C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD359464-7384-4E53-9F8B-68FEEBB7169C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C059AC4E-6B55-4CAA-B9BB-A8970847E65B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C059AC4E-6B55-4CAA-B9BB-A8970847E65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C059AC4E-6B55-4CAA-B9BB-A8970847E65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C059AC4E-6B55-4CAA-B9BB-A8970847E65B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8771561-FBBC-400F-A2FD-F97BBC983F04} = {5ED99330-E18E-41E2-B129-8FAF417AB73C}
+		{FD359464-7384-4E53-9F8B-68FEEBB7169C} = {5ED99330-E18E-41E2-B129-8FAF417AB73C}
+		{C059AC4E-6B55-4CAA-B9BB-A8970847E65B} = {5ED99330-E18E-41E2-B129-8FAF417AB73C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FB4302D-1FD9-42FA-A9C0-4198AEDB342F}
+	EndGlobalSection
+EndGlobal
