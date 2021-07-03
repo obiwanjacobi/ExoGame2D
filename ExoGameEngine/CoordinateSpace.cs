@@ -24,7 +24,7 @@ namespace ExoGame2D
             Device = new CoordinatePlane(FullScreen, Rectangle.Empty);
 
             var worldBounds = new Rectangle(0, 0, worldWidth, worldHeight);
-            var worldViewport = SizeToRatio(worldBounds, worldViewportWidth, worldViewportHeight);
+            var worldViewport = new Rectangle(0, 0, worldViewportWidth, worldViewportHeight);
             World = new CoordinatePlane(worldBounds, worldViewport);
         }
 
