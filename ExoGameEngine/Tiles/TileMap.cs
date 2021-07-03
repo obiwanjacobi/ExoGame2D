@@ -11,6 +11,8 @@ namespace ExoGame2D.Tiles
         public TileMap(TileSet tileSet)
             => _tileSet = tileSet;
 
+        public bool IsEmpty => _tiles.Count == 0;
+
         public TileMap MapTile(Point tileIndex, Vector2 location)
             => MapTile(tileIndex.X, tileIndex.Y, location);
 

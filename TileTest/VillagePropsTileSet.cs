@@ -1,12 +1,13 @@
 ﻿using ExoGame2D.Tiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace TileTest
 {
     public class VillagePropsTileSet : ComplexTileSet
     {
-        public VillagePropsTileSet()
-            : base("TX Village Props")
+        public VillagePropsTileSet(ContentManager content)
+            : base(content, "TX Village Props")
         {
             RegisterTileRegions();
         }
@@ -15,7 +16,8 @@ namespace TileTest
 
         private void RegisterTileRegions()
         {
-            RegisterTileRegion(0, 0, new Rectangle(3, 4, 46, 46));
+            // register logical col, row indexes to tileset rect areas.
+            RegisterTileRegion(BigBoxTile, new Rectangle(3, 4, 46, 46));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ExoGame2D.Renderers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ExoGame2D.Tiles
@@ -8,12 +9,15 @@ namespace ExoGame2D.Tiles
     {
         private readonly Texture2D _tilesTexture;
 
-        protected TileSet(string name)
+        protected TileSet(ContentManager content, string name)
         {
-            _tilesTexture = Engine.Instance.Content.Load<Texture2D>(name);
+            _tilesTexture = content.Load<Texture2D>(name);
         }
 
         protected Texture2D TilesTexture => _tilesTexture;
+
+        public Tile CreateTile(Point tileIndex)
+            => CreateTile(tileIndex.X, tileIndex.Y);
 
         public abstract Tile CreateTile(int tileColIndex, int tileRowIndex);
 

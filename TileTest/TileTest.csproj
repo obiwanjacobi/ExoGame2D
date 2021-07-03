@@ -30,4 +30,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ExoGameEngine\ExoGame2D.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Content\Levels\Level1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ namespace TileTest
 {
     public class GameLoop : Game
     {
-        private GridTileSet _tileSet;
+        private readonly LevelTileMaps _levelMaps = new LevelTileMaps();
         private TileMap _tileMap;
 
         private VillagePropsTileSet _villageTileSet;
@@ -31,21 +31,10 @@ namespace TileTest
 
         protected override void LoadContent()
         {
-            _tileSet = new GridTileSet("Japanese Wall Set", 32, 32);
-            _tileMap = new TileMap(_tileSet);
+            _levelMaps.LoadContent(Content);
+            _tileMap = _levelMaps.Level1();
 
-            int delta = 16;
-            for (int c = 0; c < _tileSet.ColTileCount; c++)
-            {
-                for (int r = 0; r < _tileSet.RowTileCount; r++)
-                {
-                    int x = c * (_tileSet.TileWidth + delta) + delta;
-                    int y = r * (_tileSet.TileHeight + delta) + delta;
-                    _tileMap.MapTile(c, r, new Vector2(x, y));
-                }
-            }
-
-            _villageTileSet = new VillagePropsTileSet();
+            _villageTileSet = new VillagePropsTileSet(Content);
             _villageTileMap = new TileMap(_villageTileSet);
 
             _villageTileMap.MapTile(_villageTileSet.BigBoxTile, new Vector2(400, 100));
@@ -59,14 +48,14 @@ namespace TileTest
             if (keyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (keyboardState.IsKeyDown(Keys.Down))
-                MoveWorldViewport(0, delta);
             if (keyboardState.IsKeyDown(Keys.Up))
+                MoveWorldViewport(0, delta);
+            if (keyboardState.IsKeyDown(Keys.Down))
                 MoveWorldViewport(0, -delta);
 
-            if (keyboardState.IsKeyDown(Keys.Right))
-                MoveWorldViewport(delta, 0);
             if (keyboardState.IsKeyDown(Keys.Left))
+                MoveWorldViewport(delta, 0);
+            if (keyboardState.IsKeyDown(Keys.Right))
                 MoveWorldViewport(-delta, 0);
 
             base.Update(gameTime);

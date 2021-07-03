@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 
@@ -8,9 +9,12 @@ namespace ExoGame2D.Tiles
     {
         private readonly Dictionary<string, Rectangle> _tileRegister = new Dictionary<string, Rectangle>();
 
-        protected ComplexTileSet(string name)
-            : base(name)
+        protected ComplexTileSet(ContentManager content, string name)
+            : base(content, name)
         { }
+
+        protected void RegisterTileRegion(Point tileIndex, Rectangle tileOrigin)
+            => RegisterTileRegion(tileIndex.X, tileIndex.Y, tileOrigin);
 
         protected void RegisterTileRegion(int col, int row, Rectangle tileOrigin)
             => _tileRegister[BuildKey(col, row)] = tileOrigin;

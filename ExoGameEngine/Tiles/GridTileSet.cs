@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 
 namespace ExoGame2D.Tiles
@@ -10,8 +11,8 @@ namespace ExoGame2D.Tiles
         private readonly int _colCount;
         private readonly int _rowCount;
 
-        public GridTileSet(string name, int tileWidth, int tileHeight)
-            : base(name)
+        public GridTileSet(ContentManager content, string name, int tileWidth, int tileHeight)
+            : base(content, name)
         {
             _tileWidth = tileWidth;
             _tileHeight = tileHeight;
@@ -23,9 +24,6 @@ namespace ExoGame2D.Tiles
         public int TileHeight => _tileHeight;
         public int ColTileCount => _colCount;
         public int RowTileCount => _rowCount;
-
-        public Tile CreateTile(Point tileLocation)
-            => CreateTile(tileLocation.X, tileLocation.Y);
 
         public override Tile CreateTile(int tileColIndex, int tileRowIndex)
         {
