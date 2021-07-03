@@ -1,7 +1,6 @@
 ﻿using ExoGame2D;
 using ExoGame2D.Tiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace TileTest
@@ -23,8 +22,11 @@ namespace TileTest
 
         protected override void Initialize()
         {
+            // TODO: Client Window resizing with manual world viewport does not work correctly yet.
+            //Window.AllowUserResizing = true;
+
             base.Initialize();
-            _engine.Initialize(1920, 1080, 480, 240);
+            _engine.Initialize(1920, 1080, 3000, 2000, 480, 240);
         }
 
         protected override void LoadContent()
@@ -51,12 +53,29 @@ namespace TileTest
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var delta = 5;
+            var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            if (keyboardState.IsKeyDown(Keys.Down))
+                MoveWorldViewport(0, delta);
+            if (keyboardState.IsKeyDown(Keys.Up))
+                MoveWorldViewport(0, -delta);
+
+            if (keyboardState.IsKeyDown(Keys.Right))
+                MoveWorldViewport(delta, 0);
+            if (keyboardState.IsKeyDown(Keys.Left))
+                MoveWorldViewport(-delta, 0);
 
             base.Update(gameTime);
+        }
+
+        private void MoveWorldViewport(int deltaX, int deltaY)
+        {
+            _engine.CoordinateSpace.MoveWorldViewport(deltaX, deltaY);
+            _engine.UpdateDrawContext();
         }
 
         protected override void Draw(GameTime gameTime)

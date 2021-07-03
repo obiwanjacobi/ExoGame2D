@@ -62,12 +62,26 @@ namespace ExoGame2D
 
         public void Initialize(int windowWidth, int windowHeight, int worldWidth, int worldHeight)
         {
+            var coordinateSpace = new CoordinateSpace(worldWidth, worldHeight);
+            coordinateSpace.ResizeDevice(windowWidth, windowHeight);
+            Initialize(coordinateSpace);
+        }
+
+        public void Initialize(int windowWidth, int windowHeight,
+            int worldWidth, int worldHeight, int worldViewportWidth, int worldViewportHeight)
+        {
+            var coordinateSpace = new CoordinateSpace(worldWidth, worldHeight, worldViewportWidth, worldViewportHeight);
+            coordinateSpace.ResizeDevice(windowWidth, windowHeight);
+            Initialize(coordinateSpace);
+        }
+
+        private void Initialize(CoordinateSpace coordinateSpace)
+        {
+            CoordinateSpace = coordinateSpace ?? throw new ArgumentNullException(nameof(coordinateSpace));
             if (_game.GraphicsDevice == null)
                 throw new InvalidOperationException("Call Engine.Initialize() after Game.Initialize().");
 
             DrawContext = new DrawContext(_game.GraphicsDevice);
-            CoordinateSpace = new CoordinateSpace(worldWidth, worldHeight);
-            CoordinateSpace.ResizeDevice(windowWidth, windowHeight);
             SetFullScreen(false);
         }
 
@@ -95,9 +109,14 @@ namespace ExoGame2D
             _graphics.ApplyChanges();
             _graphics.GraphicsDevice.Viewport = new Viewport(CoordinateSpace.Device.Viewport);
 
-            DrawContext.Transformation = CoordinateSpace.WorldToDeviceScale();
+            UpdateDrawContext();
 
             _isInResize = false;
+        }
+
+        public void UpdateDrawContext()
+        {
+            DrawContext.Transformation = CoordinateSpace.WorldToDeviceTransform();
         }
 
         private bool _isInResize;

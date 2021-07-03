@@ -1,18 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace ExoGame2D
 {
     public class CoordinateSpace
     {
+        private readonly bool _manualWorldViewport;
         private float _deviceToWorldScale;
 
         public CoordinateSpace(int worldWidth, int worldHeight)
         {
+            _manualWorldViewport = false;
             Device = new CoordinatePlane(FullScreen, Rectangle.Empty);
 
             var worldBounds = new Rectangle(0, 0, worldWidth, worldHeight);
             World = new CoordinatePlane(worldBounds, Rectangle.Empty);
+        }
+
+        public CoordinateSpace(int worldWidth, int worldHeight, int worldViewportWidth, int worldViewportHeight)
+        {
+            _manualWorldViewport = true;
+            Device = new CoordinatePlane(FullScreen, Rectangle.Empty);
+
+            var worldBounds = new Rectangle(0, 0, worldWidth, worldHeight);
+            var worldViewport = SizeToRatio(worldBounds, worldViewportWidth, worldViewportHeight);
+            World = new CoordinatePlane(worldBounds, worldViewport);
         }
 
         public Rectangle FullScreen => new Rectangle(0, 0,
@@ -28,26 +41,47 @@ namespace ExoGame2D
             var deviceBounds = new Rectangle(0, 0, width, height);
             Device = new CoordinatePlane(deviceBounds, deviceViewport);
 
-            _deviceToWorldScale = World.Bounds.Width / (float)Device.Viewport.Width;
+            if (!_manualWorldViewport)
+            {
+                _deviceToWorldScale = World.Bounds.Width / (float)Device.Viewport.Width;
 
-            var worldViewport = CalcWorldViewport();
-            World = new CoordinatePlane(World.Bounds, worldViewport);
+                var worldViewport = CalcWorldViewport();
+                World = new CoordinatePlane(World.Bounds, worldViewport);
+            }
+            else
+            {
+                _deviceToWorldScale = World.Viewport.Width / (float)Device.Viewport.Width;
+            }
         }
 
-        public Vector2 DeviceToWorld(int x, int y)
-            => DeviceToWorld(new Vector2(x, y));
-
-        public Vector2 DeviceToWorld(Vector2 screenPosition)
+        public void MoveWorldViewport(int deltaX, int deltaY)
         {
-            var viewportTopLeft = new Vector2(Device.Viewport.X, Device.Viewport.Y);
-            return (screenPosition - viewportTopLeft) * _deviceToWorldScale;
+            if (!_manualWorldViewport)
+                throw new InvalidOperationException("Specify a world viewport (in Engine.Initialize) to be able to move it.");
+
+            var viewport = new Rectangle(
+                World.Viewport.X + deltaX,
+                World.Viewport.Y + deltaY,
+                World.Viewport.Width,
+                World.Viewport.Height);
+            World = new CoordinatePlane(World.Bounds, viewport);
         }
 
-        public Matrix WorldToDeviceScale(float zoomFactor = 1)
+        public Vector2 DeviceToWorld(float deviceX, float deviceY)
         {
-            return Matrix.CreateScale(
-                zoomFactor * Device.Viewport.Width / World.Bounds.Width,
-                zoomFactor * Device.Viewport.Height / World.Bounds.Height, 1);
+            float x = deviceX - Device.Viewport.X;
+            float y = deviceY - Device.Viewport.Y;
+            return new Vector2(x * _deviceToWorldScale, y * _deviceToWorldScale);
+        }
+
+        public Matrix WorldToDeviceTransform()
+        {
+            var translation = Matrix.CreateTranslation(World.Viewport.X, World.Viewport.Y, 0);
+            var scale = Matrix.CreateScale(
+                (float)Device.Viewport.Width / World.Viewport.Width,
+                (float)Device.Viewport.Height / World.Viewport.Height, 1);
+
+            return scale * translation;
         }
 
         private Rectangle CalcWorldViewport()
@@ -58,28 +92,55 @@ namespace ExoGame2D
 
         private Rectangle CalcDeviceViewport(int deviceWidth, int deviceHeight)
         {
-            var viewport = new Rectangle();
-            float worldRatio = World.AspectRatio;
-            float deviceRatio = (float)deviceWidth / deviceHeight;
-
-            // if the window is relatively wide, use the full window height
-            if (deviceRatio > worldRatio)
+            if (_manualWorldViewport)
             {
-                viewport.Width = (int)(deviceHeight * worldRatio);
-                viewport.Height = deviceHeight;
+                var world = new Rectangle(World.Viewport.X, World.Viewport.Y, World.Viewport.Width, World.Viewport.Height);
+                SizeMatchToRatio(ref world, deviceWidth, deviceHeight);
+                World = new CoordinatePlane(World.Bounds, world);
+                return new Rectangle(0, 0, deviceWidth, deviceHeight);
             }
-            // if the window is relatively high, use the full window width
+
+            return SizeToRatio(World.Bounds, deviceWidth, deviceHeight);
+        }
+
+        private static void SizeMatchToRatio(ref Rectangle source, int targetWidth, int targetHeight)
+        {
+            float sourceRatio = (float)source.Width / source.Height;
+            float targetRatio = (float)targetWidth / targetHeight;
+
+            if (targetRatio > sourceRatio)
+            {
+                var scale = (float)source.Height / targetHeight;
+                source.Width = (int)(targetWidth * scale);
+            }
             else
             {
-                viewport.Width = deviceWidth;
-                viewport.Height = (int)(deviceWidth / worldRatio);
+                var scale = (float)source.Width / targetWidth;
+                source.Height = (int)(targetHeight * scale);
+            }
+        }
+
+        private static Rectangle SizeToRatio(Rectangle source, int targetWidth, int targetHeight)
+        {
+            var sized = new Rectangle();
+            float sourceRatio = (float)source.Width / source.Height;
+            float targetRatio = (float)targetWidth / targetHeight;
+
+            if (targetRatio > sourceRatio)
+            {
+                sized.Width = (int)(targetHeight * sourceRatio);
+                sized.Height = targetHeight;
+            }
+            else
+            {
+                sized.Width = targetWidth;
+                sized.Height = (int)(targetWidth / sourceRatio);
             }
 
-            // calculate and store the top-left corner of the viewport
-            viewport.X = (deviceWidth - viewport.Width) / 2;
-            viewport.Y = (deviceHeight - viewport.Height) / 2;
+            sized.X = source.X + (targetWidth - sized.Width) / 2;
+            sized.Y = source.Y + (targetHeight - sized.Height) / 2;
 
-            return viewport;
+            return sized;
         }
     }
 

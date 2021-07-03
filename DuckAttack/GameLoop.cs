@@ -40,6 +40,8 @@ namespace ExoGame2D.DuckAttack
 
         protected override void Initialize()
         {
+            Window.AllowUserResizing = true;
+
             base.Initialize();
             _engine.Initialize(3400, 2080, 1920, 1080);
         }
@@ -48,7 +50,6 @@ namespace ExoGame2D.DuckAttack
         {
             _engine.GameState.Register("MainMenu", new MainMenu());
             _engine.GameState.ChangeState("Mainmenu");
-            Window.AllowUserResizing = true;
         }
 
         protected override void Update(GameTime gameTime)

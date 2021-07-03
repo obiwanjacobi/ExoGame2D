@@ -80,7 +80,7 @@ namespace ExoGame2D.Tutorials.Tutorial4_TrackingTheMouse
 
             _engine.DrawContext.BeginDraw();
 
-            var mouse = _engine.CoordinateSpace.DeviceToWorld(new Vector2(InputHelper.MousePosition.X, InputHelper.MousePosition.Y));
+            var mouse = _engine.CoordinateSpace.DeviceToWorld(InputHelper.MousePosition.X, InputHelper.MousePosition.Y);
             _crosshair.Location = new Vector2(mouse.X - _crosshair.Width / 2, mouse.Y - _crosshair.Height / 2);
 
             _scene.Draw(_engine.DrawContext, gameTime);
