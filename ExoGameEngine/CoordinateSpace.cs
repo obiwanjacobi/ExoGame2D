@@ -59,11 +59,22 @@ namespace ExoGame2D
             if (!_manualWorldViewport)
                 throw new InvalidOperationException("Specify a world viewport (in Engine.Initialize) to be able to move it.");
 
+            var worldX = World.Viewport.X + deltaX;
+            var worldY = World.Viewport.Y + deltaY;
+            var worldWidth = World.Viewport.Width;
+            var worldHeight = World.Viewport.Height;
+
+            if (worldX < World.Bounds.X)
+                worldX = World.Bounds.X;
+            if (worldY < World.Bounds.Y)
+                worldY = World.Bounds.Y;
+            if (worldX + worldWidth > World.Bounds.Width)
+                worldX = World.Bounds.Width - worldWidth;
+            if (worldY + worldHeight > World.Bounds.Height)
+                worldY = World.Bounds.Height - worldHeight;
+
             var viewport = new Rectangle(
-                World.Viewport.X + deltaX,
-                World.Viewport.Y + deltaY,
-                World.Viewport.Width,
-                World.Viewport.Height);
+                worldX, worldY, worldWidth, worldHeight);
             World = new CoordinatePlane(World.Bounds, viewport);
         }
 
@@ -76,7 +87,7 @@ namespace ExoGame2D
 
         public Matrix WorldToDeviceTransform()
         {
-            var translation = Matrix.CreateTranslation(World.Viewport.X, World.Viewport.Y, 0);
+            var translation = Matrix.CreateTranslation(-World.Viewport.X, -World.Viewport.Y, 0);
             var scale = Matrix.CreateScale(
                 (float)Device.Viewport.Width / World.Viewport.Width,
                 (float)Device.Viewport.Height / World.Viewport.Height, 1);

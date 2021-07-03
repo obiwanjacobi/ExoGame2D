@@ -80,9 +80,9 @@ namespace ExoGame2D.Tiles
         /// <summary>
         /// Called while reading the tile character file.
         /// </summary>
-        /// <param name="filePosition"></param>
+        /// <param name="filePosition">X = character on a row (col). Y = line number (zero-based).</param>
         /// <param name="tileChar">A single character read from the file that represents a tile.</param>
-        /// <returns></returns>
+        /// <returns>Returns null if not tile is to be displayed for <paramref name="tileChar"/>.</returns>
         protected virtual TilePlacement? MapToPlacement(Point filePosition, char tileChar)
         {
             if (_gridTileSet == null)

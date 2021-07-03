@@ -37,25 +37,25 @@ namespace TileTest
             _villageTileSet = new VillagePropsTileSet(Content);
             _villageTileMap = new TileMap(_villageTileSet);
 
-            _villageTileMap.MapTile(_villageTileSet.BigBoxTile, new Vector2(400, 100));
+            _villageTileMap.MapTile(_villageTileSet.BigBoxTile, new Vector2(375, 115));
         }
 
         protected override void Update(GameTime gameTime)
         {
-            var delta = 5;
+            var delta = 10;
             var keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (keyboardState.IsKeyDown(Keys.Up))
-                MoveWorldViewport(0, delta);
             if (keyboardState.IsKeyDown(Keys.Down))
+                MoveWorldViewport(0, delta);
+            if (keyboardState.IsKeyDown(Keys.Up))
                 MoveWorldViewport(0, -delta);
 
-            if (keyboardState.IsKeyDown(Keys.Left))
-                MoveWorldViewport(delta, 0);
             if (keyboardState.IsKeyDown(Keys.Right))
+                MoveWorldViewport(delta, 0);
+            if (keyboardState.IsKeyDown(Keys.Left))
                 MoveWorldViewport(-delta, 0);
 
             base.Update(gameTime);
@@ -74,8 +74,6 @@ namespace TileTest
             _engine.DrawContext.BeginDraw();
 
             _tileMap.Draw(_engine.DrawContext, gameTime);
-            //_tileSet.Draw(_engine.DrawContext, gameTime);
-
             _villageTileMap.Draw(_engine.DrawContext, gameTime);
 
             _engine.DrawContext.EndDraw();
