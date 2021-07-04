@@ -36,9 +36,6 @@ namespace FlexoGraphics.SceneManagement
         private readonly Dictionary<int, Layer> _layers = new Dictionary<int, Layer>();
         private IEnumerable<Layer> _orderedLayers;
 
-        public void Add(RenderLayer layer, IRenderNode node)
-            => Add((int)layer, node);
-
         public void Add(int layerIndex, IRenderNode node)
         {
             var layer = GetLayer(layerIndex);
@@ -54,9 +51,6 @@ namespace FlexoGraphics.SceneManagement
                 CollisionManager.Add(collidable, collidable.Name);
             }
         }
-
-        public bool Remove(RenderLayer layer, IRenderNode node)
-            => Remove((int)layer, node);
 
         public bool Remove(int layerIndex, IRenderNode node)
         {

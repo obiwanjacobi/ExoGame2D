@@ -77,8 +77,8 @@ namespace GameOfLife
                     "<space> Pause cells" + System.Environment.NewLine
             };
 
-            _scene.Add(RenderLayer.Layer2, _helpFont);
-            _scene.Add(RenderLayer.Layer1, _grid);
+            _scene.Add(2, _helpFont);
+            _scene.Add(1, _grid);
         }
 
         protected override void Update(GameTime gameTime)
@@ -111,11 +111,11 @@ namespace GameOfLife
 
                 if (Help)
                 {
-                    _scene.Add(RenderLayer.Layer2, _helpFont);
+                    _scene.Add(2, _helpFont);
                 }
                 else
                 {
-                    _scene.Remove(RenderLayer.Layer2, _helpFont);
+                    _scene.Remove(2, _helpFont);
                 }
             }
 

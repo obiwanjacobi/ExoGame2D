@@ -96,10 +96,10 @@ namespace DuckAttack.GameStates
             container.AddControl(optionsButton);
             container.AddControl(exitButton);
 
-            _scene.Add(RenderLayer.Layer1, background);
-            _scene.Add(RenderLayer.Layer2, _titles);
-            _scene.Add(RenderLayer.Layer5, crosshair);
-            _scene.Add(RenderLayer.Layer4, container);
+            _scene.Add(1, background);
+            _scene.Add(2, _titles);
+            _scene.Add(5, crosshair);
+            _scene.Add(4, container);
 
             MusicPlayer.Play("banjo");
             MusicPlayer.Looped = true;

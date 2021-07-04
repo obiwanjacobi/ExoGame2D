@@ -68,12 +68,12 @@ namespace DuckAttack.GameStates
 
             NextLevel();
 
-            _scene.Add(RenderLayer.Layer4, _hud);
-            _scene.Add(RenderLayer.Layer1, background);
-            _scene.Add(RenderLayer.Layer4, fps);
-            _scene.Add(RenderLayer.Layer4, score);
-            _scene.Add(RenderLayer.Layer4, _billboard);
-            _scene.Add(RenderLayer.Layer5, crosshair);
+            _scene.Add(4, _hud);
+            _scene.Add(1, background);
+            _scene.Add(4, fps);
+            _scene.Add(4, score);
+            _scene.Add(4, _billboard);
+            _scene.Add(5, crosshair);
 
             Channels.Create("score");
             Channels.Create("duckhit");
@@ -96,25 +96,25 @@ namespace DuckAttack.GameStates
 
             level.Ducks.Shuffle();
 
-            _duck1 = new Duck("duck", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
+            _duck1 = new Duck("duck1", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
             _duck2 = new Duck("duck2", level.Ducks[1].StartX, level.Ducks[1].Flip, level.Ducks[1].HorizontalVelocity, level.Ducks[1].VerticalVelocity);
             _duck3 = new Duck("duck3", level.Ducks[2].StartX, level.Ducks[2].Flip, level.Ducks[2].HorizontalVelocity, level.Ducks[2].VerticalVelocity);
             _duck4 = new Duck("duck4", level.Ducks[3].StartX, level.Ducks[3].Flip, level.Ducks[3].HorizontalVelocity, level.Ducks[3].VerticalVelocity);
 
-            _scene.Remove(RenderLayer.Layer2, _duck1);
-            _scene.Remove(RenderLayer.Layer2, _duck2);
-            _scene.Remove(RenderLayer.Layer2, _duck3);
-            _scene.Remove(RenderLayer.Layer2, _duck4);
+            _scene.Remove(2, _duck1);
+            _scene.Remove(2, _duck2);
+            _scene.Remove(2, _duck3);
+            _scene.Remove(2, _duck4);
 
             CollisionManager.Remove(_duck1.Name);
             CollisionManager.Remove(_duck2.Name);
             CollisionManager.Remove(_duck3.Name);
             CollisionManager.Remove(_duck4.Name);
 
-            _scene.Add(RenderLayer.Layer2, _duck1);
-            _scene.Add(RenderLayer.Layer2, _duck2);
-            _scene.Add(RenderLayer.Layer2, _duck3);
-            _scene.Add(RenderLayer.Layer2, _duck4);
+            _scene.Add(2, _duck1);
+            _scene.Add(2, _duck2);
+            _scene.Add(2, _duck3);
+            _scene.Add(2, _duck4);
 
             _gameClock.Reset();
             _gameClock.Start();
@@ -127,9 +127,7 @@ namespace DuckAttack.GameStates
         }
 
         public void Remove()
-        {
-            CollisionManager.RemoveAll();
-        }
+            => CollisionManager.RemoveAll();
 
         public void Draw(DrawContext context, GameTime gameTime)
             => _scene.Draw(context, gameTime);
