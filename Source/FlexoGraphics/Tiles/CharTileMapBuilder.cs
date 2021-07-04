@@ -27,7 +27,7 @@ namespace FlexoGraphics.Tiles
     }
 
     /// <summary>
-    /// Derive and implement MapToTileIndex.
+    /// Derive and implement MapToTileIndex or MapToPlacement.
     /// </summary>
     public abstract class CharTileMapBuilder
     {
@@ -110,7 +110,7 @@ namespace FlexoGraphics.Tiles
         protected virtual Point? MapToTileIndex(char tileChar)
         {
             // x = hi-nibble, y = lo-nibble
-            return new Point(tileChar & 0xF0 >> 4, tileChar & 0x0F);
+            return new Point((tileChar & 0xF0) >> 4, tileChar & 0x0F);
         }
 
         /// <summary>

@@ -1,8 +1,9 @@
 ﻿# Flexo Graphics Game Engine
 
 
-TODOs:
+## TODOs
 
-GameState vs Navigation / Screen
-Screen / Scene / Layers / Components / State
-UI
+- GameState vs Navigation / Screen
+    - Screen / Scene / Layers / Components / State
+- UI / UI Components
+- Channels/Messages

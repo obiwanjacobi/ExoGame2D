@@ -31,7 +31,6 @@ using FlexoGraphics.Renderers;
 using FlexoGraphics.SceneManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Diagnostics;
 
 namespace DuckAttack.GameStates
@@ -45,8 +44,7 @@ namespace DuckAttack.GameStates
         private Duck _duck4;
         private readonly Background _background;
         private readonly Crosshair _crosshair;
-        private readonly FrameCounter _frameCounter = new FrameCounter();
-        private readonly FontRender _fps;
+        private readonly FramesPerSecond _fps;
         private readonly ScoreBoard _score;
         private readonly Stopwatch _gameClock = new Stopwatch();
         private readonly LevelController _levelController;
@@ -63,12 +61,9 @@ namespace DuckAttack.GameStates
             DifficultySettings.SetDifficulty(Difficulty.Easy);
 
             _crosshair = new Crosshair();
-
             _background = new Background();
-            _fps = new FontRender("fps counter");
-            _fps.LoadContent("default");
+            _fps = new FramesPerSecond("default");
             _fps.Location = new Vector2(40, Engine.Instance.CoordinateSpace.World.Viewport.Height - 50);
-
             _score = new ScoreBoard("score board");
             _hud = new Hud("Hud");
             _levelController = new LevelController(new LevelBuilder().Levels);
@@ -92,7 +87,6 @@ namespace DuckAttack.GameStates
         private void NextLevel()
         {
             var level = _levelController.CurrentLevel;
-
 
             if (_hud.NumberOfDucksShot == 12)
             {
@@ -141,11 +135,11 @@ namespace DuckAttack.GameStates
 
         public void Draw(DrawContext context, GameTime gameTime)
         {
-            _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            //_frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             _scene.Draw(context, gameTime);
 
-            _fps.Text = "FPS - " + Math.Round(_frameCounter.AverageFramesPerSecond);
+            //_fps.Text = "FPS - " + Math.Round(_frameCounter.AverageFramesPerSecond);
         }
 
         public void Update(GameTime gameTime)
