@@ -21,98 +21,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 using FlexoGraphics.Interfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace FlexoGraphics.Renderers
 {
     public class AnimatedSprite : Sprite, ICollidable
     {
-        private readonly List<Texture2D> _animationFrames = new List<Texture2D>();
-        private int _currentFrame = 0;
-        private bool _pingPong = false;
-        private int _internalTimer = 0;
-
-        public AnimationType AnimationType { get; set; }
-        public AnimationPlayingState PlayState { get; private set; }
-        public int AnimationSpeed { get; set; }
+        private readonly TextureAnimation _animation = new TextureAnimation();
 
         public AnimatedSprite(string name = "") : base()
         {
             Name = name;
-            AnimationType = AnimationType.Linear;
-            PlayState = AnimationPlayingState.Stopped;
-            AnimationSpeed = 10;
         }
 
-        public void LoadFrameTexture(string textureName)
+        public TextureAnimation Animation => _animation;
+
+        public void LoadFrameTexture(string textureName, int length)
         {
-            if (string.IsNullOrEmpty(textureName))
-            {
-                throw new ArgumentNullException(nameof(textureName));
-            }
-
-            _animationFrames.Add(Engine.Instance.Content.Load<Texture2D>(textureName));
-
-            _currentFrame = 0;
-            Texture = _animationFrames[_currentFrame];
-        }
-
-        public void ResetAnimation()
-        {
-            _currentFrame = 0;
-            Texture = _animationFrames[_currentFrame];
-            _pingPong = false;
-        }
-
-        public void NextFrame()
-        {
-            switch (AnimationType)
-            {
-                case AnimationType.Linear:
-                    if (_currentFrame < _animationFrames.Count - 1)
-                    {
-                        _currentFrame++;
-                        Texture = _animationFrames[_currentFrame];
-                    }
-                    else
-                    {
-                        _currentFrame = 0;
-                        Texture = _animationFrames[_currentFrame];
-                    }
-                    break;
-
-                case AnimationType.PingPong:
-                    switch (_pingPong)
-                    {
-                        case false:
-                            if (_currentFrame < _animationFrames.Count - 1)
-                            {
-                                _currentFrame++;
-                                Texture = _animationFrames[_currentFrame];
-                            }
-                            else
-                            {
-                                _pingPong = true;
-                            }
-                            break;
-                        case true:
-                            if (_currentFrame > 0)
-                            {
-                                _currentFrame--;
-                                Texture = _animationFrames[_currentFrame];
-                            }
-                            else
-                            {
-                                _pingPong = false;
-                            }
-                            break;
-                    }
-                    break;
-            }
+            _animation.LoadFrameTexture(textureName, length);
+            Texture = _animation.Texture;
         }
 
         public bool GetPixelData(Rectangle intersection, out Color[] data)
@@ -125,29 +54,15 @@ namespace FlexoGraphics.Renderers
             return true;
         }
 
-        public void Play()
+        public override void Draw(DrawContext context, GameTime gameTime)
         {
-            PlayState = AnimationPlayingState.Playing;
-        }
-
-        public void Stop()
-        {
-            PlayState = AnimationPlayingState.Stopped;
+            Texture = _animation.Texture;
+            base.Draw(context, gameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (PlayState == AnimationPlayingState.Playing)
-            {
-                _internalTimer++;
-
-                if (_internalTimer >= AnimationSpeed)
-                {
-                    NextFrame();
-                    _internalTimer = 0;
-                }
-            }
-
+            _animation.Update(gameTime);
             base.Update(gameTime);
         }
     }

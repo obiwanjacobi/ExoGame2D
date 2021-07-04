@@ -118,9 +118,15 @@ namespace FlexoGraphics.Renderers
 
         public int Height => Texture.Height;
 
-        public Rectangle Dimensions => Texture.Bounds;
+        public Rectangle Dimensions
+            => Texture != null
+            ? Texture.Bounds
+            : Rectangle.Empty;
 
-        public Rectangle BoundingBox => new Rectangle((int)X, (int)Y, Texture.Width, Texture.Height);
+        public Rectangle BoundingBox
+            => Texture != null
+            ? new Rectangle((int)X, (int)Y, Texture.Width, Texture.Height)
+            : Rectangle.Empty;
 
         public bool Flip { get; set; } = false;
 

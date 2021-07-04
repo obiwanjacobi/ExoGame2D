@@ -37,21 +37,20 @@ namespace DuckAttack.GameStates
     public class OptionsMenu : IGameState
     {
         private readonly Scene _scene = new Scene();
-        private readonly FontRender _titles;
 
         public OptionsMenu()
         {
             var crosshair = new MenuCursor();
             var background = new Background();
 
-            _titles = new FontRender("titlescreen")
+            var titles = new FontRender("titlescreen")
             {
                 Location = new Vector2(150, 200),
                 Shadow = true,
                 Text = "Duck Attack"
             };
 
-            var container = new UIContainer("OptionsMenu");
+            var container = new UIContainer();
 
             int startYPosition = 450;
 
@@ -82,7 +81,7 @@ namespace DuckAttack.GameStates
             container.AddControl(backToMainMenu);
 
             _scene.Add(1, background);
-            _scene.Add(2, _titles);
+            _scene.Add(2, titles);
             _scene.Add(5, crosshair);
             _scene.Add(4, container);
         }

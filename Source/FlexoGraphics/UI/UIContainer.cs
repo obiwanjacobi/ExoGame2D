@@ -29,13 +29,6 @@ namespace FlexoGraphics.UI
 {
     public class UIContainer : RenderNodeContainer
     {
-
-        public UIContainer(string name)
-            => Name = name ?? throw new ArgumentNullException(nameof(name));
-
-        public string Name { get; set; }
-
-
         public void AddControl(UIControl control)
             => Add(control ?? throw new ArgumentNullException(nameof(control)));
     }

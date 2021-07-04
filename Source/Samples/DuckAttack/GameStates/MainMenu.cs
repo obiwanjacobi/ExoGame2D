@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 using DuckAttack.GameActors;
 using DuckAttack.MainMenuActors;
 using FlexoGraphics;
@@ -54,7 +55,7 @@ namespace DuckAttack.GameStates
                 Text = "Duck Attack"
             };
 
-            var container = new UIContainer("MainMenu");
+            var container = new UIContainer();
 
             int startYPosition = 450;
 

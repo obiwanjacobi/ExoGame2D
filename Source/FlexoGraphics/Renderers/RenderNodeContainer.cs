@@ -25,6 +25,7 @@ namespace FlexoGraphics.Renderers
 
             return false;
         }
+
         public void Draw(DrawContext context, GameTime gameTime)
         {
             foreach (var control in _nodes)

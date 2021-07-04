@@ -26,7 +26,7 @@ namespace FlexoGraphics.Renderers
 {
     public enum AnimationType
     {
-        Linear = 0,
+        Loop = 0,
         PingPong = 1
     }
 }

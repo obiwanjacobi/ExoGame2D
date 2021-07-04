@@ -9,3 +9,4 @@
 - Channels/Messages
 
 - hard coded coordinates in library?
+- fix pixel collision detection algorithm to work with intersections.

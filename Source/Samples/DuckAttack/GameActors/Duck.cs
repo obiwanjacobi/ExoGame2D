@@ -35,9 +35,10 @@ namespace DuckAttack.GameActors
 {
     public class Duck : IRenderNode, ICollidable
     {
+        private const int AnimationSpeed = 5;
         private readonly AnimatedSprite _duck;
-        private readonly CollidableSprite _duckDeath;
-        private readonly CollidableSprite _duckDive;
+        private readonly Sprite _duckDeath;
+        private readonly Sprite _duckDive;
 
         private readonly Stopwatch _duckClock = new Stopwatch();
         private int _deathCounter = 0;
@@ -58,25 +59,24 @@ namespace DuckAttack.GameActors
         {
             Name = name;
 
-            _duckDeath = new CollidableSprite("DuckDeath");
+            _duckDeath = new Sprite("DuckDeath");
             _duckDeath.LoadContent("DuckDeath");
 
-            _duckDive = new CollidableSprite("DuckDive");
+            _duckDive = new Sprite("DuckDive");
             _duckDive.LoadContent("DuckDive");
 
             _duck = new AnimatedSprite(name);
-            _duck.LoadFrameTexture("DuckFrame1");
-            _duck.LoadFrameTexture("DuckFrame2");
-            _duck.LoadFrameTexture("DuckFrame3");
+            _duck.LoadFrameTexture("DuckFrame1", AnimationSpeed);
+            _duck.LoadFrameTexture("DuckFrame2", AnimationSpeed);
+            _duck.LoadFrameTexture("DuckFrame3", AnimationSpeed);
 
             _duck.Velocity = new Vector2(7, 5);
             _duck.Flip = false;
             _duck.Location = new Vector2(x, y);
             _duck.IsVisible = true;
             _duck.IsEnabled = true;
-            _duck.AnimationType = AnimationType.PingPong;
-            _duck.AnimationSpeed = 5;
-            _duck.Play();
+            _duck.Animation.Type = AnimationType.PingPong;
+            _duck.Animation.Play();
 
             State = DuckState.Start;
 
@@ -97,9 +97,9 @@ namespace DuckAttack.GameActors
             _duckDive.LoadContent("DuckDive");
 
             _duck = new AnimatedSprite(name);
-            _duck.LoadFrameTexture("DuckFrame1");
-            _duck.LoadFrameTexture("DuckFrame2");
-            _duck.LoadFrameTexture("DuckFrame3");
+            _duck.LoadFrameTexture("DuckFrame1", AnimationSpeed);
+            _duck.LoadFrameTexture("DuckFrame2", AnimationSpeed);
+            _duck.LoadFrameTexture("DuckFrame3", AnimationSpeed);
 
             if (vx > 0)
             {
@@ -124,9 +124,8 @@ namespace DuckAttack.GameActors
             _duck.Location = new Vector2(x, 900);
             _duck.IsVisible = true;
             _duck.IsEnabled = true;
-            _duck.AnimationType = AnimationType.PingPong;
-            _duck.AnimationSpeed = 5;
-            _duck.Play();
+            _duck.Animation.Type = AnimationType.PingPong;
+            _duck.Animation.Play();
 
             State = DuckState.Start;
 
