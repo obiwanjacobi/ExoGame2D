@@ -31,7 +31,6 @@ namespace FlexoGraphics.Renderers
 {
     public class Sprite : IRenderNode, IBoundingBox, INamedObject
     {
-        protected Texture2D _texture;
         private Vector2 _location = new Vector2(0, 0);
         private Vector2 _velocity = new Vector2(0, 0);
         private float _x;
@@ -115,26 +114,24 @@ namespace FlexoGraphics.Renderers
             }
         }
 
-        public int Width => _texture.Width;
+        public int Width => Texture.Width;
 
-        public int Height => _texture.Height;
+        public int Height => Texture.Height;
 
-        public Rectangle Dimensions => _texture.Bounds;
+        public Rectangle Dimensions => Texture.Bounds;
 
-        public Rectangle BoundingBox => new Rectangle((int)X, (int)Y, _texture.Width, _texture.Height);
+        public Rectangle BoundingBox => new Rectangle((int)X, (int)Y, Texture.Width, Texture.Height);
 
         public bool Flip { get; set; } = false;
 
         public Color Tint { get; set; } = Color.White;
 
+        protected Texture2D Texture { get; set; }
+
         public void LoadContent(string textureName)
         {
-            if (string.IsNullOrEmpty(textureName))
-            {
-                throw new ArgumentNullException(nameof(textureName));
-            }
-
-            _texture = Engine.Instance.Content.Load<Texture2D>(textureName);
+            Texture = Engine.Instance.Content.Load<Texture2D>(textureName
+                ?? throw new ArgumentNullException(nameof(textureName)));
         }
 
         public virtual void Update(GameTime gameTime)
@@ -148,26 +145,16 @@ namespace FlexoGraphics.Renderers
 
         public virtual void Draw(DrawContext context, GameTime gameTime)
         {
-            if (_texture == null)
-            {
+            if (Texture == null || !IsVisible)
                 return;
-            }
 
-            if (!IsVisible)
-            {
-                return;
-            }
-
-            SpriteEffects effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-            context.SpriteBatch.Draw(_texture, _location,
-                new Rectangle(0, 0, _texture.Width, _texture.Height), Tint, 0,
-                new Vector2(0, 0), 1.0f, effect, 0.0f);
+            var effect = Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            context.SpriteBatch.Draw(Texture, _location,
+                new Rectangle(0, 0, Texture.Width, Texture.Height), Tint, 0,
+                Vector2.Zero, 1.0f, effect, 0.0f);
 
             if (RenderBoundingBox)
-            {
                 context.SpriteBatch.DrawRectangle(BoundingBox, Color.Yellow, 3);
-            }
         }
     }
 }

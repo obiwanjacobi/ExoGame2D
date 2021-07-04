@@ -34,17 +34,15 @@ namespace DuckAttack.GameActors
         private readonly FontRender _scoreboard;
         private int _score;
 
-        public ScoreBoard(string name)
+        public ScoreBoard()
         {
-            Name = name;
-            _scoreboard = new FontRender(name);
-            _scoreboard.LoadContent("headsup");
-            _scoreboard.Location = new Vector2(40, 40);
+            _scoreboard = new FontRender("headsup")
+            {
+                Location = new Vector2(40, 40),
+                Shadow = true
+            };
             _score = 0;
-            _scoreboard.Shadow = true;
         }
-
-        public string Name { get; set; }
 
         public void Draw(DrawContext context, GameTime gameTime)
             => _scoreboard.Draw(context, gameTime);

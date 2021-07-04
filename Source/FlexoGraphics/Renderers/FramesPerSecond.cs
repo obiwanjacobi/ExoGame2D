@@ -10,11 +10,13 @@ namespace FlexoGraphics.Renderers
 
         public FramesPerSecond(string fontName)
         {
-            _fontRender = new FontRender("FramesPerSecond");
-            _fontRender.LoadContent(fontName);
+            _fontRender = new FontRender(fontName);
             FormatText = "FPS: {0}";
         }
 
+        /// <summary>
+        /// A format string like 'FPS: {0}'.
+        /// </summary>
         public string FormatText { get; set; }
 
         public Vector2 Location

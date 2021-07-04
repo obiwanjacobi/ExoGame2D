@@ -46,7 +46,7 @@ namespace FlexoGraphics.Renderers
         {
             var length = Width * Height;
             data = new Color[length];
-            _texture.GetData(data);
+            Texture.GetData(data);
             //_texture.GetData(0, area, data, 0, length);
             return true;
         }

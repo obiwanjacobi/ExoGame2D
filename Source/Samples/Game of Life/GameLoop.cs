@@ -65,16 +65,17 @@ namespace GameOfLife
 
             _grid = new Grid(NumberCellsHorizontal, NumberCellsVertical) { Name = "Grid" };
 
-            _helpFont = new FontRender("help");
-            _helpFont.LoadContent("File");
-            _helpFont.Location = new Vector2(20, 20);
-            _helpFont.Shadow = true;
-            _helpFont.Text = "Exo Game 2D - Conways Game of Life" + System.Environment.NewLine +
-                             "--------------------------------------------" + System.Environment.NewLine + System.Environment.NewLine +
-                             "<h> Toggle Help" + System.Environment.NewLine +
-                             "<f> Toggle Fullscreen" + System.Environment.NewLine +
-                             "<backspace> Clear grid" + System.Environment.NewLine +
-                             "<space> Pause cells" + System.Environment.NewLine;
+            _helpFont = new FontRender("File")
+            {
+                Location = new Vector2(20, 20),
+                Shadow = true,
+                Text = "Exo Game 2D - Conways Game of Life" + System.Environment.NewLine +
+                    "--------------------------------------------" + System.Environment.NewLine + System.Environment.NewLine +
+                    "<h> Toggle Help" + System.Environment.NewLine +
+                    "<f> Toggle Fullscreen" + System.Environment.NewLine +
+                    "<backspace> Clear grid" + System.Environment.NewLine +
+                    "<space> Pause cells" + System.Environment.NewLine
+            };
 
             _scene.Add(RenderLayer.Layer2, _helpFont);
             _scene.Add(RenderLayer.Layer1, _grid);

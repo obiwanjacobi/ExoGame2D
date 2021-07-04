@@ -37,46 +37,38 @@ namespace DuckAttack.GameStates
     public class OptionsMenu : IGameState
     {
         private readonly Scene _scene = new Scene();
-
-        private readonly Background _background;
-        private readonly MenuCursor _crosshair;
-        private readonly FrameCounter _frameCounter = new FrameCounter();
         private readonly FontRender _titles;
-        private int _fontY = 0;
-
-        private readonly UIContainer _container;
-        private readonly UIControl _backToMainMenu;
-        private readonly UIControl _soundEffectsOnOff;
 
         public OptionsMenu()
         {
-            _crosshair = new MenuCursor();
-            _background = new Background();
+            var crosshair = new MenuCursor();
+            var background = new Background();
 
-            _titles = new FontRender("Titles");
-            _titles.LoadContent("titlescreen");
-            _titles.Location = new Vector2(150, _fontY);
-            _titles.Shadow = true;
+            _titles = new FontRender("titlescreen")
+            {
+                Location = new Vector2(150, 200),
+                Shadow = true,
+                Text = "Duck Attack"
+            };
 
-            _container = new UIContainer("OptionsMenu");
+            var container = new UIContainer("OptionsMenu");
 
             int startYPosition = 450;
 
-            _soundEffectsOnOff = new CheckBox("SoundEffectsOnOff", new SoundEffectsOnOffHandler())
+            var soundEffectsOnOff = new CheckBox("SoundEffectsOnOff", new SoundEffectsOnOffHandler())
             {
                 Width = 500,
                 Height = 70,
                 Location = new Vector2(700, startYPosition),
                 Text = "Sound Effects On/Off",
                 DrawControlChrome = true,
-                ControlTextureName = "ButtonBackground"
+                ControlTextureName = "ButtonBackground",
+                IsChecked = SoundEffectPlayer.IsEnabled
             };
-
-            ((CheckBox)_soundEffectsOnOff).IsChecked = SoundEffectPlayer.IsEnabled;
 
             startYPosition += 80;
 
-            _backToMainMenu = new Button("ExitToMainMenu", new ExitToMainMenuButtonHandler())
+            var backToMainMenu = new Button("ExitToMainMenu", new ExitToMainMenuButtonHandler())
             {
                 Width = 500,
                 Height = 70,
@@ -86,27 +78,20 @@ namespace DuckAttack.GameStates
                 ControlTextureName = "ButtonBackground"
             };
 
-            _container.AddControl(_soundEffectsOnOff);
-            _container.AddControl(_backToMainMenu);
+            container.AddControl(soundEffectsOnOff);
+            container.AddControl(backToMainMenu);
 
-            _scene.Add(RenderLayer.Layer1, _background);
+            _scene.Add(RenderLayer.Layer1, background);
             _scene.Add(RenderLayer.Layer2, _titles);
-            _scene.Add(RenderLayer.Layer5, _crosshair);
-            _scene.Add(RenderLayer.Layer4, _container);
+            _scene.Add(RenderLayer.Layer5, crosshair);
+            _scene.Add(RenderLayer.Layer4, container);
         }
 
         public void Remove()
             => CollisionManager.RemoveAll();
 
         public void Draw(DrawContext context, GameTime gameTime)
-        {
-            _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-            _titles.Text = "Duck Attack";
-            _titles.Location = new Vector2(150, 200);
-
-            _scene.Draw(context, gameTime);
-        }
+            => _scene.Draw(context, gameTime);
 
         public void Update(GameTime gameTime)
         {

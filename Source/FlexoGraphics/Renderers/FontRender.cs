@@ -21,32 +21,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace FlexoGraphics.Renderers
 {
-    public class FontRender : IRenderNode
+    public sealed class FontRender : IRenderNode
     {
-        private Vector2 _location = new Vector2(0, 0);
-        private SpriteFont _font;
+        private readonly SpriteFont _font;
 
-        public string Name { get; set; }
         public string Text { get; set; }
         public bool Shadow { get; set; }
+        public Color ShadowColor { get; set; } = Color.DarkGray;
+        public Color TextColor { get; set; } = Color.White;
+        public Vector2 Location { get; set; } = Vector2.Zero;
 
-        public FontRender(string name)
-        {
-            Name = name;
-        }
-
-        public Vector2 Location
-        {
-            get => _location;
-            set => _location = value;
-        }
-
-        public void LoadContent(string fontName)
+        public FontRender(string fontName)
         {
             _font = Engine.Instance.Content.Load<SpriteFont>(fontName);
         }
@@ -57,12 +48,11 @@ namespace FlexoGraphics.Renderers
             {
                 if (Shadow)
                 {
-                    Vector2 shadowOffset = new Vector2(_location.X - 2, _location.Y + 2);
-                    context.SpriteBatch.DrawString(_font, Text, shadowOffset, Color.Black);
+                    Vector2 shadowOffset = new Vector2(Location.X - 2, Location.Y + 2);
+                    context.SpriteBatch.DrawString(_font, Text, shadowOffset, ShadowColor);
                 }
 
-                var tint = Color.White;
-                context.SpriteBatch.DrawString(_font, Text, _location, tint);
+                context.SpriteBatch.DrawString(_font, Text, Location, TextColor);
             }
         }
 

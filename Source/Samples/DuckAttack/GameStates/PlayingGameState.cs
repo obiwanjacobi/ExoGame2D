@@ -38,14 +38,10 @@ namespace DuckAttack.GameStates
     public class PlayingGameState : IGameState
     {
         private readonly Scene _scene = new Scene();
-        private Duck _duck;
+        private Duck _duck1;
         private Duck _duck2;
         private Duck _duck3;
         private Duck _duck4;
-        private readonly Background _background;
-        private readonly Crosshair _crosshair;
-        private readonly FramesPerSecond _fps;
-        private readonly ScoreBoard _score;
         private readonly Stopwatch _gameClock = new Stopwatch();
         private readonly LevelController _levelController;
         private readonly Hud _hud;
@@ -60,22 +56,24 @@ namespace DuckAttack.GameStates
         {
             DifficultySettings.SetDifficulty(Difficulty.Easy);
 
-            _crosshair = new Crosshair();
-            _background = new Background();
-            _fps = new FramesPerSecond("default");
-            _fps.Location = new Vector2(40, Engine.Instance.CoordinateSpace.World.Viewport.Height - 50);
-            _score = new ScoreBoard("score board");
+            var crosshair = new Crosshair();
+            var background = new Background();
+            var fps = new FramesPerSecond("default")
+            {
+                Location = new Vector2(40, Engine.Instance.CoordinateSpace.World.Viewport.Height - 50)
+            };
+            var score = new ScoreBoard();
             _hud = new Hud("Hud");
             _levelController = new LevelController(new LevelBuilder().Levels);
 
             NextLevel();
 
             _scene.Add(RenderLayer.Layer4, _hud);
-            _scene.Add(RenderLayer.Layer1, _background);
-            _scene.Add(RenderLayer.Layer4, _fps);
-            _scene.Add(RenderLayer.Layer4, _score);
+            _scene.Add(RenderLayer.Layer1, background);
+            _scene.Add(RenderLayer.Layer4, fps);
+            _scene.Add(RenderLayer.Layer4, score);
             _scene.Add(RenderLayer.Layer4, _billboard);
-            _scene.Add(RenderLayer.Layer5, _crosshair);
+            _scene.Add(RenderLayer.Layer5, crosshair);
 
             Channels.Create("score");
             Channels.Create("duckhit");
@@ -98,22 +96,22 @@ namespace DuckAttack.GameStates
 
             level.Ducks.Shuffle();
 
-            _duck = new Duck("duck", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
+            _duck1 = new Duck("duck", level.Ducks[0].StartX, level.Ducks[0].Flip, level.Ducks[0].HorizontalVelocity, level.Ducks[0].VerticalVelocity);
             _duck2 = new Duck("duck2", level.Ducks[1].StartX, level.Ducks[1].Flip, level.Ducks[1].HorizontalVelocity, level.Ducks[1].VerticalVelocity);
             _duck3 = new Duck("duck3", level.Ducks[2].StartX, level.Ducks[2].Flip, level.Ducks[2].HorizontalVelocity, level.Ducks[2].VerticalVelocity);
             _duck4 = new Duck("duck4", level.Ducks[3].StartX, level.Ducks[3].Flip, level.Ducks[3].HorizontalVelocity, level.Ducks[3].VerticalVelocity);
 
-            _scene.Remove(RenderLayer.Layer2, _duck);
+            _scene.Remove(RenderLayer.Layer2, _duck1);
             _scene.Remove(RenderLayer.Layer2, _duck2);
             _scene.Remove(RenderLayer.Layer2, _duck3);
             _scene.Remove(RenderLayer.Layer2, _duck4);
 
-            CollisionManager.Remove(_duck.Name);
+            CollisionManager.Remove(_duck1.Name);
             CollisionManager.Remove(_duck2.Name);
             CollisionManager.Remove(_duck3.Name);
             CollisionManager.Remove(_duck4.Name);
 
-            _scene.Add(RenderLayer.Layer2, _duck);
+            _scene.Add(RenderLayer.Layer2, _duck1);
             _scene.Add(RenderLayer.Layer2, _duck2);
             _scene.Add(RenderLayer.Layer2, _duck3);
             _scene.Add(RenderLayer.Layer2, _duck4);
@@ -134,9 +132,7 @@ namespace DuckAttack.GameStates
         }
 
         public void Draw(DrawContext context, GameTime gameTime)
-        {
-            _scene.Draw(context, gameTime);
-        }
+            => _scene.Draw(context, gameTime);
 
         public void Update(GameTime gameTime)
         {
@@ -188,39 +184,21 @@ namespace DuckAttack.GameStates
 
             var level = _levelController.CurrentLevel;
 
-            if (_gameClock.ElapsedMilliseconds > level.Duck1StartTimerOffset)
-            {
-                if (_duck.State == DuckState.Start)
-                {
-                    _duck.State = DuckState.Fying;
-                }
-            }
-
-            if (_gameClock.ElapsedMilliseconds > level.Duck2StartTimerOffset)
-            {
-                if (_duck2.State == DuckState.Start)
-                {
-                    _duck2.State = DuckState.Fying;
-                }
-            }
-
-            if (_gameClock.ElapsedMilliseconds > level.Duck3StartTimerOffset)
-            {
-                if (_duck3.State == DuckState.Start)
-                {
-                    _duck3.State = DuckState.Fying;
-                }
-            }
-
-            if (_gameClock.ElapsedMilliseconds > level.Duck4StartTimerOffset)
-            {
-                if (_duck4.State == DuckState.Start)
-                {
-                    _duck4.State = DuckState.Fying;
-                }
-            }
+            ProcessDuckState(_duck1, level.Duck1StartTimerOffset);
+            ProcessDuckState(_duck2, level.Duck2StartTimerOffset);
+            ProcessDuckState(_duck3, level.Duck3StartTimerOffset);
+            ProcessDuckState(_duck4, level.Duck4StartTimerOffset);
 
             _scene.Update(gameTime);
+        }
+
+        private void ProcessDuckState(Duck duck, int timerOffset)
+        {
+            if (duck.State == DuckState.Start &&
+                _gameClock.ElapsedMilliseconds > timerOffset)
+            {
+                duck.State = DuckState.Fying;
+            }
         }
     }
 }

@@ -33,7 +33,6 @@ namespace DuckAttack.GameActors.Hud
         private readonly FontRender _titles;
         private int _fontY;
         private readonly int _fontX;
-        private Color _fontColor;
         private readonly Stopwatch _counter = new Stopwatch();
 
         private enum BillboardState
@@ -49,12 +48,13 @@ namespace DuckAttack.GameActors.Hud
             Name = "billboardd";
             _fontY = -200;
             _fontX = xOffset;
-            _fontColor = color;
 
-            _titles = new FontRender("Titles");
-            _titles.LoadContent("titlescreen");
-            _titles.Location = new Vector2(_fontX, _fontY);
-            _titles.Shadow = true;
+            _titles = new FontRender("titlescreen")
+            {
+                Location = new Vector2(_fontX, _fontY),
+                Shadow = true,
+                TextColor = color
+            };
         }
 
         public string Name { get; set; }

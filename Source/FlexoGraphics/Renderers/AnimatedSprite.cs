@@ -58,13 +58,13 @@ namespace FlexoGraphics.Renderers
             _animationFrames.Add(Engine.Instance.Content.Load<Texture2D>(textureName));
 
             _currentFrame = 0;
-            _texture = _animationFrames[_currentFrame];
+            Texture = _animationFrames[_currentFrame];
         }
 
         public void ResetAnimation()
         {
             _currentFrame = 0;
-            _texture = _animationFrames[_currentFrame];
+            Texture = _animationFrames[_currentFrame];
             _pingPong = false;
         }
 
@@ -76,12 +76,12 @@ namespace FlexoGraphics.Renderers
                     if (_currentFrame < _animationFrames.Count - 1)
                     {
                         _currentFrame++;
-                        _texture = _animationFrames[_currentFrame];
+                        Texture = _animationFrames[_currentFrame];
                     }
                     else
                     {
                         _currentFrame = 0;
-                        _texture = _animationFrames[_currentFrame];
+                        Texture = _animationFrames[_currentFrame];
                     }
                     break;
 
@@ -92,7 +92,7 @@ namespace FlexoGraphics.Renderers
                             if (_currentFrame < _animationFrames.Count - 1)
                             {
                                 _currentFrame++;
-                                _texture = _animationFrames[_currentFrame];
+                                Texture = _animationFrames[_currentFrame];
                             }
                             else
                             {
@@ -103,7 +103,7 @@ namespace FlexoGraphics.Renderers
                             if (_currentFrame > 0)
                             {
                                 _currentFrame--;
-                                _texture = _animationFrames[_currentFrame];
+                                Texture = _animationFrames[_currentFrame];
                             }
                             else
                             {
@@ -119,7 +119,8 @@ namespace FlexoGraphics.Renderers
         {
             var length = Width * Height;
             data = new Color[length];
-            _texture.GetData(data);
+            Texture.GetData(data);
+            // TODO: fixme
             //_texture.GetData(0, intersection, data, 0, length);
             return true;
         }
