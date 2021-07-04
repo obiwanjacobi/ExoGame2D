@@ -30,7 +30,7 @@ namespace DuckAttack.MainMenuActors
 {
     public class MenuCursor : IRenderNode
     {
-        private ISprite _crosshair;
+        private Sprite _crosshair;
 
         public string Name { get; set; }
 

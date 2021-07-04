@@ -28,11 +28,11 @@ namespace DuckAttack.GameActors.Hud
 {
     public class DuckIndicator : IRenderNode
     {
-        private readonly ISprite _duckhud;
-        private readonly ISprite _duckmiss;
-        private readonly ISprite _duckshot;
+        private readonly Sprite _duckhud;
+        private readonly Sprite _duckmiss;
+        private readonly Sprite _duckshot;
 
-        private ISprite _currentSprite;
+        private Sprite _currentSprite;
         private DuckIndicatorState _state;
 
         public DuckIndicator(string name, int x)

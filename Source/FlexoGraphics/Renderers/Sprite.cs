@@ -22,13 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using FlexoGraphics.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace FlexoGraphics.Renderers
 {
-    public class Sprite : ISprite
+    public class Sprite : IRenderNode, IBoundingBox, INamedObject
     {
         protected Texture2D _texture;
         private Vector2 _location = new Vector2(0, 0);

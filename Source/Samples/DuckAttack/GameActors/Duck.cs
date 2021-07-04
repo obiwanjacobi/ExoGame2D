@@ -254,7 +254,7 @@ namespace DuckAttack.GameActors
             return false;
         }
 
-        private bool DuckOutOfBounds(ISprite sprite)
+        private bool DuckOutOfBounds(Sprite sprite)
         {
             var worldViewport = Engine.Instance.CoordinateSpace.World.Viewport;
 

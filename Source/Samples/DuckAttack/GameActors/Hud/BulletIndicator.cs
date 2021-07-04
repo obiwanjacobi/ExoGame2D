@@ -29,10 +29,10 @@ namespace DuckAttack.GameActors.Hud
     public class BulletIndicator : IRenderNode
     {
         public string Name { get; set; }
-        private readonly ISprite _bulletFired;
-        private readonly ISprite _bulletNotFired;
+        private readonly Sprite _bulletFired;
+        private readonly Sprite _bulletNotFired;
 
-        private ISprite _currentSprite;
+        private Sprite _currentSprite;
 
         BulletIndicatorState _state;
         public BulletIndicatorState State

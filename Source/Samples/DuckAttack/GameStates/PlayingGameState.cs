@@ -135,11 +135,7 @@ namespace DuckAttack.GameStates
 
         public void Draw(DrawContext context, GameTime gameTime)
         {
-            //_frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-
             _scene.Draw(context, gameTime);
-
-            //_fps.Text = "FPS - " + Math.Round(_frameCounter.AverageFramesPerSecond);
         }
 
         public void Update(GameTime gameTime)
